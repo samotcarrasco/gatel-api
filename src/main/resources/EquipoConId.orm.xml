@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+<entity-mappings xmlns="http://java.sun.com/xml/ns/persistence/orm" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xsi:schemaLocation="http://java.sun.com/xml/ns/persistence/orm http://java.sun.com/xml/ns/persistence/orm_1_0.xsd" 
+	version="1.0"> 
+    <entity class="es.mdef.apigatel.entidades.EquipoConId" access="FIELD">
+		<table name="EQUIPOS"/>
+		<inheritance strategy="SINGLE_TABLE"/>
+		<discriminator-value>null</discriminator-value>
+		<discriminator-column name="tipo_equipo"/>
+        <attributes> 
+            <id name="id"> 
+                <generated-value strategy="IDENTITY"/> 
+            </id> 
+            <basic name="numeroSerie" optional="false">
+               <column name="numeroSerie"/>
+            </basic>
+           <basic name="fechaAdquisicion" optional="false">
+               <column name="fechaAdquisicion"/>
+            </basic>
+           <basic name="fechaAsignacion" optional="false">
+               <column name="fechaAsignacion"/>
+            </basic>
+           <basic name="numeroSerie" optional="false">
+               <column name="numeroSerie"/>
+            </basic>
+          </attributes>
+     </entity>
+</entity-mappings>
