@@ -27,7 +27,7 @@ public class UnidadAssembler implements RepresentationModelAssembler<UnidadConId
 
 		model.add(linkTo(methodOn(UnidadController.class).one(((UnidadConId) entity).getId())).withSelfRel(),
 				linkTo(methodOn(UnidadController.class).equiposDeUnidad(entity.getId()))
-						.withRel("materiales"));
+						.withRel("equiposDeUnidad"));
 
 		return model;
 	}

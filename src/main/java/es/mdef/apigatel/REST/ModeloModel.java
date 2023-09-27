@@ -1,7 +1,5 @@
 package es.mdef.apigatel.REST;
 
-import java.util.List;
-
 import org.springframework.hateoas.RepresentationModel;
 import org.springframework.hateoas.server.core.Relation;
 

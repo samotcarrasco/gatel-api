@@ -6,8 +6,8 @@ import org.springframework.hateoas.RepresentationModel;
 import org.springframework.hateoas.server.core.Relation;
 
 import es.mde.acing.gatel.EquipoImpl.TipoEquipo;
-import es.mde.acing.gatel.Modelo;
 import es.mdef.apigatel.entidades.ModeloConId;
+import es.mdef.apigatel.entidades.PersonaConId;
 import es.mdef.apigatel.entidades.UnidadConId;
 
 @Relation(itemRelation = "equipo")
@@ -18,7 +18,7 @@ public class EquipoPostModel extends RepresentationModel<EquipoPostModel> {
 	private LocalDate fechaAsignacion;
 	private TipoEquipo tipoEquipo;
 	private UnidadConId unidad;
-	//private MiembroGCConId miembroGC;
+	private PersonaConId Persona;
 	private ModeloConId modelo;
 	
 	
@@ -44,6 +44,15 @@ public class EquipoPostModel extends RepresentationModel<EquipoPostModel> {
 		return modelo;
 	}
 	
+	
+	public PersonaConId getPersona() {
+		return Persona;
+	}
+
+	public void setPersona(PersonaConId Persona) {
+		this.Persona = Persona;
+	}
+
 	public TipoEquipo getTipoEquipo() {
 		return tipoEquipo;
 	}

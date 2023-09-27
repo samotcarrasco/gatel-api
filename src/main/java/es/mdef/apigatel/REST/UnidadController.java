@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import es.mdef.apigatel.ApiGatelApp;
+import es.mdef.apigatel.entidades.ModeloConId;
 import es.mdef.apigatel.entidades.UnidadConId;
 import es.mdef.apigatel.repositorios.UnidadRepositorio;
 import es.mdef.apigatel.validation.RegisterNotFoundException;
@@ -47,7 +48,7 @@ public class UnidadController {
 				.orElseThrow(() -> new RegisterNotFoundException(id, "unidad"));
 		return equipoListaAssembler.toCollection(unidad.getEquiposDeUnidad());
 	}
-
+	
 	@GetMapping
 	public CollectionModel<UnidadModel> all() {
 		return listaAssembler.toCollection(repositorio.findAll());

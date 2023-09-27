@@ -10,7 +10,7 @@ import es.mde.acing.gatel.Modelo;
 import es.mde.acing.gatel.EquipoImpl.TipoEquipo;
 import es.mde.acing.gatel.ModeloImpl.TipoModelo;
 
-@Relation(itemRelation = "equipo")
+@Relation(itemRelation = "equipo", collectionRelation = "equipos")
 public class EquipoModel extends RepresentationModel<EquipoModel> {
 
 	private Long id;
@@ -18,6 +18,7 @@ public class EquipoModel extends RepresentationModel<EquipoModel> {
 	private LocalDate fechaAdquisicion;
 	private LocalDate fechaAsignacion;
 	private TipoEquipo tipoEquipo;
+	private String modeloN;
 	
 	public Long getId() {
 		return id;
@@ -68,7 +69,15 @@ public class EquipoModel extends RepresentationModel<EquipoModel> {
 	public void setTipoEquipo(TipoEquipo tipoEquipo) {
 		this.tipoEquipo = tipoEquipo;
 	}
-	
+
+	public String getModeloN() {
+		return modeloN;
+	}
+
+	public void setModeloN(String modeloN) {
+		this.modeloN = modeloN;
+	}
+
 	@Override
 	public String toString() {
 		return "EquipoModel [numeroSerie=" + numeroSerie + ", fechaAdquisicion=" + fechaAdquisicion

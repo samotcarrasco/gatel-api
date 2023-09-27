@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 
 import es.mde.acing.gatel.ModeloImpl.TipoModelo;
 import es.mdef.apigatel.entidades.ModeloConId;
+import es.mdef.apigatel.entidades.PersonaConId;
 import es.mdef.apigatel.entidades.EquipoInformaticoAPI;
 import es.mdef.apigatel.entidades.WebCamAPI;
 import es.mdef.apigatel.entidades.AuricularesAPI;
@@ -47,23 +48,15 @@ public class ModeloAssembler implements RepresentationModelAssembler<ModeloConId
 			model.setTipoModelo(TipoModelo.Auriculares);
 		}
 
-//		model.add(linkTo(methodOn(TipoEquipoInformaticoController.class).one(((TipoEquipoInformaticoConId) entity.getTipoEquipoInf()).getId()))
-//				.withRel("tipoEquipoInf"));
-//		model.add(linkTo(
-//				methodOn(DepartamentoController.class).one(((DepartamentoConId) entity.getDeptoOferta()).getId()))
-//				.withRel("dptoOferta"));
-//		if (entity.getDptoAdquisicion() != null) {
-//			model.add(linkTo(methodOn(DepartamentoController.class)
-//					.one(((DepartamentoConId) entity.getDptoAdquisicion()).getId())).withRel("dptoAdquisicion"));
-//		}
+		model.add(linkTo(methodOn(ModeloController.class).one(((ModeloConId) entity).getId())).withSelfRel(),
+				linkTo(methodOn(ModeloController.class).equipos(entity.getId()))
+						.withRel("equipos"));
 
 		return model;
 	}
 
 	public ModeloConId toEntity(ModeloPostModel model) {
 		ModeloConId modelo = new ModeloConId();
-
-		System.out.println("tipoequipoinformatico::::lllllllllllllllllllllllllll::::::::::::::::::::::" + model.getTipoEquipoInformatico());
 
 		switch (model.getTipoModelo()) {
 		case EquipoInformatico:
@@ -73,8 +66,6 @@ public class ModeloAssembler implements RepresentationModelAssembler<ModeloConId
 			equipo.setDiscoDuro(model.getDiscoDuro());
 			equipo.setSistemaOperativo(model.getSistemaOperativo());
 			equipo.setTipoEquipoInformatico(model.getTipoEquipoInformatico());
-			System.out.println("tipoequipoinformatico::::::::::::::::::::::::::" + model.getTipoEquipoInformatico());
-			System.out.println("tipoequipoinformatico::::::::::::::::::::::::::" + model.getPulgadas());
 			modelo = equipo;  
 			break;
 		case WebCam:

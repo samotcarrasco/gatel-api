@@ -7,9 +7,7 @@ import org.springframework.hateoas.server.core.Relation;
 
 import es.mde.acing.gatel.ModeloImpl.TipoModelo;
 
-
-
-@Relation(itemRelation = "unidad")
+@Relation(itemRelation = "unidad", collectionRelation = "unidades")
 public class UnidadModel extends RepresentationModel<UnidadModel> {
 
 	private Long id;

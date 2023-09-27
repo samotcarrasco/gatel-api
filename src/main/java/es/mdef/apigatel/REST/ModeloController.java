@@ -57,7 +57,7 @@ public class ModeloController {
 	}
 	
 	@GetMapping("{id}/equipos")
-	public CollectionModel<EquipoModel> equiposDeUnidad(@PathVariable Long id) {
+	public CollectionModel<EquipoModel> equipos(@PathVariable Long id) {
 		ModeloConId modelo = repositorio.findById(id)
 				.orElseThrow(() -> new RegisterNotFoundException(id, "modelo"));
 		return equipoListaAssembler.toCollection(modelo.getEquipos());
@@ -93,66 +93,13 @@ public class ModeloController {
 			}	
 
 
-		ModeloConId modelo = repositorio.findById(id).orElseThrow(() -> new RegisterNotFoundException(id, "comision"));
+		ModeloConId modelo = repositorio.findById(id).orElseThrow(() -> new RegisterNotFoundException(id, "modelo"));
 
 		log.info("Actualizado " + modelo);
 		return assembler.toModel(modelo);
 
 	}
 
-	
-//	@PutMapping("{id}")
-//	public ModeloModel edit(@Valid @PathVariable Long id, @RequestBody ModeloPostModel model) {
-//		ModeloConId modelo = repositorio.findById(id).map(mod -> {
-//
-//			if (model.getTipoModelo() == TipoModelo.EquipoInformatico) {
-//				EquipoInformaticoAPI equipo = (EquipoInformaticoAPI) new ModeloConId();
-//				repositorio.actualizarEquipo(model.getMemoria(), model.getDiscoDuro(), 
-//						model.getSistemaOperativo(), model.getPulgadas(), id);
-//				equipo.setMemoria(model.getMemoria());
-//				equipo.setDiscoDuro(model.getDiscoDuro());
-//				equipo.setSistemaOperativo(model.getSistemaOperativo());
-//				equipo.setPulgadas(model.getPulgadas());
-//				//mod = equipo;
-//				
-//			} else if (model.getTipoModelo() == TipoModelo.Auriculares) {
-//				AuricularesAPI equipo = (AuricularesAPI) new ModeloConId();
-//				repositorio.actualizarAuriculares(model.isStereo(), model.getConexion(), id);
-//				equipo.setConexion(model.getConexion());
-//				equipo.setStereo(model.isStereo());
-//				//mod = equipo;
-//			
-//			} else if (model.getTipoModelo() == TipoModelo.WebCam) {
-//				WebCamAPI equipo = (WebCamAPI) new ModeloConId();
-//				repositorio.actualizarWebCam(model.getResolucion(), id);
-//				equipo.setResolucion(model.getResolucion());
-//				//mod = equipo;
-//			}
-//
-//			mod.setMarca(model.getMarca());
-//			mod.setCategoria(model.getCategoria());
-//			mod.setNombreModelo(model.getNombreModelo());
-//			mod.setDetalles(model.getDetalles());
-//			mod.setImagen(model.getImagen());
-//			mod.setImgReducida(model.getImgReducida());			
-//
-//			return repositorio.save(mod);
-//		}).orElseThrow(() -> new RegisterNotFoundException(id, "Modelo"));
-//		log.info("Actualizado " + modelo);
-//		return assembler.toModel(modelo);
-//	}
-
-	
-//	@PatchMapping("/{id}/fechaentrega")
-//	public ModeloModel patchFechaentrega(@PathVariable Long id, @RequestBody FechaEntregaModel model) {
-//		ModeloConId modelo = repositorio.findById(id).map(mod -> {
-//			mod.setFechaEngregaFisica(model.getFechaEntrega());
-//			mod.setEstado(EstadoModelo.entregado);
-//			return repositorio.save(mod);
-//		}).orElseThrow(() -> new RegisterNotFoundException(id, "Modelo"));
-//		log.info("Actualizado " + modelo);
-//		return assembler.toModel(modelo);
-//	}
 
 	@DeleteMapping("{id}")
 	public void delete(@PathVariable Long id) {
