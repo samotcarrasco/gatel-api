@@ -28,7 +28,7 @@ dependencies {
 	
 	
 	//librería externa alojada en github
-	implementation 'com.github.samotcarrasco:gatel-lib:17afb2b'	
+	implementation 'com.github.samotcarrasco:gatel-lib:584800a'	
 }
 
 tasks.named('test') {
