@@ -43,8 +43,8 @@ public class PersonaController {
 
 	@GetMapping("{id}")
 	public PersonaModel one(@PathVariable Long id) {
-		PersonaConId Persona = repositorio.findById(id).orElseThrow(() -> new RegisterNotFoundException(id, "Persona"));
-		return assembler.toModel(Persona);
+		PersonaConId persona = repositorio.findById(id).orElseThrow(() -> new RegisterNotFoundException(id, "Persona"));
+		return assembler.toModel(persona);
 	}
 
 	@GetMapping

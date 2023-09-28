@@ -17,7 +17,7 @@ public class PersonaAssembler implements RepresentationModelAssembler<PersonaCon
 
 	@Override
 	public PersonaModel toModel(PersonaConId entity) {
-		PersonaModel model = null;
+		PersonaModel model = new PersonaModel();
 
 		model.setId(entity.getId());
 		model.setNombre(entity.getNombre());
@@ -35,8 +35,7 @@ public class PersonaAssembler implements RepresentationModelAssembler<PersonaCon
 					methodOn(UnidadController.class).one(((UnidadConId) entity.getUnidad()).getId()))
 					.withRel("unidad"));
 			
-			model.add(linkTo(methodOn(PersonaController.class).one(((PersonaConId) entity).getId())).withSelfRel(),
-					linkTo(methodOn(PersonaController.class).equiposDePersona(entity.getId()))
+			model.add(linkTo(methodOn(PersonaController.class).equiposDePersona(entity.getId()))
 							.withRel("equiposPersonales"));
 
 		} else if (entity.getTipoPersona() == TipoPersona.PersonalExterno) {
@@ -44,6 +43,8 @@ public class PersonaAssembler implements RepresentationModelAssembler<PersonaCon
 			model.setDni(((PersonalExternoAPI) entity).getDni());
 			model.setEmpresa(((PersonalExternoAPI) entity).getDni());
 		} 
+		
+		model.add(linkTo(methodOn(PersonaController.class).one(((PersonaConId) entity).getId())).withSelfRel());
 
 		return model;
 	}

@@ -17,6 +17,8 @@ import es.mde.acing.gatel.WebCam;
 import es.mde.acing.gatel.EquipoImpl.TipoEquipo;
 import es.mdef.apigatel.entidades.EquipoConId;
 import es.mdef.apigatel.entidades.EquipoInformaticoAPI;
+import es.mdef.apigatel.entidades.ModeloConId;
+import es.mdef.apigatel.entidades.PersonaConId;
 import es.mdef.apigatel.entidades.UnidadConId;
 import es.mdef.apigatel.entidades.AuricularesAPI;
 import es.mdef.apigatel.entidades.WebCamAPI;
@@ -32,21 +34,24 @@ public class EquipoListaAssembler<T extends Equipo> implements RepresentationMod
 		model.setNumeroSerie(entity.getNumeroSerie());
 		model.setFechaAsignacion(entity.getFechaAsignacion());
 		model.setFechaAdquisicion(entity.getFechaAdquisicion());
+		model.setModeloN(entity.getModelo().getNombreModelo());
 
 		if (entity.getTipoEquipo() == TipoEquipo.EquipoDeUnidad) {
+			model.setTipoEquipo(TipoEquipo.EquipoDeUnidad);
 			model.add(linkTo(
 					methodOn(UnidadController.class).one(((UnidadConId) entity.getUnidad()).getId()))
 					.withRel("unidad"));
-		} //else if (entity.getTipoEquipo() == TipoEquipo.EquipoPersonal) {
-		//}
-//		model.add(linkTo(methodOn(TipoEquipoInformaticoController.class).one(((TipoEquipoInformaticoConId) entity.getTipoEquipoInf()).getId()))
-//				.withRel("tipoEquipoInf"));
-//	
-//		if (entity.getDptoAdquisicion() != null) {
-//			model.add(linkTo(methodOn(DepartamentoController.class)
-//					.one(((DepartamentoConId) entity.getDptoAdquisicion()).getId())).withRel("dptoAdquisicion"));
-//		}
-
+		} else if (entity.getTipoEquipo() == TipoEquipo.EquipoPersonal) {
+			model.setTipoEquipo(TipoEquipo.EquipoPersonal);
+			model.add(linkTo(
+					methodOn(PersonaController.class).one(((PersonaConId) entity.getPersona()).getId()))
+					.withRel("persona"));
+		}
+	
+		model.add(linkTo(methodOn(EquipoController.class).one(((EquipoConId) entity).getId())).withSelfRel());	
+		model.add(linkTo(methodOn(ModeloController.class)
+					.one(((ModeloConId) entity.getModelo()).getId())).withRel("modelo"));
+	
 
 		return model;
 	}

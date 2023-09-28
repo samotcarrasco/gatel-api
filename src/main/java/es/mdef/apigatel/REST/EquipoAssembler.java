@@ -47,7 +47,9 @@ public class EquipoAssembler implements RepresentationModelAssembler<EquipoConId
 					methodOn(PersonaController.class).one(((PersonaConId) entity.getPersona()).getId()))
 					.withRel("persona"));
 		}
-    		model.add(linkTo(methodOn(ModeloController.class)
+    		
+		model.add(linkTo(methodOn(EquipoController.class).one(((EquipoConId) entity).getId())).withSelfRel());
+		model.add(linkTo(methodOn(ModeloController.class)
 					.one(((ModeloConId) entity.getModelo()).getId())).withRel("modelo"));
 		return model;
 	}
