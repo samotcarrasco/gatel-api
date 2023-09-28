@@ -1,5 +1,7 @@
 package es.mdef.apigatel.REST;
 
+import java.io.IOException;
+
 import org.slf4j.Logger;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import es.mde.acing.gatel.ModeloImpl.TipoModelo;
 import es.mdef.apigatel.ApiGatelApp;
+import es.mdef.apigatel.ReductorImagen;
 import es.mdef.apigatel.entidades.AuricularesAPI;
 import es.mdef.apigatel.entidades.EquipoInformaticoAPI;
 import es.mdef.apigatel.entidades.ModeloConId;
@@ -65,31 +68,31 @@ public class ModeloController {
 
 
 	@PostMapping
-	public ModeloModel add(@Valid @RequestBody ModeloPostModel model) {
+	public ModeloModel add(@Valid @RequestBody ModeloPostModel model) throws IOException {
 		ModeloConId modelo = repositorio.save(assembler.toEntity(model));
 		return assembler.toModel(modelo);
 	}
 
 	@PutMapping("{id}")
-	public ModeloModel edit(@Valid @PathVariable Long id, @RequestBody ModeloPostModel model) {
+	public ModeloModel edit(@Valid @PathVariable Long id, @RequestBody ModeloPostModel model) throws IOException {
 		int n_regs = 0;
 		if (model.getTipoModelo() == TipoModelo.EquipoInformatico) {
-				EquipoInformaticoAPI equipo = new EquipoInformaticoAPI();
+				//EquipoInformaticoAPI equipo = new EquipoInformaticoAPI();
+				String imgReducida = ReductorImagen.reducirImagen(model.getImagen(),150,150);
 				repositorio.actualizarEquipo(model.getMarca(), model.getCategoria(), model.getNombreModelo(), 
 						model.getDetalles(), model.getImagen(), 
-						model.getImgReducida(), model.getMemoria(), model.getDiscoDuro(), 
+						imgReducida, model.getMemoria(), model.getDiscoDuro(), 
 				model.getSistemaOperativo(), model.getPulgadas(), model.getTipoEquipoInformatico(), id);
 		} else if (model.getTipoModelo() == TipoModelo.Auriculares) {
-				AuricularesAPI equipo = new AuricularesAPI();
+				//AuricularesAPI equipo = new AuricularesAPI();
 				repositorio.actualizarAuriculares(model.getMarca(), model.getCategoria(), model.getNombreModelo(), 
 						model.getDetalles(), model.getImagen(), 
-						model.getImgReducida(),model.isStereo(), model.getConexion(), id);
-			
+						ReductorImagen.reducirImagen(model.getImagen(),150,150),model.isStereo(), model.getConexion(), id);
 			} else if (model.getTipoModelo() == TipoModelo.WebCam) {
-				WebCamAPI equipo = new WebCamAPI();
+				//WebCamAPI equipo = new WebCamAPI();
 				repositorio.actualizarWebCam(model.getMarca(), model.getCategoria(), model.getNombreModelo(), 
 						model.getDetalles(), model.getImagen(), 
-						model.getImgReducida(),model.getResolucion(), id);
+						ReductorImagen.reducirImagen(model.getImagen(),150,150) ,model.getResolucion(), id);
 			}	
 
 

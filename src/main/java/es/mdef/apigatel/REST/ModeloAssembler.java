@@ -3,11 +3,14 @@ package es.mdef.apigatel.REST;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
+import java.io.IOException;
+
 import org.springframework.hateoas.server.RepresentationModelAssembler;
 import org.springframework.stereotype.Component;
 
 import es.mde.acing.gatel.ModeloImpl.TipoModelo;
 import es.mdef.apigatel.entidades.ModeloConId;
+import es.mdef.apigatel.ReductorImagen;
 import es.mdef.apigatel.entidades.PersonaConId;
 import es.mdef.apigatel.entidades.EquipoInformaticoAPI;
 import es.mdef.apigatel.entidades.WebCamAPI;
@@ -55,7 +58,7 @@ public class ModeloAssembler implements RepresentationModelAssembler<ModeloConId
 		return model;
 	}
 
-	public ModeloConId toEntity(ModeloPostModel model) {
+	public ModeloConId toEntity(ModeloPostModel model) throws IOException {
 		ModeloConId modelo = new ModeloConId();
 
 		switch (model.getTipoModelo()) {
@@ -82,7 +85,7 @@ public class ModeloAssembler implements RepresentationModelAssembler<ModeloConId
 		}
 
 		modelo.setImagen(model.getImagen());
-		modelo.setImgReducida(model.getImgReducida());
+		modelo.setImgReducida(ReductorImagen.reducirImagen(model.getImagen(), 150, 150));
 		modelo.setCategoria(model.getCategoria());
 		modelo.setMarca(model.getMarca());
 		modelo.setNombreModelo(model.getNombreModelo());

@@ -12,7 +12,6 @@ public class ModeloPostModel extends RepresentationModel<ModeloPostModel> {
 	private String nombreModelo;
 	private String detalles;
 	private String imagen;
-	private String imgReducida;
 	private Boolean stereo;
 	private String conexion;
 	private Integer resolucion;
@@ -42,10 +41,6 @@ public class ModeloPostModel extends RepresentationModel<ModeloPostModel> {
 
 	public String getImagen() {
 		return imagen;
-	}
-
-	public String getImgReducida() {
-		return imgReducida;
 	}
 
 	public Integer getPulgadas() {
@@ -87,7 +82,7 @@ public class ModeloPostModel extends RepresentationModel<ModeloPostModel> {
 	@Override
 	public String toString() {
 		return "ModeloPostModel [marca=" + marca + ", categoria=" + categoria + ", nombreModelo="
-				+ nombreModelo + ", detalles=" + detalles + ", imagen=" + imagen + ", imgReducida=" + imgReducida
+				+ nombreModelo + ", detalles=" + detalles + ", imagen=" 
 				+ ", stereo=" + stereo + ", conexion=" + conexion + ", resolucion=" + resolucion + ", pulgadas="
 				+ pulgadas + ", discoDuro=" + discoDuro + ", memoria=" + memoria + ", sistemaOperativo="
 				+ sistemaOperativo + ", tipoModelo=" + tipoModelo + ", tipoEquipoInformatico=" + tipoEquipoInformatico
