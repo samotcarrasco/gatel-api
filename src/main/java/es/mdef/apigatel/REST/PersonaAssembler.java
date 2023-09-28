@@ -17,7 +17,7 @@ public class PersonaAssembler implements RepresentationModelAssembler<PersonaCon
 
 	@Override
 	public PersonaModel toModel(PersonaConId entity) {
-		PersonaModel model = new PersonaModel();
+		PersonaModel model = null;
 
 		model.setId(entity.getId());
 		model.setNombre(entity.getNombre());

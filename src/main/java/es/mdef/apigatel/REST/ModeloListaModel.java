@@ -17,14 +17,6 @@ public class ModeloListaModel extends RepresentationModel<ModeloListaModel> {
 	private String nombreModelo;
 	// private List<Equipo> equipos;
 	private String imgReducida;
-	private Boolean stereo;
-	private String conexion;
-	private Integer resolucion;
-	private Integer pulgadas;
-	private Integer discoDuro;
-	private Integer memoria;
-	private String sistemaOperativo;
-	private String tipoEquipoInf;
 	private TipoModelo tipoModelo;
 
 	public Long getId() {
@@ -75,69 +67,7 @@ public class ModeloListaModel extends RepresentationModel<ModeloListaModel> {
 //		this.equipos = equipos;
 //	}
 
-	public Integer getPulgadas() {
-		return pulgadas;
-	}
 
-	public void setPulgadas(Integer pulgadas) {
-		this.pulgadas = pulgadas;
-	}
-
-	public Integer getDiscoDuro() {
-		return discoDuro;
-	}
-
-	public void setDiscoDuro(Integer discoDuro) {
-		this.discoDuro = discoDuro;
-	}
-
-	public Integer getMemoria() {
-		return memoria;
-	}
-
-	public void setMemoria(Integer memoria) {
-		this.memoria = memoria;
-	}
-
-	public String getSistemaOperativo() {
-		return sistemaOperativo;
-	}
-
-	public void setSistemaOperativo(String sistemaOperativo) {
-		this.sistemaOperativo = sistemaOperativo;
-	}
-
-	public Integer getResolucion() {
-		return resolucion;
-	}
-
-	public void setResolucion(Integer resolucion) {
-		this.resolucion = resolucion;
-	}
-
-	public Boolean isStereo() {
-		return stereo;
-	}
-
-	public void setStereo(Boolean stereo) {
-		this.stereo = stereo;
-	}
-
-	public String getConexion() {
-		return conexion;
-	}
-
-	public void setConexion(String conexion) {
-		this.conexion = conexion;
-	}
-	
-	public String getTipoEquipoInformatico() {
-		return tipoEquipoInf;
-	}
-
-	public void setTipoEquipoInforatico(String tipoEquipoInf) {
-		this.tipoEquipoInf = tipoEquipoInf;
-	}
 
 	public TipoModelo getTipoModelo() {
 		return tipoModelo;
@@ -151,9 +81,7 @@ public class ModeloListaModel extends RepresentationModel<ModeloListaModel> {
 	public String toString() {
 		return "ModeloListaModel [id=" + id + ", marca=" + marca + ", categoria=" + categoria + ", nombreModelo="
 				+ nombreModelo // + ", equipos=" + equipos
-				+ ", imgReducida=" + imgReducida + ", stereo=" + stereo + ", conexion=" + conexion + ", resolucion="
-				+ resolucion + ", pulgadas=" + pulgadas + ", discoDuro=" + discoDuro + ", memoria=" + memoria
-				+ ", sistemaOperativo=" + sistemaOperativo + ", tipoModelo=" + tipoModelo + "]";
+				+ ", imgReducida=" + imgReducida + ", tipoModelo=" + tipoModelo + "]";
 	}
 
 }

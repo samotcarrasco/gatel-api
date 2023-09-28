@@ -48,8 +48,8 @@ public class ModeloAssembler implements RepresentationModelAssembler<ModeloConId
 			model.setTipoModelo(TipoModelo.Auriculares);
 		}
 
-		model.add(linkTo(methodOn(ModeloController.class).one(((ModeloConId) entity).getId())).withSelfRel(),
-				linkTo(methodOn(ModeloController.class).equipos(entity.getId()))
+		model.add(linkTo(methodOn(ModeloController.class).one(((ModeloConId) entity).getId())).withSelfRel());
+		model.add(linkTo(methodOn(ModeloController.class).equipos(entity.getId()))
 						.withRel("equipos"));
 
 		return model;

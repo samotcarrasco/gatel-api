@@ -34,33 +34,17 @@ public class ModeloListaAssembler<T extends Modelo> implements RepresentationMod
 		model.setImgReducida(((ModeloConId) entity).getImgReducida());
 		
 		if (entity.getTipoModelo() == TipoModelo.EquipoInformatico) {
-			model.setPulgadas(((EquipoInformaticoAPI) entity).getPulgadas());
-			model.setDiscoDuro(((EquipoInformaticoAPI) entity).getDiscoDuro());
-			model.setSistemaOperativo(((EquipoInformaticoAPI) entity).getSistemaOperativo());
-			model.setMemoria(((EquipoInformaticoAPI) entity).getMemoria());
 			model.setTipoModelo(TipoModelo.EquipoInformatico);
 		} else if (entity.getTipoModelo() == TipoModelo.WebCam) {
-			model.setResolucion(((WebCamAPI) entity).getResolucion());
 			model.setTipoModelo(TipoModelo.WebCam);
 		} else if (entity.getTipoModelo() == TipoModelo.Auriculares) {
-			model.setStereo(((AuricularesAPI) entity).isStereo());
-			model.setConexion(((AuricularesAPI) entity).getConexion());
 			model.setTipoModelo(TipoModelo.Auriculares);
 		}
 
-//		String nombreDptoOferta = entity.getDptoAdquisicion() != null
-//				? ((DepartamentoConId) entity.getDptoAdquisicion()).getAbreviatura()
-//				: "-";
+		model.add(linkTo(methodOn(ModeloController.class).one(((ModeloConId) entity).getId())).withSelfRel());
+		model.add(linkTo(methodOn(ModeloController.class).equipos(((ModeloConId) entity).getId()))
+						.withRel("equipos"));
 
-//		model.add(linkTo(methodOn(CategoriaController.class).one(((CategoriaConId) entity.getCategoria()).getId()))
-//				.withRel("categoria"));
-//		model.add(linkTo(
-//				methodOn(DepartamentoController.class).one(((DepartamentoConId) entity.getDeptoOferta()).getId()))
-//				.withRel("dptoOferta"));
-//		if (entity.getDptoAdquisicion() != null) {
-//			model.add(linkTo(methodOn(DepartamentoController.class)
-//					.one(((DepartamentoConId) entity.getDptoAdquisicion()).getId())).withRel("dptoAdquisicion"));
-//		}
 		return model;
 	}
 
