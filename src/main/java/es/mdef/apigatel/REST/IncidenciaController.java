@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import es.mde.acing.gatel.IncidenciaImpl.EstadoIncidencia;
 import es.mde.acing.gatel.IncidenciaImpl.TipoIncidencia;
 import es.mdef.apigatel.ApiGatelApp;
 import es.mdef.apigatel.entidades.AuricularesAPI;
@@ -25,7 +26,7 @@ import es.mdef.apigatel.entidades.ExtravioAPI;
 import es.mdef.apigatel.entidades.SolicitudAPI;
 import es.mdef.apigatel.entidades.AveriaAPI;
 import es.mdef.apigatel.entidades.ConfiguracionAPI;
-
+import es.mdef.apigatel.entidades.EquipoConId;
 import es.mdef.apigatel.entidades.PersonaConId;
 import es.mdef.apigatel.entidades.IncidenciaConId;
 
@@ -78,7 +79,7 @@ public class IncidenciaController {
 	}
 
 	@PutMapping("{id}")
-	public IncidenciaModel edit(@Valid @PathVariable Long id, @RequestBody IncidenciaPostModel model) {
+	public IncidenciaModel edit(@Valid @PathVariable Long id, @RequestBody IncidenciaPutModel model) {
 		
 		IncidenciaConId incidencia = repositorio.findById(id).map(inc -> {
 			
@@ -121,46 +122,49 @@ public class IncidenciaController {
 	}
 	
 
+	@Transactional
+	@PatchMapping("/asignarIncidencia/{idIncidencia}")
+	public IncidenciaModel asignarEquipoPersonal(@PathVariable Long idIncidencia, @RequestBody AsignarIncidenciaModel model) {
+		
+		PersonaConId agenteResolutor = perRepositorio.findById(model.getAgenteResolutor().getId())
+			    .orElseThrow(() -> new NoSuchElementException("No se encontró la persona"));
+		
+		IncidenciaConId incidencia = repositorio.findById(idIncidencia).map(inc -> {
+			//repositorio.actualizarEquipoPersonalAsignacion(model.getEquipo().getId());
+			inc.setAgenteResolutor(agenteResolutor);
+			inc.setEstado(EstadoIncidencia.ASIGNADA);
+			//
+			return repositorio.save(inc);
+		}).orElseThrow(() -> new RegisterNotFoundException(idIncidencia,"Incidencia"));
+		
+		return assembler.toModel(incidencia);
+	}
+	
 
-//	@Transactional
-//	@PatchMapping("/asignarIncidenciaPersonal")
-//	public IncidenciaModel asignarIncidenciaPersonal(@RequestBody AsignarIncidenciaPersonalModel model) {
-//		
-//		PersonaConId persona = perRepositorio.findById(model.getPersona().getId())
-//			    .orElseThrow(() -> new NoSuchElementException("No se encontró la persona"));
-//		
-//		IncidenciaConId Incidencia = repositorio.findById(model.getIncidencia().getId()).map(equi -> {
-//			repositorio.actualizarIncidenciaPersonalAsignacion(model.getIncidencia().getId());
-//			equi.setFechaAsignacion(LocalDate.now());
-//			equi.setPersona(persona);
-//			//equi.setUnidad(null);
-//			return repositorio.save(equi);
-//		}).orElseThrow(() -> new RegisterNotFoundException(model.getIncidencia().getId(),"Incidencia"));
-//		
-//		//repositorio.actualizarIncidenciaPersonalAsignacion(model.getIncidencia().getId());
-//		
-//		IncidenciaConId IncidenciaFinal = repositorio.findById(model.getIncidencia().getId())
-//		        .orElseThrow(() -> new RegisterNotFoundException(model.getIncidencia().getId(), "Incidencia"));
-//		
-//		return assembler.toModel(IncidenciaFinal);
-//	}
-//
-//	
-//	@PatchMapping("/asignarIncidenciaPersonal2/{idIncidencia}/{idPersona}")
-//	public IncidenciaModel asignarIncidenciaPersonal2(@PathVariable Long idIncidencia, @PathVariable Long idPersona) {
-//	
-//	PersonaConId persona = perRepositorio.findById(idPersona)
-//		    .orElseThrow(() -> new NoSuchElementException("No se encontró la persona"));
-//	
-//	IncidenciaConId Incidencia = repositorio.findById(idIncidencia).map(equi -> {
-//		equi.setFechaAsignacion(LocalDate.now());
-//		equi.setPersona(persona);
-//		repositorio.actualizarIncidenciaPersonalAsignacion(idIncidencia);
-//		return repositorio.save(equi);
-//	}).orElseThrow(() -> new RegisterNotFoundException(idIncidencia,"Incidencia"));
-//		
-//	return assembler.toModel(Incidencia);
-//	}
+	@Transactional
+	@PatchMapping("/resolverIncidencia/{idIncidencia}")
+	public IncidenciaModel resolverIncidencia(@PathVariable Long idIncidencia) {
+		IncidenciaConId incidencia = repositorio.findById(idIncidencia).map(inc -> {
+			inc.setEstado(EstadoIncidencia.RESUELTA);
+			inc.setFechaResolucion(LocalDate.now());
+			return repositorio.save(inc);
+		}).orElseThrow(() -> new RegisterNotFoundException(idIncidencia,"Incidencia"));
+		
+		return assembler.toModel(incidencia);
+	}
+	
+	@Transactional
+	@PatchMapping("/cerrarIncidencia/{idIncidencia}")
+	public IncidenciaModel cerrarIncidencia(@PathVariable Long idIncidencia) {
+		IncidenciaConId incidencia = repositorio.findById(idIncidencia).map(inc -> {
+			inc.setEstado(EstadoIncidencia.CERRADA);
+			return repositorio.save(inc);
+		}).orElseThrow(() -> new RegisterNotFoundException(idIncidencia,"Incidencia"));
+		
+		return assembler.toModel(incidencia);
+	}
+
+
 
 
 	@DeleteMapping("{id}")

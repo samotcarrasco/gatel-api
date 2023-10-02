@@ -11,6 +11,7 @@ import org.springframework.hateoas.server.RepresentationModelAssembler;
 import org.springframework.stereotype.Component;
 
 import es.mde.acing.gatel.IncidenciaImpl.TipoIncidencia;
+import es.mde.acing.gatel.IncidenciaImpl.EstadoIncidencia;
 import es.mdef.apigatel.entidades.IncidenciaConId;
 import es.mdef.apigatel.entidades.ModeloConId;
 import es.mdef.apigatel.entidades.EquipoConId;
@@ -31,6 +32,7 @@ import es.mde.acing.gatel.Averia;
 import es.mde.acing.gatel.Extravio;
 import es.mde.acing.gatel.Configuracion;
 import es.mde.acing.gatel.Solicitud;
+
 
 @Component
 public class IncidenciaAssembler implements RepresentationModelAssembler<IncidenciaConId, IncidenciaModel> {
@@ -65,8 +67,11 @@ public class IncidenciaAssembler implements RepresentationModelAssembler<Inciden
 		}
 
 		model.add(linkTo(methodOn(IncidenciaController.class).one(((IncidenciaConId) entity).getId())).withSelfRel());
+		
+		if (entity.getAgenteResolutor() != null) {
 		model.add(linkTo(methodOn(PersonaController.class)
 				.one(((PersonaConId) entity.getAgenteResolutor()).getId())).withRel("agenteResolutor"));
+		}
 		model.add(linkTo(methodOn(EquipoController.class)
 				.one(((EquipoConId) entity.getEquipo()).getId())).withRel("equipo"));
 		
@@ -84,7 +89,7 @@ public class IncidenciaAssembler implements RepresentationModelAssembler<Inciden
 		case AVERIA:
 			AveriaAPI averia = new AveriaAPI();
 			averia.setCompomente(model.getCompomente());
-			averia.setReparable(model.getReparable());
+			//averia.setReparable(model.getReparable());
 			incidencia = averia;  
 			incidencia.setCodigo("AV-" + model.getEquipo().getId() + "-" + segundosDesdeEpoch);
 			break;
@@ -92,15 +97,15 @@ public class IncidenciaAssembler implements RepresentationModelAssembler<Inciden
 			ExtravioAPI extravio = new ExtravioAPI();
 			//incidencia.setCodigo("EX-" + model.getEquipo().getId() + "-" +);
 			extravio.setUltimaUbicacion(model.getUltimaUbicacion());
-			extravio.setBloqueado(model.isBloqueado());
-			extravio.setBorrado(model.isBorrado());
-			extravio.setEncontrado(model.isEncontrado());
+//			extravio.setBloqueado(model.isBloqueado());
+//			extravio.setBorrado(model.isBorrado());
+//			extravio.setEncontrado(model.isEncontrado());
 			incidencia = extravio;
 			incidencia.setCodigo("EX-" + model.getEquipo().getId() + "-" + segundosDesdeEpoch);
 			break;
 		case SOLICITUD:
 			SolicitudAPI solicitud = new SolicitudAPI();
-			solicitud.setAceptado(model.isAceptado());
+			solicitud.setAceptado(false);
 			incidencia = solicitud;
 			incidencia.setCodigo("SOL-" + model.getEquipo().getId() + "-" + segundosDesdeEpoch);
 			break;
@@ -113,10 +118,10 @@ public class IncidenciaAssembler implements RepresentationModelAssembler<Inciden
 	}
 
 		incidencia.setFechaAlta(LocalDate.now());
-		incidencia.setFechaResolucion(model.getFechaResolucion());
-		incidencia.setEstado(model.getEstado());
+		//incidencia.setFechaResolucion(model.getFechaResolucion());
+		incidencia.setEstado(EstadoIncidencia.NUEVA);
 		incidencia.setDescripcion(model.getDescripcion());
-		incidencia.setAgenteResolutor(model.getAgenteResolutor());
+		//incidencia.setAgenteResolutor(model.getAgenteResolutor());
 		incidencia.setEquipo(model.getEquipo());
 		
 		return incidencia;

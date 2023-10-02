@@ -58,12 +58,16 @@ public class IncidenciaListaAssembler<T extends Incidencia> implements Represent
 			model.setTipoIncidencia(TipoIncidencia.SOLICITUD);
 		}
 
+
 		model.add(linkTo(methodOn(IncidenciaController.class).one(((IncidenciaConId) entity).getId())).withSelfRel());
+		
+		if (entity.getAgenteResolutor() != null) {
 		model.add(linkTo(methodOn(PersonaController.class)
-				.one(((PersonaConId) entity.getAgenteResolutor()).getId())).withRel("persona"));
+				.one(((PersonaConId) entity.getAgenteResolutor()).getId())).withRel("agenteResolutor"));
+		}
 		model.add(linkTo(methodOn(EquipoController.class)
 				.one(((EquipoConId) entity.getEquipo()).getId())).withRel("equipo"));
-		
+	
 		return model;
 	}
 	

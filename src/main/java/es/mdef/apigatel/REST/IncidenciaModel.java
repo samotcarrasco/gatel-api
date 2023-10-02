@@ -5,6 +5,7 @@ import java.time.LocalDate;
 import org.springframework.hateoas.RepresentationModel;
 import org.springframework.hateoas.server.core.Relation;
 
+import es.mde.acing.gatel.IncidenciaImpl.EstadoIncidencia;
 import es.mde.acing.gatel.IncidenciaImpl.TipoIncidencia;
 import es.mde.acing.gatel.ModeloImpl.TipoModelo;
 
@@ -15,7 +16,7 @@ public class IncidenciaModel extends RepresentationModel<IncidenciaModel> {
 	private String codigo;
 	private LocalDate fechaAlta;
 	private LocalDate fechaResolucion;
-	private String estado;
+	private EstadoIncidencia estado;
 	private String descripcion;
 	
 	private TipoIncidencia tipoIncidencia;
@@ -69,11 +70,11 @@ public class IncidenciaModel extends RepresentationModel<IncidenciaModel> {
 		this.fechaResolucion = fechaResolucion;
 	}
 
-	public String getEstado() {
+	public EstadoIncidencia getEstado() {
 		return estado;
 	}
 
-	public void setEstado(String estado) {
+	public void setEstado(EstadoIncidencia estado) {
 		this.estado = estado;
 	}
 
