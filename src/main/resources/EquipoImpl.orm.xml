@@ -22,6 +22,8 @@
                 <join-column name="modelo_id" referenced-column-name="ID"/>
          </many-to-one>
          
+         <one-to-many name="incidencias" mapped-by="equipo" target-entity="es.mdef.apigatel.entidades.IncidenciaConId"/>
+         
         </attributes>
     </mapped-superclass>
 </entity-mappings>

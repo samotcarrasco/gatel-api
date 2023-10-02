@@ -33,12 +33,12 @@ public class ModeloListaAssembler<T extends Modelo> implements RepresentationMod
 		model.setCategoria(((ModeloConId) entity).getCategoria());
 		model.setImgReducida(((ModeloConId) entity).getImgReducida());
 		
-		if (entity.getTipoModelo() == TipoModelo.EquipoInformatico) {
-			model.setTipoModelo(TipoModelo.EquipoInformatico);
-		} else if (entity.getTipoModelo() == TipoModelo.WebCam) {
-			model.setTipoModelo(TipoModelo.WebCam);
-		} else if (entity.getTipoModelo() == TipoModelo.Auriculares) {
-			model.setTipoModelo(TipoModelo.Auriculares);
+		if (entity.getTipoModelo() == TipoModelo.EQUIPO_INFORMATICO) {
+			model.setTipoModelo(TipoModelo.EQUIPO_INFORMATICO);
+		} else if (entity.getTipoModelo() == TipoModelo.WEBCAM) {
+			model.setTipoModelo(TipoModelo.WEBCAM);
+		} else if (entity.getTipoModelo() == TipoModelo.AURICULARES) {
+			model.setTipoModelo(TipoModelo.AURICULARES);
 		}
 
 		model.add(linkTo(methodOn(ModeloController.class).one(((ModeloConId) entity).getId())).withSelfRel());

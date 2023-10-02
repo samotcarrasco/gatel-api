@@ -6,7 +6,7 @@ public class EquipoDeUnidadAPI extends EquipoConId implements EquipoDeUnidad {
 
 	@Override
 	public TipoEquipo getTipoEquipo() {
-		return TipoEquipo.EquipoDeUnidad;
+		return TipoEquipo.EQUIPO_UNIDAD;
 	}
 	@Override
 	public String toString() {

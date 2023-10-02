@@ -35,20 +35,20 @@ public class ModeloAssembler implements RepresentationModelAssembler<ModeloConId
 		model.setMarca(entity.getMarca());
 		model.setNombreModelo(entity.getNombreModelo());
 
-		if (entity.getTipoModelo() == TipoModelo.EquipoInformatico) {
+		if (entity.getTipoModelo() == TipoModelo.EQUIPO_INFORMATICO) {
 			model.setPulgadas(((EquipoInformatico) entity).getPulgadas());
 			model.setDiscoDuro(((EquipoInformatico) entity).getDiscoDuro());
 			model.setSistemaOperativo(((EquipoInformatico) entity).getSistemaOperativo());
 			model.setMemoria(((EquipoInformatico) entity).getMemoria());
 			model.setTipoEquipoInformatico(((EquipoInformatico) entity).getTipoEquipoInformatico());
-			model.setTipoModelo(TipoModelo.EquipoInformatico);
-		} else if (entity.getTipoModelo() == TipoModelo.WebCam) {
+			model.setTipoModelo(TipoModelo.EQUIPO_INFORMATICO);
+		} else if (entity.getTipoModelo() == TipoModelo.WEBCAM) {
 			model.setResolucion(((WebCamAPI) entity).getResolucion());
-			model.setTipoModelo(TipoModelo.WebCam);
-		} else if (entity.getTipoModelo() == TipoModelo.Auriculares) {
+			model.setTipoModelo(TipoModelo.WEBCAM);
+		} else if (entity.getTipoModelo() == TipoModelo.AURICULARES) {
 			model.setStereo(((AuricularesAPI) entity).isStereo());
 			model.setConexion(((AuricularesAPI) entity).getConexion());
-			model.setTipoModelo(TipoModelo.Auriculares);
+			model.setTipoModelo(TipoModelo.AURICULARES);
 		}
 
 		model.add(linkTo(methodOn(ModeloController.class).one(((ModeloConId) entity).getId())).withSelfRel());
@@ -62,7 +62,7 @@ public class ModeloAssembler implements RepresentationModelAssembler<ModeloConId
 		ModeloConId modelo = new ModeloConId();
 
 		switch (model.getTipoModelo()) {
-		case EquipoInformatico:
+		case EQUIPO_INFORMATICO:
 			EquipoInformaticoAPI equipo = new EquipoInformaticoAPI();
 			equipo.setPulgadas(model.getPulgadas());
 			equipo.setMemoria(model.getMemoria());
@@ -71,12 +71,12 @@ public class ModeloAssembler implements RepresentationModelAssembler<ModeloConId
 			equipo.setTipoEquipoInformatico(model.getTipoEquipoInformatico());
 			modelo = equipo;  
 			break;
-		case WebCam:
+		case WEBCAM:
 			WebCamAPI webCam = new WebCamAPI();
 			webCam.setResolucion(model.getResolucion());
 			modelo = webCam;
 			break;
-		case Auriculares:
+		case AURICULARES:
 			AuricularesAPI auriculares = new AuricularesAPI();
 			auriculares.setConexion(model.getConexion());
 			auriculares.setStereo(model.isStereo());

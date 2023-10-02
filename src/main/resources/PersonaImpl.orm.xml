@@ -21,6 +21,7 @@
            
         <one-to-many name="equiposPersonales" mapped-by="persona" target-entity="es.mdef.apigatel.entidades.EquipoConId"/>
           
+        <one-to-many name="incidencias" mapped-by="agenteResolutor" target-entity="es.mdef.apigatel.entidades.IncidenciaConId"/>
             
         </attributes>
 

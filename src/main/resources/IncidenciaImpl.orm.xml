@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+<entity-mappings xmlns="http://java.sun.com/xml/ns/persistence/orm" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xsi:schemaLocation="http://java.sun.com/xml/ns/persistence/orm http://java.sun.com/xml/ns/persistence/orm_1_0.xsd" 
+	version="1.0"> 
+	
+     <mapped-superclass class="es.mde.acing.gatel.IncidenciaImpl" access="FIELD">
+ 		<attributes>
+ 		
+		<basic name="codigo" />
+		<basic name="fechaAlta"/>
+		<basic name="fechaResolucion"/>
+		<basic name="estado"/>
+		<basic name="descripcion"/>
+		
+		 <many-to-one name="agenteResolutor" fetch="LAZY" target-entity="es.mdef.apigatel.entidades.PersonaConId">
+                <join-column name="persona_id" referenced-column-name="ID"/>
+         </many-to-one>
+            
+         <many-to-one name="equipo" fetch="LAZY" target-entity="es.mdef.apigatel.entidades.EquipoConId">
+                <join-column name="equipo_id" referenced-column-name="ID"/>
+         </many-to-one>
+         
+        </attributes>
+    </mapped-superclass>
+</entity-mappings>

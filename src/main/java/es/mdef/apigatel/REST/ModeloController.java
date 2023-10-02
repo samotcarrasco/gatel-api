@@ -75,20 +75,20 @@ public class ModeloController {
 
 	@PutMapping("{id}")
 	public ModeloModel edit(@Valid @PathVariable Long id, @RequestBody ModeloPostModel model) throws IOException {
-		int n_regs = 0;
-		if (model.getTipoModelo() == TipoModelo.EquipoInformatico) {
+
+		if (model.getTipoModelo() == TipoModelo.EQUIPO_INFORMATICO) {
 				//EquipoInformaticoAPI equipo = new EquipoInformaticoAPI();
 				String imgReducida = ReductorImagen.reducirImagen(model.getImagen(),150,150);
 				repositorio.actualizarEquipo(model.getMarca(), model.getCategoria(), model.getNombreModelo(), 
 						model.getDetalles(), model.getImagen(), 
 						imgReducida, model.getMemoria(), model.getDiscoDuro(), 
 				model.getSistemaOperativo(), model.getPulgadas(), model.getTipoEquipoInformatico(), id);
-		} else if (model.getTipoModelo() == TipoModelo.Auriculares) {
+		} else if (model.getTipoModelo() == TipoModelo.AURICULARES) {
 				//AuricularesAPI equipo = new AuricularesAPI();
 				repositorio.actualizarAuriculares(model.getMarca(), model.getCategoria(), model.getNombreModelo(), 
 						model.getDetalles(), model.getImagen(), 
 						ReductorImagen.reducirImagen(model.getImagen(),150,150),model.isStereo(), model.getConexion(), id);
-			} else if (model.getTipoModelo() == TipoModelo.WebCam) {
+			} else if (model.getTipoModelo() == TipoModelo.WEBCAM) {
 				//WebCamAPI equipo = new WebCamAPI();
 				repositorio.actualizarWebCam(model.getMarca(), model.getCategoria(), model.getNombreModelo(), 
 						model.getDetalles(), model.getImagen(), 

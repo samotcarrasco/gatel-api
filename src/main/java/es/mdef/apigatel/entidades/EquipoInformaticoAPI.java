@@ -58,7 +58,7 @@ public class EquipoInformaticoAPI extends ModeloConId implements EquipoInformati
 
 	@Override
 	public TipoModelo getTipoModelo() {
-		return TipoModelo.EquipoInformatico;
+		return TipoModelo.EQUIPO_INFORMATICO;
 	}
 
 	@Override

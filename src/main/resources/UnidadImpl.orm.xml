@@ -12,6 +12,7 @@
 		<basic name="telefono"/>		     
     	
     	<one-to-many name="equiposDeUnidad" mapped-by="unidad" target-entity="es.mdef.apigatel.entidades.EquipoConId"/>
+        <one-to-many name="miembrosGC" mapped-by="unidad" target-entity="es.mdef.apigatel.entidades.PersonaConId"/>
        
         </attributes>
     </mapped-superclass>

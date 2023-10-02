@@ -36,13 +36,13 @@ public class EquipoListaAssembler<T extends Equipo> implements RepresentationMod
 		model.setFechaAdquisicion(entity.getFechaAdquisicion());
 		model.setModeloN(entity.getModelo().getNombreModelo());
 
-		if (entity.getTipoEquipo() == TipoEquipo.EquipoDeUnidad) {
-			model.setTipoEquipo(TipoEquipo.EquipoDeUnidad);
+		if (entity.getTipoEquipo() == TipoEquipo.EQUIPO_UNIDAD) {
+			model.setTipoEquipo(TipoEquipo.EQUIPO_UNIDAD);
 			model.add(linkTo(
 					methodOn(UnidadController.class).one(((UnidadConId) entity.getUnidad()).getId()))
 					.withRel("unidad"));
-		} else if (entity.getTipoEquipo() == TipoEquipo.EquipoPersonal) {
-			model.setTipoEquipo(TipoEquipo.EquipoPersonal);
+		} else if (entity.getTipoEquipo() == TipoEquipo.EQUIPO_PERSONAL) {
+			model.setTipoEquipo(TipoEquipo.EQUIPO_PERSONAL);
 			model.add(linkTo(
 					methodOn(PersonaController.class).one(((PersonaConId) entity.getPersona()).getId()))
 					.withRel("persona"));
@@ -51,7 +51,10 @@ public class EquipoListaAssembler<T extends Equipo> implements RepresentationMod
 		model.add(linkTo(methodOn(EquipoController.class).one(((EquipoConId) entity).getId())).withSelfRel());	
 		model.add(linkTo(methodOn(ModeloController.class)
 					.one(((ModeloConId) entity.getModelo()).getId())).withRel("modelo"));
-	
+		
+		model.add(linkTo(methodOn(EquipoController.class).incidenciasDeEquipo(((EquipoConId) entity).getId()))
+				.withRel("incidencias"));
+
 
 		return model;
 	}

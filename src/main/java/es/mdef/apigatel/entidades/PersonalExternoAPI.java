@@ -9,7 +9,7 @@ public class PersonalExternoAPI extends PersonaConId implements PersonalExterno 
 	
 	@Override
 	public TipoPersona getTipoPersona() {
-		return TipoPersona.PersonalExterno;
+		return TipoPersona.PERSONAL_EXTERNO;
 	}
 	
 	public String getDni() {

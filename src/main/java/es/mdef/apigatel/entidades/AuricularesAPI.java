@@ -27,7 +27,7 @@ public class AuricularesAPI extends ModeloConId implements Auriculares {
 
 	@Override
 	public TipoModelo getTipoModelo() {
-		return TipoModelo.Auriculares;
+		return TipoModelo.AURICULARES;
 	}
 
 	@Override

@@ -1,10 +1,10 @@
 package es.mdef.apigatel.entidades;
 
-import es.mde.acing.gatel.PersonaImpl;
+import es.mde.acing.gatel.IncidenciaImpl;
 
-public class PersonaConId extends PersonaImpl {
+public class IncidenciaConId extends IncidenciaImpl {
 	private Long id;
-	
+
 	public Long getId() {
 		return id;
 	}
@@ -12,10 +12,10 @@ public class PersonaConId extends PersonaImpl {
 	public void setId(Long id) {
 		this.id = id;
 	}
-	
+
 	@Override
 	public String toString() {
-		return "PersonaConId [id=" + id + " " + super.toString() + "]";
+		return "IncidenciaconId [id=" + id + " " + super.toString() + "]";
 	}
 
 }

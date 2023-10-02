@@ -18,8 +18,8 @@ public interface EquipoRepositorio extends JpaRepository<EquipoConId, Long> {
 	"fecha_adquisicion = :fechaAdquisicion, " +
 	"fecha_asignacion = :fechaAsignacion, " +
 	"modelo_id = :modeloId, " +
-	"unidad_id = :unidadId " +
-	"persona_id = :null " + 
+	"unidad_id = :unidadId, " +
+	"persona_id = null " + 
 	"WHERE id = :id", nativeQuery = true) 
 	void actualizarEquipoDeUnidad( 
 			  @Param("numeroSerie") String marca,	  
@@ -51,10 +51,24 @@ public interface EquipoRepositorio extends JpaRepository<EquipoConId, Long> {
 
 	@Modifying
 	@Transactional
-	@Query(value = "UPDATE public.equipos SET " + "tipo_equipo = 'P'" +
+	@Query(value = "UPDATE public.equipos SET " + 
+	"tipo_equipo = 'P', " +
+	"unidad_id = null " +
 	"WHERE id = :id", nativeQuery = true) 
 	void actualizarEquipoPersonalAsignacion( 
 			  @Param("id") Long id 
 	  );
+	
+	@Modifying
+	@Transactional
+	@Query(value = "UPDATE public.equipos SET " + 
+	"tipo_equipo = 'U', " +
+	"persona_id = null " +		
+	"WHERE id = :id", nativeQuery = true) 
+	void actualizarEquipoUnidadAsignacion( 
+			  @Param("id") Long id 
+	  );
+
+	
 
 }

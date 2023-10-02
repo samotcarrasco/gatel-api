@@ -10,7 +10,7 @@ public class MiembroGCAPI extends PersonaConId implements MiembroGC {
 	
 	@Override
 	public TipoPersona getTipoPersona() {
-		return TipoPersona.MiembroGC;
+		return TipoPersona.MIEMBRO_GC;
 	}
 
 	public String getTip() {

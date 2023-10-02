@@ -17,7 +17,7 @@ public class WebCamAPI extends ModeloConId implements WebCam {
 
 	@Override
 	public TipoModelo getTipoModelo() {
-		return TipoModelo.WebCam;
+		return TipoModelo.WEBCAM;
 	}
 
 	@Override
