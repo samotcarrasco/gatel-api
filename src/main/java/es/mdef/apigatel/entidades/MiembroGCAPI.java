@@ -1,12 +1,11 @@
 package es.mdef.apigatel.entidades;
 
 import es.mde.acing.gatel.MiembroGC;
-import es.mde.acing.gatel.MiembroGCImpl.Empleo;
 
 public class MiembroGCAPI extends PersonaConId implements MiembroGC {
 	
 	private String tip;
-	private Empleo empleo;
+	private String empleo;
 	
 	@Override
 	public TipoPersona getTipoPersona() {
@@ -21,11 +20,11 @@ public class MiembroGCAPI extends PersonaConId implements MiembroGC {
 		this.tip = tip;
 	}
 
-	public Empleo getEmpleo() {
+	public String getEmpleo() {
 		return empleo;
 	}
 
-	public void setEmpleo(Empleo empleo) {
+	public void setEmpleo(String empleo) {
 		this.empleo = empleo;
 	}
 

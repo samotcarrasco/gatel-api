@@ -12,7 +12,6 @@ public class ModeloModel extends RepresentationModel<ModeloModel> {
 
 	private Long id;
 	private String marca;
-	private String categoria;
 	private String nombreModelo;
 	private String detalles;
 	private String imagen;
@@ -24,6 +23,7 @@ public class ModeloModel extends RepresentationModel<ModeloModel> {
 	private Integer pulgadas;
 	private Integer discoDuro;
 	private Integer memoria;
+	private Integer stock;
 	private String sistemaOperativo;
 	private TipoModelo tipoModelo;
 	private String tipoEquipoInformatico;
@@ -52,13 +52,6 @@ public class ModeloModel extends RepresentationModel<ModeloModel> {
 		this.marca = marca;
 	}
 
-	public String getCategoria() {
-		return categoria;
-	}
-
-	public void setCategoria(String categoria) {
-		this.categoria = categoria;
-	}
 
 	public String getNombreModelo() {
 		return nombreModelo;
@@ -164,10 +157,19 @@ public class ModeloModel extends RepresentationModel<ModeloModel> {
 		this.tipoEquipoInformatico = tipoEquipoInf;
 	}
 	
+
+	public Integer getStock() {
+		return stock;
+	}
+
+	public void setStock(Integer stock) {
+		this.stock = stock;
+	}
+
 	
 	@Override
 	public String toString() {
-		return "ModeloModel [id=" + id + ", marca=" + marca + ", categoria=" + categoria + ", nombreModelo="
+		return "ModeloModel [id=" + id + ", marca=" + marca + ", nombreModelo="
 				+ nombreModelo + ", detalles=" + detalles + ", imagen=" + imagen // + ", equipos=" + equipos
 				+ ", imgReducida=" + imgReducida + ", stereo=" + stereo + ", conexion=" + conexion + ", resolucion="
 				+ resolucion + ", pulgadas=" + pulgadas + ", discoDuro=" + discoDuro + ", memoria=" + memoria

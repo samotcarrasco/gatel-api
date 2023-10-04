@@ -26,6 +26,7 @@ public class PersonaAssembler implements RepresentationModelAssembler<PersonaCon
 		model.setTelefono(entity.getTelefono());
 		model.setNombreUsuario(entity.getNombreUsuario());
 		model.setPassword(entity.getPassword());
+		model.setPerfil(entity.getPerfil());
 		
 		if (entity.getTipoPersona() == TipoPersona.MIEMBRO_GC) {
 			model.setTipoPersona(TipoPersona.MIEMBRO_GC);

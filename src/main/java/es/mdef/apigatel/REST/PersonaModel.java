@@ -4,7 +4,6 @@ package es.mdef.apigatel.REST;
 import org.springframework.hateoas.RepresentationModel;
 import org.springframework.hateoas.server.core.Relation;
 
-import es.mde.acing.gatel.MiembroGCImpl.Empleo;
 import es.mde.acing.gatel.PersonaImpl.TipoPersona;
 
 
@@ -21,7 +20,7 @@ public class PersonaModel extends RepresentationModel<PersonaModel> {
 	private String nombreUsuario;
 	private String password;
 	private TipoPersona tipoPersona;
-	private Empleo empleo;
+	private String empleo;
 	private String tip;
 	private String dni;
 	private String empresa;
@@ -84,11 +83,11 @@ public class PersonaModel extends RepresentationModel<PersonaModel> {
 		this.tipoPersona = tipoPersona;
 	}
 	
-	public Empleo getEmpleo() {
+	public String getEmpleo() {
 		return empleo;
 	}
 
-	public void setEmpleo(Empleo empleo) {
+	public void setEmpleo(String empleo) {
 		this.empleo = empleo;
 	}
 

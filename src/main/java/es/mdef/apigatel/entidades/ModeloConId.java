@@ -1,5 +1,6 @@
 package es.mdef.apigatel.entidades;
 
+import es.mde.acing.gatel.Equipo;
 import es.mde.acing.gatel.ModeloImpl;
 
 public class ModeloConId extends ModeloImpl {
@@ -29,6 +30,19 @@ public class ModeloConId extends ModeloImpl {
 //		return materiales;
 //	}
 
+	public int getStock() {
+		
+		int contador = 0;
+		for (Equipo equipo : this.getEquipos()) {
+			if (equipo.getPersona() == null && equipo.getUnidad() == null) {
+				contador ++;
+			}
+			
+		}
+		return contador;
+	}
+	
+	
 	@Override
 	public String toString() {
 		return "ModeloconId [id=" + id + " " + super.toString() + "]";

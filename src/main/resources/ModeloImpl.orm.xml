@@ -8,7 +8,6 @@
  		<attributes>
         
 		<basic name="marca" />
-		<basic name="categoria"/>
 		<basic name="nombreModelo"/>
 		<basic name="detalles"/>		
 		<basic name="imagen"/>

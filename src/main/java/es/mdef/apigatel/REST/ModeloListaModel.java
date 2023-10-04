@@ -13,10 +13,10 @@ public class ModeloListaModel extends RepresentationModel<ModeloListaModel> {
 
 	private Long id;
 	private String marca;
-	private String categoria;
 	private String nombreModelo;
 	// private List<Equipo> equipos;
 	private String imgReducida;
+	private Integer stock;
 	private TipoModelo tipoModelo;
 
 	public Long getId() {
@@ -43,14 +43,6 @@ public class ModeloListaModel extends RepresentationModel<ModeloListaModel> {
 		this.marca = marca;
 	}
 
-	public String getCategoria() {
-		return categoria;
-	}
-
-	public void setCategoria(String categoria) {
-		this.categoria = categoria;
-	}
-
 	public String getNombreModelo() {
 		return nombreModelo;
 	}
@@ -69,6 +61,14 @@ public class ModeloListaModel extends RepresentationModel<ModeloListaModel> {
 
 
 
+	public Integer getStock() {
+		return stock;
+	}
+
+	public void setStock(Integer stock) {
+		this.stock = stock;
+	}
+
 	public TipoModelo getTipoModelo() {
 		return tipoModelo;
 	}
@@ -79,7 +79,7 @@ public class ModeloListaModel extends RepresentationModel<ModeloListaModel> {
 	
 	@Override
 	public String toString() {
-		return "ModeloListaModel [id=" + id + ", marca=" + marca + ", categoria=" + categoria + ", nombreModelo="
+		return "ModeloListaModel [id=" + id + ", marca=" + marca + ", nombreModelo="
 				+ nombreModelo // + ", equipos=" + equipos
 				+ ", imgReducida=" + imgReducida + ", tipoModelo=" + tipoModelo + "]";
 	}

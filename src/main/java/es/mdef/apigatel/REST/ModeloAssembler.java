@@ -28,12 +28,12 @@ public class ModeloAssembler implements RepresentationModelAssembler<ModeloConId
 		ModeloModel model = new ModeloModel();
 
 		model.setId(entity.getId());
-		model.setCategoria(entity.getCategoria());
 		model.setImagen(entity.getImagen());
 		model.setImgReducida(entity.getImgReducida());
 		model.setDetalles(entity.getDetalles());
 		model.setMarca(entity.getMarca());
 		model.setNombreModelo(entity.getNombreModelo());
+		model.setStock(entity.getStock());
 
 		if (entity.getTipoModelo() == TipoModelo.EQUIPO_INFORMATICO) {
 			model.setPulgadas(((EquipoInformatico) entity).getPulgadas());
@@ -86,7 +86,6 @@ public class ModeloAssembler implements RepresentationModelAssembler<ModeloConId
 
 		modelo.setImagen(model.getImagen());
 		modelo.setImgReducida(ReductorImagen.reducirImagen(model.getImagen(), 150, 150));
-		modelo.setCategoria(model.getCategoria());
 		modelo.setMarca(model.getMarca());
 		modelo.setNombreModelo(model.getNombreModelo());
 		modelo.setDetalles(model.getDetalles());

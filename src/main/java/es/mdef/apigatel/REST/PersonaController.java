@@ -1,5 +1,8 @@
 package es.mdef.apigatel.REST;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -12,10 +15,16 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import es.mde.acing.gatel.Equipo;
+import es.mde.acing.gatel.EquipoPersonal;
+import es.mde.acing.gatel.Incidencia;
+import es.mde.acing.gatel.PersonaImpl;
 import es.mde.acing.gatel.PersonaImpl.TipoPersona;
 import es.mdef.apigatel.ApiGatelApp;
 import es.mdef.apigatel.entidades.AuricularesAPI;
+import es.mdef.apigatel.entidades.EquipoConId;
 import es.mdef.apigatel.entidades.EquipoInformaticoAPI;
+import es.mdef.apigatel.entidades.IncidenciaConId;
 import es.mdef.apigatel.entidades.PersonaConId;
 import es.mdef.apigatel.entidades.UnidadConId;
 import es.mdef.apigatel.entidades.WebCamAPI;
@@ -30,15 +39,17 @@ public class PersonaController {
 	private final PersonaRepositorio repositorio;
 	private final PersonaAssembler assembler;
 	private final PersonaListaAssembler listaAssembler;
+	private final IncidenciaListaAssembler incListaAssembler;
 	private final EquipoListaAssembler equipoListaAssembler;
 
 	PersonaController(PersonaRepositorio repositorio, PersonaAssembler assembler,
-			PersonaListaAssembler listaAssembler, EquipoListaAssembler equipoListaAssembler
-			) {
+			PersonaListaAssembler listaAssembler, EquipoListaAssembler equipoListaAssembler,
+			IncidenciaListaAssembler incListaAssembler) {
 		this.repositorio = repositorio;
 		this.assembler = assembler;
 		this.listaAssembler = listaAssembler;
 		this.equipoListaAssembler = equipoListaAssembler;
+		this.incListaAssembler = incListaAssembler;
 	}
 
 	@GetMapping("{id}")
@@ -58,5 +69,25 @@ public class PersonaController {
 				.orElseThrow(() -> new RegisterNotFoundException(id, "Persona"));
 		return equipoListaAssembler.toCollection(persona.getEquiposPersonales());
 	}
+	
+	@GetMapping("{id}/incidencias")
+	public CollectionModel<IncidenciaListaModel> incidenciasDePersona(@PathVariable Long id) {
+	    PersonaConId persona = repositorio.findById(id)
+	            .orElseThrow(() -> new RegisterNotFoundException(id, "Persona"));
+
+	    List<Incidencia> incidencias = new ArrayList<>();
+
+	    for (EquipoPersonal equipo : persona.getEquiposPersonales()) {
+	        for (Incidencia incidencia : ((EquipoConId) equipo).getIncidencias()) {
+	            //IncidenciaListaModel incidenciaModel = incListaAssembler.toModel(incidencia); 
+	            incidencias.add((Incidencia) incidencia);
+	        }
+	    }
+
+	    return incListaAssembler.toCollection(incidencias);
+	}
+
+
+
 
 }

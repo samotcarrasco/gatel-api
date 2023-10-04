@@ -10,15 +10,9 @@ import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.server.RepresentationModelAssembler;
 import org.springframework.stereotype.Component;
 
-import es.mde.acing.gatel.Auriculares;
-import es.mde.acing.gatel.EquipoInformatico;
 import es.mde.acing.gatel.Modelo;
-import es.mde.acing.gatel.WebCam;
 import es.mde.acing.gatel.ModeloImpl.TipoModelo;
 import es.mdef.apigatel.entidades.ModeloConId;
-import es.mdef.apigatel.entidades.EquipoInformaticoAPI;
-import es.mdef.apigatel.entidades.AuricularesAPI;
-import es.mdef.apigatel.entidades.WebCamAPI;
 
 @Component
 public class ModeloListaAssembler<T extends Modelo> implements RepresentationModelAssembler<T, ModeloListaModel> {
@@ -30,7 +24,7 @@ public class ModeloListaAssembler<T extends Modelo> implements RepresentationMod
 		model.setId(((ModeloConId) entity).getId());
 		model.setMarca(((ModeloConId) entity).getMarca());
 		model.setNombreModelo(((ModeloConId) entity).getNombreModelo());
-		model.setCategoria(((ModeloConId) entity).getCategoria());
+		model.setStock(((ModeloConId) entity).getStock());
 		model.setImgReducida(((ModeloConId) entity).getImgReducida());
 		
 		if (entity.getTipoModelo() == TipoModelo.EQUIPO_INFORMATICO) {
