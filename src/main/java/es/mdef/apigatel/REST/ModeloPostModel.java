@@ -11,6 +11,7 @@ public class ModeloPostModel extends RepresentationModel<ModeloPostModel> {
 	private String nombreModelo;
 	private String detalles;
 	private String imagen;
+	private String imgReducida;
 	private Boolean stereo;
 	private String conexion;
 	private String resolucion;
@@ -37,6 +38,10 @@ public class ModeloPostModel extends RepresentationModel<ModeloPostModel> {
 
 	public String getImagen() {
 		return imagen;
+	}
+
+	public String getImgReducida() {
+		return imgReducida;
 	}
 
 	public Integer getPulgadas() {

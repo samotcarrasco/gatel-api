@@ -85,7 +85,8 @@ public class ModeloAssembler implements RepresentationModelAssembler<ModeloConId
 		}
 
 		modelo.setImagen(model.getImagen());
-		modelo.setImgReducida(ReductorImagen.reducirImagen(model.getImagen(), 150, 150));
+		//modelo.setImgReducida(ReductorImagen.reducirImagen(model.getImagen(), 150, 150));
+		modelo.setImgReducida(model.getImgReducida());
 		modelo.setMarca(model.getMarca());
 		modelo.setNombreModelo(model.getNombreModelo());
 		modelo.setDetalles(model.getDetalles());
