@@ -1,8 +1,12 @@
 package es.mdef.apigatel.REST;
 
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
+
 import java.util.Optional;
 
 import org.springframework.hateoas.CollectionModel;
+import org.springframework.hateoas.Link;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -43,46 +47,40 @@ public class LoginController {
 	}
 
 
-	@PostMapping
-	public ResponseEntity<String> login(@RequestParam String nombreUsuario, @RequestParam String password) {
-    Optional<PersonaConId> usuario = repositorio.findByNombreUsuarioAndPassword(nombreUsuario, password);
-    
-    if (usuario.isPresent()) {
-        return ResponseEntity.ok("Credenciales correctas");
-    } else {
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Credenciales incorrectas");
-    }
-	}
+//	@PostMapping
+//	public ResponseEntity<String> login(@RequestParam String nombreUsuario, @RequestParam String password) {
+//    Optional<PersonaConId> usuario = repositorio.findByNombreUsuarioAndPassword(nombreUsuario, password);
+//    
+//    if (usuario.isPresent()) {
+//        return ResponseEntity.ok("Credenciales correctas");
+//    } else {
+//        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Credenciales incorrectas");
+//    }
+//	}
 	
-	@PostMapping("/login2")
-	public ResponseEntity<String> login2(@RequestBody LoginModel model) {
+	@PostMapping
+	public ResponseEntity<LoginModel> login(@RequestBody LoginPostModel model) {
 	    Optional<PersonaConId> usuario = repositorio.findByNombreUsuarioAndPassword(model.getNombreUsuario(), model.getPassword());
 	    
 	    if (usuario.isPresent()) {
 	        PersonaConId persona = usuario.get();
-	        String perfil = persona.getPerfil(); 
 	        
-	        JSONObject responseJson = new JSONObject();
-	        responseJson.put("perfil", perfil);
-	        
-	        return ResponseEntity.ok(responseJson.toString());
+	        LoginModel loginModel = new LoginModel();
+	        loginModel.setUnidad(persona.getUnidad().getCodigoUnidad());
+	        loginModel.setPerfil(persona.getPerfil());
+	        if (persona.getUnidad() != null) {
+	        loginModel.add(linkTo(
+					methodOn(UnidadController.class).one(((UnidadConId) persona.getUnidad()).getId()))
+					.withRel("unidad"));
+	        }
+			loginModel.add(linkTo(methodOn(PersonaController.class).one(((PersonaConId) persona).getId())).withSelfRel());
+
+	        return ResponseEntity.ok(loginModel);
 	    } else {
-	        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Credenciales incorrectas");
+	    	
+	        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
 	    }
 	}
 
 }
 	
-//	@GetMapping("/login")
-//	public PersonaModel login(@RequestBody LoginModel model) {
-//
-//		PersonaConId usuario = (repositorio.findByNombreUsuarioAndPassword(model.getNombreUsuario(), model.getPassword()).orElseThrow(() -> new RegisterNotFoundException(model.getNombreUsuario(), "nombreUsuario"));
-//		return assembler.toModel(usuario);
-//	}
-	
-//	@PostMapping("")
-//	public PersonaModel login(@RequestBody LoginModel model) {
-//
-//		PersonaConId usuario = repositorio.findByTip(model.getNombreUsuario()).orElseThrow(() -> new RegisterNotFoundException(model.getNombreUsuario(), "nombreUsuario"));
-//		return assembler.toModel(usuario);
-//	}

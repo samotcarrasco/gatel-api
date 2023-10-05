@@ -9,20 +9,21 @@ import es.mde.acing.gatel.PersonaImpl.TipoPersona;
 @Relation(itemRelation = "login")
 public class LoginModel extends RepresentationModel<LoginModel> {
 
-	private String nombreUsuario;
-	private String password;
+	private String perfil;
+	private String unidad;
+	
+	public String getPerfil() {
+		return perfil;
+	}
+	public void setPerfil(String perfil) {
+		this.perfil = perfil;
+	}
+	public String getUnidad() {
+		return unidad;
+	}
+	public void setUnidad(String unidad) {
+		this.unidad = unidad;
+	}
 	
 	
-	public String getNombreUsuario() {
-		return nombreUsuario;
-	}
-	public void setNombreUsuario(String nombreUsuario) {
-		this.nombreUsuario = nombreUsuario;
-	}
-	public String getPassword() {
-		return password;
-	}
-	public void setPassword(String password) {
-		this.password = password;
-	}
 }
