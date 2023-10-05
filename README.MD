@@ -1,6 +1,5 @@
-*Asignatura DIRECCIÓN DE PROYECTOS DIM 45*
+*Asignatura PRACTICAS EN UNIDADES DIM 45*
 
-*API proyecto TRUEQUET*
+*API proyecto GATEL*
 
-Se gestionan las entidades _Material_ (con herencia), _Categorias_ y _Departamentos_
 

@@ -3,7 +3,6 @@ package es.mdef.apigatel.REST;
 import java.time.LocalDate;
 import java.util.NoSuchElementException;
 
-import org.slf4j.Logger;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -14,25 +13,18 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import es.mde.acing.gatel.EquipoImpl.TipoEquipo;
-import es.mdef.apigatel.ApiGatelApp;
-import es.mdef.apigatel.entidades.AuricularesAPI;
-import es.mdef.apigatel.entidades.EquipoInformaticoAPI;
 import es.mdef.apigatel.entidades.EquipoPersonalAPI;
 import es.mdef.apigatel.entidades.PersonaConId;
 import es.mdef.apigatel.entidades.UnidadConId;
 import es.mdef.apigatel.entidades.EquipoConId;
 import es.mdef.apigatel.entidades.EquipoDeUnidadAPI;
-import es.mdef.apigatel.entidades.WebCamAPI;
 import es.mdef.apigatel.repositorios.EquipoRepositorio;
 import es.mdef.apigatel.repositorios.PersonaRepositorio;
 import es.mdef.apigatel.repositorios.UnidadRepositorio;
 import es.mdef.apigatel.validation.RegisterNotFoundException;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.PersistenceContext;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 

@@ -86,7 +86,7 @@ public class IncidenciaController {
 			switch (model.getTipoIncidencia()) {
 			case AVERIA:
 				AveriaAPI averia = new AveriaAPI();
-				averia.setCompomente(model.getCompomente());
+				averia.setComponente(model.getCompomente());
 				averia.setReparable(model.getReparable());
 				inc = averia;  
 				break;

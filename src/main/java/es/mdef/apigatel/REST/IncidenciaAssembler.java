@@ -49,7 +49,7 @@ public class IncidenciaAssembler implements RepresentationModelAssembler<Inciden
 		model.setDescripcion(entity.getDescripcion());
 		
 		if (entity.getTipoIncidencia() == TipoIncidencia.AVERIA) {
-			model.setCompomente(((Averia) entity).getComponente());
+			model.setComponente(((Averia) entity).getComponente());
 			model.setReparable(((Averia) entity).isReparable());
 			model.setTipoIncidencia(TipoIncidencia.AVERIA);
 		} else if (entity.getTipoIncidencia() == TipoIncidencia.EXTRAVIO) {
@@ -88,7 +88,7 @@ public class IncidenciaAssembler implements RepresentationModelAssembler<Inciden
 		switch (model.getTipoIncidencia()) {
 		case AVERIA:
 			AveriaAPI averia = new AveriaAPI();
-			averia.setCompomente(model.getCompomente());
+			averia.setComponente(model.getComponente());
 			//averia.setReparable(model.getReparable());
 			incidencia = averia;  
 			incidencia.setCodigo("AV-" + model.getEquipo().getId() + "-" + segundosDesdeEpoch);
@@ -98,7 +98,7 @@ public class IncidenciaAssembler implements RepresentationModelAssembler<Inciden
 			//incidencia.setCodigo("EX-" + model.getEquipo().getId() + "-" +);
 			extravio.setUltimaUbicacion(model.getUltimaUbicacion());
 //			extravio.setBloqueado(model.isBloqueado());
-//			extravio.setBorrado(model.isBorrado());
+//			extravio.setBorrado(model.isBorrado());			
 //			extravio.setEncontrado(model.isEncontrado());
 			incidencia = extravio;
 			incidencia.setCodigo("EX-" + model.getEquipo().getId() + "-" + segundosDesdeEpoch);

@@ -18,7 +18,7 @@ public class IncidenciaPostModel extends RepresentationModel<IncidenciaPostModel
 	private TipoIncidencia tipoIncidencia;
 	
 	//Averia
-	private String compomente;
+	private String componente;
 	
 	//Extravio
 	private String ultimaUbicacion;
@@ -38,8 +38,8 @@ public class IncidenciaPostModel extends RepresentationModel<IncidenciaPostModel
 		return tipoIncidencia;
 	}
 
-	public String getCompomente() {
-		return compomente;
+	public String getComponente() {
+		return componente;
 	}
 
 	public String getUltimaUbicacion() {
@@ -61,7 +61,7 @@ public class IncidenciaPostModel extends RepresentationModel<IncidenciaPostModel
 	@Override
 	public String toString() {
 		return "IncidenciaPostModel [descripcion=" + descripcion + ", equipo=" + equipo + ", tipoIncidencia="
-				+ tipoIncidencia + ", compomente=" + compomente + ", ultimaUbicacion=" + ultimaUbicacion
+				+ tipoIncidencia + ", componente=" + componente + ", ultimaUbicacion=" + ultimaUbicacion
 				+ ", aplicacion=" + aplicacion + "]";
 	}
 

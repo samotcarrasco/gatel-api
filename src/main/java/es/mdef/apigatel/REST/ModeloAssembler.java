@@ -34,13 +34,15 @@ public class ModeloAssembler implements RepresentationModelAssembler<ModeloConId
 		model.setMarca(entity.getMarca());
 		model.setNombreModelo(entity.getNombreModelo());
 		model.setStock(entity.getStock());
-
+		
+		//System.out.println("sssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss" + entity.getTipoModelo());
+	
 		if (entity.getTipoModelo() == TipoModelo.EQUIPO_INFORMATICO) {
-			model.setPulgadas(((EquipoInformatico) entity).getPulgadas());
-			model.setDiscoDuro(((EquipoInformatico) entity).getDiscoDuro());
-			model.setSistemaOperativo(((EquipoInformatico) entity).getSistemaOperativo());
-			model.setMemoria(((EquipoInformatico) entity).getMemoria());
-			model.setTipoEquipoInformatico(((EquipoInformatico) entity).getTipoEquipoInformatico());
+			model.setPulgadas(((EquipoInformaticoAPI) entity).getPulgadas());
+			model.setDiscoDuro(((EquipoInformaticoAPI) entity).getDiscoDuro());
+			model.setSistemaOperativo(((EquipoInformaticoAPI) entity).getSistemaOperativo());
+			model.setMemoria(((EquipoInformaticoAPI) entity).getMemoria());
+			model.setTipoEquipoInformatico(((EquipoInformaticoAPI) entity).getTipoEquipoInformatico());
 			model.setTipoModelo(TipoModelo.EQUIPO_INFORMATICO);
 		} else if (entity.getTipoModelo() == TipoModelo.WEBCAM) {
 			model.setResolucion(((WebCamAPI) entity).getResolucion());
@@ -52,8 +54,7 @@ public class ModeloAssembler implements RepresentationModelAssembler<ModeloConId
 		}
 
 		model.add(linkTo(methodOn(ModeloController.class).one(((ModeloConId) entity).getId())).withSelfRel());
-		model.add(linkTo(methodOn(ModeloController.class).equipos(entity.getId()))
-						.withRel("equipos"));
+		model.add(linkTo(methodOn(ModeloController.class).equipos(entity.getId())).withRel("equipos"));
 
 		return model;
 	}

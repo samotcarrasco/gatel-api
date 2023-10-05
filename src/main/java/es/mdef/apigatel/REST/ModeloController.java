@@ -36,21 +36,17 @@ public class ModeloController {
 	private final ModeloListaAssembler listaAssembler;
 	private final EquipoListaAssembler equipoListaAssembler;
 
-	private Logger log;
-
 	ModeloController(ModeloRepositorio repositorio, ModeloAssembler assembler,
 			ModeloListaAssembler listaAssembler, EquipoListaAssembler equipoListaAssembler) {
 		this.repositorio = repositorio;
 		this.assembler = assembler;
 		this.listaAssembler = listaAssembler;
 		this.equipoListaAssembler = equipoListaAssembler;
-		log = ApiGatelApp.log;
 	}
 
 	@GetMapping("{id}")
 	public ModeloModel one(@PathVariable Long id) {
 		ModeloConId modelo = repositorio.findById(id).orElseThrow(() -> new RegisterNotFoundException(id, "modelo"));
-		log.info("Recuperada " + modelo);
 		return assembler.toModel(modelo);
 	}
 
@@ -98,7 +94,6 @@ public class ModeloController {
 
 		ModeloConId modelo = repositorio.findById(id).orElseThrow(() -> new RegisterNotFoundException(id, "modelo"));
 
-		log.info("Actualizado " + modelo);
 		return assembler.toModel(modelo);
 
 	}

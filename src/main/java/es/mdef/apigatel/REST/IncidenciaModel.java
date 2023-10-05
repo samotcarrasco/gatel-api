@@ -22,7 +22,7 @@ public class IncidenciaModel extends RepresentationModel<IncidenciaModel> {
 	private TipoIncidencia tipoIncidencia;
 	
 	//Averia
-	private String compomente;
+	private String componente;
 	private Boolean reparable;
 	
 	//Extravio
@@ -94,12 +94,12 @@ public class IncidenciaModel extends RepresentationModel<IncidenciaModel> {
 		this.tipoIncidencia = tipoIncidencia;
 	}
 
-	public String getCompomente() {
-		return compomente;
+	public String getComponente() {
+		return componente;
 	}
 
-	public void setCompomente(String compomente) {
-		this.compomente = compomente;
+	public void setComponente(String componente) {
+		this.componente = componente;
 	}
 
 	public Boolean getReparable() {
@@ -162,7 +162,7 @@ public class IncidenciaModel extends RepresentationModel<IncidenciaModel> {
 	public String toString() {
 		return "IncidenciaModel [id=" + id + ", codigo=" + codigo + ", fechaAlta=" + fechaAlta + ", fechaResolucion="
 				+ fechaResolucion + ", estado=" + estado + ", descripcion=" + descripcion + ", tipoIncidencia="
-				+ tipoIncidencia + ", compomente=" + compomente
+				+ tipoIncidencia + ", componente=" + componente
 				+ ", reparable=" + reparable + ", ultimaUbicacion=" + ultimaUbicacion + ", bloqueado=" + bloqueado
 				+ ", borrado=" + borrado + ", encontrado=" + encontrado + ", aplicacion=" + aplicacion + ", aceptacion="
 				+ aceptado + "]";

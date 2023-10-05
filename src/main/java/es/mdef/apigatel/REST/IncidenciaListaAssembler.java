@@ -3,7 +3,6 @@ package es.mdef.apigatel.REST;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -12,28 +11,11 @@ import org.springframework.hateoas.server.RepresentationModelAssembler;
 import org.springframework.stereotype.Component;
 
 import es.mde.acing.gatel.IncidenciaImpl.TipoIncidencia;
+import es.mde.acing.gatel.IncidenciaImpl.EstadoIncidencia;
 import es.mdef.apigatel.entidades.IncidenciaConId;
-import es.mdef.apigatel.entidades.ModeloConId;
 import es.mdef.apigatel.entidades.EquipoConId;
-import es.mdef.apigatel.ReductorImagen;
 import es.mdef.apigatel.entidades.PersonaConId;
-import es.mdef.apigatel.entidades.SolicitudAPI;
-import es.mdef.apigatel.entidades.EquipoInformaticoAPI;
-import es.mdef.apigatel.entidades.ExtravioAPI;
-import es.mdef.apigatel.entidades.WebCamAPI;
-import es.mdef.apigatel.entidades.AuricularesAPI;
-import es.mdef.apigatel.entidades.AveriaAPI;
-import es.mdef.apigatel.entidades.ConfiguracionAPI;
-import es.mde.acing.gatel.EquipoInformatico;
-import es.mde.acing.gatel.EquipoInformaticoImpl;
-import es.mde.acing.gatel.WebCam;
-import es.mde.acing.gatel.Auriculares;
-import es.mde.acing.gatel.Averia;
-import es.mde.acing.gatel.Extravio;
 import es.mde.acing.gatel.Incidencia;
-import es.mde.acing.gatel.Configuracion;
-import es.mde.acing.gatel.Equipo;
-import es.mde.acing.gatel.Solicitud;
 
 @Component
 public class IncidenciaListaAssembler<T extends Incidencia> implements RepresentationModelAssembler<T, IncidenciaListaModel> {
@@ -46,7 +28,7 @@ public class IncidenciaListaAssembler<T extends Incidencia> implements Represent
 		model.setCodigo(entity.getCodigo());
 		model.setFechaAlta(entity.getFechaAlta());
 		model.setFechaResolucion(entity.getFechaResolucion());
-		model.setEstado(entity.getEstado());
+		model.setEstado(((IncidenciaConId) entity).getEstado());
 		
 		if (entity.getTipoIncidencia() == TipoIncidencia.AVERIA) {
 			model.setTipoIncidencia(TipoIncidencia.AVERIA);

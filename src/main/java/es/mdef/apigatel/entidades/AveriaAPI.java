@@ -17,7 +17,7 @@ public class AveriaAPI extends IncidenciaConId implements Averia {
 		return componente;
 	}
 
-	public void setCompomente(String componente) {
+	public void setComponente(String componente) {
 		this.componente = componente;
 	}
 
