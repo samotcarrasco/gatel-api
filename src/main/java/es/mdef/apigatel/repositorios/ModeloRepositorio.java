@@ -16,7 +16,6 @@ public interface ModeloRepositorio extends JpaRepository<ModeloConId, Long> {
 	@Transactional
 	@Query(value = "UPDATE public.modelos SET " + "tipo_modelo = 'E'," +
 	"marca = :marca, " +
-	"categoria = :categoria, " +
 	"nombre_modelo = :nombreModelo, " +
 	"detalles = :detalles, " +
 	"imagen = :imagen, " +
@@ -49,7 +48,6 @@ public interface ModeloRepositorio extends JpaRepository<ModeloConId, Long> {
 	@Transactional
 	@Query(value = "UPDATE public.modelos SET " + "tipo_modelo = 'A'," +
 	"marca = :marca, " +
-	"categoria = :categoria, " +
 	"nombre_modelo = :nombreModelo, " +
 	"detalles = :detalles, " +
 	"imagen = :imagen, " +
@@ -79,7 +77,6 @@ public interface ModeloRepositorio extends JpaRepository<ModeloConId, Long> {
 	@Transactional
 	@Query(value = "UPDATE public.modelos SET " + "tipo_modelo = 'W'," +
 	"marca = :marca, " +
-	"categoria = :categoria, " +
 	"nombre_modelo = :nombreModelo, " +
 	"detalles = :detalles, " +
 	"imagen = :imagen, " +
