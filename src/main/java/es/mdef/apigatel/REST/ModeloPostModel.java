@@ -8,7 +8,6 @@ import es.mde.acing.gatel.ModeloImpl.TipoModelo;
 public class ModeloPostModel extends RepresentationModel<ModeloPostModel> {
 
 	private String marca;
-	private String categoria;
 	private String nombreModelo;
 	private String detalles;
 	private String imagen;
@@ -27,9 +26,6 @@ public class ModeloPostModel extends RepresentationModel<ModeloPostModel> {
 		return marca;
 	}
 
-	public String getCategoria() {
-		return categoria;
-	}
 
 	public String getNombreModelo() {
 		return nombreModelo;
@@ -81,7 +77,7 @@ public class ModeloPostModel extends RepresentationModel<ModeloPostModel> {
 
 	@Override
 	public String toString() {
-		return "ModeloPostModel [marca=" + marca + ", categoria=" + categoria + ", nombreModelo="
+		return "ModeloPostModel [marca=" + marca + ", nombreModelo="
 				+ nombreModelo + ", detalles=" + detalles + ", imagen=" 
 				+ ", stereo=" + stereo + ", conexion=" + conexion + ", resolucion=" + resolucion + ", pulgadas="
 				+ pulgadas + ", discoDuro=" + discoDuro + ", memoria=" + memoria + ", sistemaOperativo="

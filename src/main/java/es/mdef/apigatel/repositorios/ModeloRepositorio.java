@@ -31,7 +31,6 @@ public interface ModeloRepositorio extends JpaRepository<ModeloConId, Long> {
 	"WHERE id = :id", nativeQuery = true) 
 	void actualizarEquipo( 
 			  @Param("marca") String marca,	  
-			  @Param("categoria") String categoria,	  
 			  @Param("nombreModelo") String nombreModelo,	  
 			  @Param("detalles") String detalles,	  
 			  @Param("imagen") String imagen,	  
@@ -63,7 +62,6 @@ public interface ModeloRepositorio extends JpaRepository<ModeloConId, Long> {
 	"WHERE id = :id", nativeQuery = true) 
 	void actualizarAuriculares( 
 			  @Param("marca") String marca,	  
-			  @Param("categoria") String categoria,	  
 			  @Param("nombreModelo") String nombreModelo,	  
 			  @Param("detalles") String detalles,	  
 			  @Param("imagen") String imagen,	  
@@ -92,7 +90,6 @@ public interface ModeloRepositorio extends JpaRepository<ModeloConId, Long> {
 	"WHERE id = :id", nativeQuery = true) 
 	  void actualizarWebCam( 
 			  @Param("marca") String marca,	  
-			  @Param("categoria") String categoria,	  
 			  @Param("nombreModelo") String nombreModelo,	  
 			  @Param("detalles") String detalles,	  
 			  @Param("imagen") String imagen,	  
