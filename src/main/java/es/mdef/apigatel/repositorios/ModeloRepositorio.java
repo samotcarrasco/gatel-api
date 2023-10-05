@@ -94,7 +94,7 @@ public interface ModeloRepositorio extends JpaRepository<ModeloConId, Long> {
 			  @Param("detalles") String detalles,	  
 			  @Param("imagen") String imagen,	  
 			  @Param("img_reducida") String img_reducida,	  
-			  @Param("resolucion") Integer resolucion,	  
+			  @Param("resolucion") String resolucion,	  
 			  @Param("id") Long id 
 	  );
 

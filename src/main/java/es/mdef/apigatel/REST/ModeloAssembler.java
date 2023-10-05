@@ -34,9 +34,7 @@ public class ModeloAssembler implements RepresentationModelAssembler<ModeloConId
 		model.setMarca(entity.getMarca());
 		model.setNombreModelo(entity.getNombreModelo());
 		model.setStock(entity.getStock());
-		
-		//System.out.println("sssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss" + entity.getTipoModelo());
-	
+
 		if (entity.getTipoModelo() == TipoModelo.EQUIPO_INFORMATICO) {
 			model.setPulgadas(((EquipoInformaticoAPI) entity).getPulgadas());
 			model.setDiscoDuro(((EquipoInformaticoAPI) entity).getDiscoDuro());
@@ -55,6 +53,7 @@ public class ModeloAssembler implements RepresentationModelAssembler<ModeloConId
 
 		model.add(linkTo(methodOn(ModeloController.class).one(((ModeloConId) entity).getId())).withSelfRel());
 		model.add(linkTo(methodOn(ModeloController.class).equipos(entity.getId())).withRel("equipos"));
+		
 
 		return model;
 	}
@@ -70,7 +69,7 @@ public class ModeloAssembler implements RepresentationModelAssembler<ModeloConId
 			equipo.setDiscoDuro(model.getDiscoDuro());
 			equipo.setSistemaOperativo(model.getSistemaOperativo());
 			equipo.setTipoEquipoInformatico(model.getTipoEquipoInformatico());
-			modelo = equipo;  
+			modelo = equipo;
 			break;
 		case WEBCAM:
 			WebCamAPI webCam = new WebCamAPI();
@@ -90,7 +89,7 @@ public class ModeloAssembler implements RepresentationModelAssembler<ModeloConId
 		modelo.setMarca(model.getMarca());
 		modelo.setNombreModelo(model.getNombreModelo());
 		modelo.setDetalles(model.getDetalles());
-		
+
 		return modelo;
 	}
 }

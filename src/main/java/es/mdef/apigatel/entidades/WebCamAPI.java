@@ -4,14 +4,14 @@ import es.mde.acing.gatel.WebCam;
 
 public class WebCamAPI extends ModeloConId implements WebCam {
 
-	private Integer resolucion;
+	private String resolucion;
 
 	@Override
-	public Integer getResolucion() {
+	public String getResolucion() {
 		return resolucion;
 	}
 
-	public void setResolucion(Integer resolucion) {
+	public void setResolucion(String resolucion) {
 		this.resolucion = resolucion;
 	}
 

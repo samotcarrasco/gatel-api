@@ -33,12 +33,14 @@ public class ModeloConId extends ModeloImpl {
 	public int getStock() {
 		
 		int contador = 0;
+		if (this.getEquipos() != null) {
 		for (Equipo equipo : this.getEquipos()) {
 			if (equipo.getPersona() == null && equipo.getUnidad() == null) {
 				contador ++;
 			}
 			
 		}
+	}
 		return contador;
 	}
 	

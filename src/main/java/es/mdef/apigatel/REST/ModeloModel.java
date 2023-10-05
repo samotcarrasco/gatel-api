@@ -19,7 +19,7 @@ public class ModeloModel extends RepresentationModel<ModeloModel> {
 	private String imgReducida;
 	private Boolean stereo;
 	private String conexion;
-	private Integer resolucion;
+	private String resolucion;
 	private Integer pulgadas;
 	private Integer discoDuro;
 	private Integer memoria;
@@ -117,11 +117,11 @@ public class ModeloModel extends RepresentationModel<ModeloModel> {
 		this.sistemaOperativo = sistemaOperativo;
 	}
 
-	public Integer getResolucion() {
+	public String getResolucion() {
 		return resolucion;
 	}
 
-	public void setResolucion(Integer resolucion) {
+	public void setResolucion(String resolucion) {
 		this.resolucion = resolucion;
 	}
 

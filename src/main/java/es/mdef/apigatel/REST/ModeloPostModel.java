@@ -13,7 +13,7 @@ public class ModeloPostModel extends RepresentationModel<ModeloPostModel> {
 	private String imagen;
 	private Boolean stereo;
 	private String conexion;
-	private Integer resolucion;
+	private String resolucion;
 	private Integer pulgadas;
 	private Integer discoDuro;
 	private Integer memoria;
@@ -55,7 +55,7 @@ public class ModeloPostModel extends RepresentationModel<ModeloPostModel> {
 		return sistemaOperativo;
 	}
 
-	public Integer getResolucion() {
+	public String getResolucion() {
 		return resolucion;
 	}
 
