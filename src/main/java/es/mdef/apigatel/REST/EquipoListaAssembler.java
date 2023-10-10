@@ -36,12 +36,12 @@ public class EquipoListaAssembler<T extends Equipo> implements RepresentationMod
 		model.setFechaAdquisicion(entity.getFechaAdquisicion());
 		model.setModeloN(entity.getModelo().getNombreModelo());
 
-		if (entity.getTipoEquipo() == TipoEquipo.EQUIPO_UNIDAD) {
+		if (entity.getTipoEquipo() == TipoEquipo.EQUIPO_UNIDAD && entity.getUnidad() != null) {
 			model.setTipoEquipo(TipoEquipo.EQUIPO_UNIDAD);
 			model.add(linkTo(
 					methodOn(UnidadController.class).one(((UnidadConId) entity.getUnidad()).getId()))
 					.withRel("unidad"));
-		} else if (entity.getTipoEquipo() == TipoEquipo.EQUIPO_PERSONAL) {
+		} else if (entity.getTipoEquipo() == TipoEquipo.EQUIPO_PERSONAL && entity.getPersona() != null) {
 			model.setTipoEquipo(TipoEquipo.EQUIPO_PERSONAL);
 			model.add(linkTo(
 					methodOn(PersonaController.class).one(((PersonaConId) entity.getPersona()).getId()))
