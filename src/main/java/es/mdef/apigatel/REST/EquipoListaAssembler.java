@@ -37,7 +37,7 @@ public class EquipoListaAssembler<T extends Equipo> implements RepresentationMod
 		model.setNumeroSerie(entity.getNumeroSerie());
 		model.setFechaAsignacion(entity.getFechaAsignacion());
 		model.setFechaAdquisicion(entity.getFechaAdquisicion());
-		model.setModeloN(entity.getModelo().getNombreModelo());
+		model.setModeloN(entity.getModelo().getMarca() + " " + entity.getModelo().getNombreModelo());
 
 		if (entity.getTipoEquipo() == TipoEquipo.EQUIPO_UNIDAD && entity.getUnidad() != null) {
 			model.setTipoEquipo(TipoEquipo.EQUIPO_UNIDAD);

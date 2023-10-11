@@ -15,6 +15,7 @@ public class IncidenciaListaModel extends RepresentationModel<IncidenciaListaMod
 	private String codigo;
 	private LocalDate fechaAlta;
 	private LocalDate fechaResolucion;
+	private String equipoN;
 	private EstadoIncidencia estado;
 	
 	private TipoIncidencia tipoIncidencia;
@@ -65,6 +66,16 @@ public class IncidenciaListaModel extends RepresentationModel<IncidenciaListaMod
 
 	public void setTipoIncidencia(TipoIncidencia tipoIncidencia) {
 		this.tipoIncidencia = tipoIncidencia;
+	}
+	
+	
+
+	public String getEquipoN() {
+		return equipoN;
+	}
+
+	public void setEquipoN(String equipoN) {
+		this.equipoN = equipoN;
 	}
 
 	@Override

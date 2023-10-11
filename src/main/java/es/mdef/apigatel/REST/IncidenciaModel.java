@@ -18,6 +18,7 @@ public class IncidenciaModel extends RepresentationModel<IncidenciaModel> {
 	private LocalDate fechaResolucion;
 	private EstadoIncidencia estado;
 	private String descripcion;
+	private String equipoN;
 	
 	private TipoIncidencia tipoIncidencia;
 	
@@ -156,6 +157,16 @@ public class IncidenciaModel extends RepresentationModel<IncidenciaModel> {
 
 	public void setAceptado(Boolean aceptado) {
 		this.aceptado = aceptado;
+	}
+	
+	
+
+	public String getEquipoN() {
+		return equipoN;
+	}
+
+	public void setEquipoN(String equipoN) {
+		this.equipoN = equipoN;
 	}
 
 	@Override
