@@ -19,6 +19,7 @@ public class EquipoModel extends RepresentationModel<EquipoModel> {
 	private LocalDate fechaAsignacion;
 	private TipoEquipo tipoEquipo;
 	private String modeloN;
+	private String codigoPropietario;
 	
 	public Long getId() {
 		return id;
@@ -76,6 +77,16 @@ public class EquipoModel extends RepresentationModel<EquipoModel> {
 
 	public void setModeloN(String modeloN) {
 		this.modeloN = modeloN;
+	}
+	
+	
+
+	public String getCodigoPropietario() {
+		return codigoPropietario;
+	}
+
+	public void setCodigoPropietario(String codigoPropietario) {
+		this.codigoPropietario = codigoPropietario;
 	}
 
 	@Override

@@ -12,13 +12,16 @@ import org.springframework.stereotype.Component;
 
 import es.mde.acing.gatel.Auriculares;
 import es.mde.acing.gatel.EquipoInformatico;
+import es.mde.acing.gatel.PersonaImpl.TipoPersona;
 import es.mde.acing.gatel.Equipo;
 import es.mde.acing.gatel.WebCam;
 import es.mde.acing.gatel.EquipoImpl.TipoEquipo;
 import es.mdef.apigatel.entidades.EquipoConId;
 import es.mdef.apigatel.entidades.EquipoInformaticoAPI;
+import es.mdef.apigatel.entidades.MiembroGCAPI;
 import es.mdef.apigatel.entidades.ModeloConId;
 import es.mdef.apigatel.entidades.PersonaConId;
+import es.mdef.apigatel.entidades.PersonalExternoAPI;
 import es.mdef.apigatel.entidades.UnidadConId;
 import es.mdef.apigatel.entidades.AuricularesAPI;
 import es.mdef.apigatel.entidades.WebCamAPI;
@@ -38,11 +41,24 @@ public class EquipoListaAssembler<T extends Equipo> implements RepresentationMod
 
 		if (entity.getTipoEquipo() == TipoEquipo.EQUIPO_UNIDAD && entity.getUnidad() != null) {
 			model.setTipoEquipo(TipoEquipo.EQUIPO_UNIDAD);
+			model.setCodigoPropietario(entity.getUnidad().getCodigoUnidad());
 			model.add(linkTo(
 					methodOn(UnidadController.class).one(((UnidadConId) entity.getUnidad()).getId()))
 					.withRel("unidad"));
 		} else if (entity.getTipoEquipo() == TipoEquipo.EQUIPO_PERSONAL && entity.getPersona() != null) {
-			model.setTipoEquipo(TipoEquipo.EQUIPO_PERSONAL);
+			if (entity.getPersona().getTipoPersona() == TipoPersona.MIEMBRO_GC) {
+				model.setTipoEquipo(TipoEquipo.EQUIPO_PERSONAL);
+
+				System.out.println("-----------------------------------------" + entity.getPersona().toString());
+
+				if (entity.getPersona() instanceof MiembroGCAPI) {
+				    System.out.println("es una instancia de MiembroGCAPI");
+				    //model.setCodigoPropietario(((MiembroGCAPI) entity.getPersona()).getTip());
+				}
+			    //model.setCodigoPropietario(((MiembroGCAPI) entity.getPersona()).getTip());
+				model.setCodigoPropietario("TIP-MIEMBROGC");
+			}
+			
 			model.add(linkTo(
 					methodOn(PersonaController.class).one(((PersonaConId) entity.getPersona()).getId()))
 					.withRel("persona"));

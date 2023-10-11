@@ -3,15 +3,19 @@ package es.mdef.apigatel.REST;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
+import org.hibernate.Hibernate;
 import org.springframework.hateoas.server.RepresentationModelAssembler;
 import org.springframework.stereotype.Component;
 
 import es.mde.acing.gatel.EquipoImpl.TipoEquipo;
+import es.mde.acing.gatel.PersonaImpl.TipoPersona;
 import es.mdef.apigatel.entidades.EquipoConId;
 import es.mdef.apigatel.entidades.EquipoDeUnidadAPI;
 import es.mdef.apigatel.entidades.EquipoPersonalAPI;
+import es.mdef.apigatel.entidades.MiembroGCAPI;
 import es.mdef.apigatel.entidades.ModeloConId;
 import es.mdef.apigatel.entidades.PersonaConId;
+import es.mdef.apigatel.entidades.PersonalExternoAPI;
 import es.mdef.apigatel.entidades.UnidadConId;
 
 @Component
@@ -28,17 +32,32 @@ public class EquipoAssembler implements RepresentationModelAssembler<EquipoConId
 		model.setModeloN(entity.getModelo().getNombreModelo());
 		
 
+
 		if (entity.getTipoEquipo() == TipoEquipo.EQUIPO_UNIDAD && entity.getUnidad() != null) {
 			model.setTipoEquipo(TipoEquipo.EQUIPO_UNIDAD);
+			model.setCodigoPropietario(entity.getUnidad().getCodigoUnidad());
 			model.add(linkTo(
 					methodOn(UnidadController.class).one(((UnidadConId) entity.getUnidad()).getId()))
 					.withRel("unidad"));
 		} else if (entity.getTipoEquipo() == TipoEquipo.EQUIPO_PERSONAL && entity.getPersona() != null) {
-			model.setTipoEquipo(TipoEquipo.EQUIPO_PERSONAL);
+			if (entity.getPersona().getTipoPersona() == TipoPersona.MIEMBRO_GC) {
+				model.setTipoEquipo(TipoEquipo.EQUIPO_PERSONAL);
+
+				System.out.println("-----------------------------------------" + entity.getPersona().toString());
+
+				if (entity.getPersona() instanceof MiembroGCAPI) {
+				    System.out.println("entity.getPersona() es una instancia de MiembroGCAPI");
+				    //model.setCodigoPropietario(((MiembroGCAPI) entity.getPersona()).getTip());
+				}
+			    //model.setCodigoPropietario(((MiembroGCAPI) entity.getPersona()).getTip());
+				model.setCodigoPropietario("TIP-MIEMBROGC");
+			}
+			
 			model.add(linkTo(
 					methodOn(PersonaController.class).one(((PersonaConId) entity.getPersona()).getId()))
 					.withRel("persona"));
 		}
+	
     		
 		model.add(linkTo(methodOn(EquipoController.class).one(((EquipoConId) entity).getId())).withSelfRel());
 		model.add(linkTo(methodOn(EquipoController.class).incidenciasDeEquipo(entity.getId()))
