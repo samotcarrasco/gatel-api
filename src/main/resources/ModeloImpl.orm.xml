@@ -11,7 +11,7 @@
 			<basic name="nombreModelo"/>
 			<basic name="detalles"/>		
 			<basic name="imagen" optional="false">
-        		<column name="imagen" column-definition="varchar(100000)" />
+        		<column name="imagen" />
         	</basic>
 	
 	      	<one-to-many name="equipos" mapped-by="modelo" target-entity="es.mdef.apigatel.entidades.EquipoConId"/>
