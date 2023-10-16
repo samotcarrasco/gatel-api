@@ -24,6 +24,7 @@ public class ModeloModel extends RepresentationModel<ModeloModel> {
 	private Integer discoDuro;
 	private Integer memoria;
 	private Integer stock;
+	private Integer numEquipos;
 	private String sistemaOperativo;
 	private TipoModelo tipoModelo;
 	private String tipoEquipoInformatico;
@@ -166,6 +167,14 @@ public class ModeloModel extends RepresentationModel<ModeloModel> {
 		this.stock = stock;
 	}
 
+
+	public Integer getNumEquipos() {
+		return numEquipos;
+	}
+
+	public void setNumEquipos(Integer numEquipos) {
+		this.numEquipos = numEquipos;
+	}
 	
 	@Override
 	public String toString() {

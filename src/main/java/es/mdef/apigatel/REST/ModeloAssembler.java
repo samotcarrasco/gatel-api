@@ -28,6 +28,8 @@ public class ModeloAssembler implements RepresentationModelAssembler<ModeloConId
 		model.setMarca(entity.getMarca());
 		model.setNombreModelo(entity.getNombreModelo());
 		model.setStock(entity.getStock());
+		int numEquipos = entity.getEquipos()!= null ? entity.getEquipos().size() : 0;
+		model.setNumEquipos(numEquipos);
 
 		if (entity.getTipoModelo() == TipoModelo.EQUIPO_INFORMATICO) {
 			model.setPulgadas(((EquipoInformaticoAPI) entity).getPulgadas());
