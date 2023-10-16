@@ -1,11 +1,7 @@
 package es.mdef.apigatel.REST;
 
-import java.util.List;
-
 import org.springframework.hateoas.RepresentationModel;
 import org.springframework.hateoas.server.core.Relation;
-
-import es.mde.acing.gatel.ModeloImpl.TipoModelo;
 
 @Relation(itemRelation = "unidad", collectionRelation = "unidades")
 public class UnidadModel extends RepresentationModel<UnidadModel> {

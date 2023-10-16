@@ -2,7 +2,6 @@ package es.mdef.apigatel.REST;
 
 import org.springframework.hateoas.RepresentationModel;
 
-import es.mdef.apigatel.entidades.EquipoConId;
 import es.mdef.apigatel.entidades.PersonaConId;
 
 public class AsignarIncidenciaModel extends RepresentationModel<AsignarIncidenciaModel> {

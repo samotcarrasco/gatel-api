@@ -10,15 +10,9 @@ import org.springframework.stereotype.Component;
 
 import es.mde.acing.gatel.ModeloImpl.TipoModelo;
 import es.mdef.apigatel.entidades.ModeloConId;
-import es.mdef.apigatel.ReductorImagen;
-import es.mdef.apigatel.entidades.PersonaConId;
 import es.mdef.apigatel.entidades.EquipoInformaticoAPI;
 import es.mdef.apigatel.entidades.WebCamAPI;
 import es.mdef.apigatel.entidades.AuricularesAPI;
-import es.mde.acing.gatel.EquipoInformatico;
-import es.mde.acing.gatel.EquipoInformaticoImpl;
-import es.mde.acing.gatel.WebCam;
-import es.mde.acing.gatel.Auriculares;
 
 @Component
 public class ModeloAssembler implements RepresentationModelAssembler<ModeloConId, ModeloModel> {

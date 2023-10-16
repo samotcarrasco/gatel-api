@@ -13,25 +13,14 @@ import org.springframework.stereotype.Component;
 import es.mde.acing.gatel.IncidenciaImpl.TipoIncidencia;
 import es.mde.acing.gatel.IncidenciaImpl.EstadoIncidencia;
 import es.mdef.apigatel.entidades.IncidenciaConId;
-import es.mdef.apigatel.entidades.ModeloConId;
 import es.mdef.apigatel.entidades.EquipoConId;
-import es.mdef.apigatel.ReductorImagen;
 import es.mdef.apigatel.entidades.PersonaConId;
 import es.mdef.apigatel.entidades.SolicitudAPI;
-import es.mdef.apigatel.entidades.EquipoInformaticoAPI;
 import es.mdef.apigatel.entidades.ExtravioAPI;
-import es.mdef.apigatel.entidades.WebCamAPI;
-import es.mdef.apigatel.entidades.AuricularesAPI;
 import es.mdef.apigatel.entidades.AveriaAPI;
 import es.mdef.apigatel.entidades.ConfiguracionAPI;
-import es.mde.acing.gatel.EquipoInformatico;
-import es.mde.acing.gatel.EquipoInformaticoImpl;
-import es.mde.acing.gatel.WebCam;
-import es.mde.acing.gatel.Auriculares;
 import es.mde.acing.gatel.Averia;
 import es.mde.acing.gatel.Extravio;
-import es.mde.acing.gatel.Configuracion;
-import es.mde.acing.gatel.Solicitud;
 
 
 @Component

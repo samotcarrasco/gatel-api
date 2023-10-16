@@ -10,15 +10,14 @@ import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.server.RepresentationModelAssembler;
 import org.springframework.stereotype.Component;
 
-import es.mde.acing.gatel.Modelo;
 import es.mde.acing.gatel.ModeloImpl.TipoModelo;
 import es.mdef.apigatel.entidades.ModeloConId;
 
 @Component
-public class ModeloListaAssembler<T extends Modelo> implements RepresentationModelAssembler<T, ModeloListaModel> {
+public class ModeloListaAssembler implements RepresentationModelAssembler<ModeloConId, ModeloListaModel> {
 
 	@Override
-	public ModeloListaModel toModel(T entity) {
+	public ModeloListaModel toModel(ModeloConId entity) {
 		ModeloListaModel model = new ModeloListaModel();
 
 		model.setId(((ModeloConId) entity).getId());
@@ -42,7 +41,7 @@ public class ModeloListaAssembler<T extends Modelo> implements RepresentationMod
 		return model;
 	}
 
-	public CollectionModel<ModeloListaModel> toCollection(List<T> list) {
+	public CollectionModel<ModeloListaModel> toCollection(List<ModeloConId> list) {
 		CollectionModel<ModeloListaModel> collection = CollectionModel
 				.of(list.stream().map(this::toModel).collect(Collectors.toList()));
 		return collection;

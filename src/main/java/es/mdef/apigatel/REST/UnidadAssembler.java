@@ -7,10 +7,6 @@ import org.springframework.hateoas.server.RepresentationModelAssembler;
 import org.springframework.stereotype.Component;
 
 import es.mdef.apigatel.entidades.UnidadConId;
-import es.mdef.apigatel.entidades.WebCamAPI;
-import es.mdef.apigatel.entidades.AuricularesAPI;
-import es.mde.acing.gatel.WebCam;
-import es.mde.acing.gatel.Auriculares;
 
 @Component
 public class UnidadAssembler implements RepresentationModelAssembler<UnidadConId, UnidadModel> {

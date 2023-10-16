@@ -13,6 +13,58 @@ public interface EquipoRepositorio extends JpaRepository<EquipoConId, Long> {
 
 	@Modifying
 	@Transactional
+	@Query(value = "UPDATE public.equipos SET " +
+	"tipo_equipo = :tipoEquipo," +
+	"numero_serie = :numeroSerie, " +
+	"fecha_adquisicion = :fechaAdquisicion, " +
+	"fecha_asignacion = :fechaAsignacion, " +
+	"modelo_id = :modeloId, " +
+	"persona_id = :personaId, " +
+	"unidad_id = :unidadId " +
+	"WHERE id = :id", nativeQuery = true) 
+	int update(
+			  @Param("tipoEquipo") Character tipoEquipo,
+			  @Param("numeroSerie") String numeroSerie,	  
+			  @Param("fechaAdquisicion") LocalDate fechaAdquisicion,	  
+			  @Param("fechaAsignacion") LocalDate fechaAsignacion,	  
+			  @Param("modeloId") Long modeloId,
+			  @Param("personaId") Long personaId,
+			  @Param("unidadId") Long unidadId,	  
+			  @Param("id") Long id 
+	  );
+	
+	@Modifying
+	@Transactional
+	@Query(value = "UPDATE public.equipos SET " +
+	"tipo_equipo = :tipoEquipo," +
+	"fecha_asignacion = :fechaAsignacion, " +
+	"persona_id = :personaId, " +
+	"unidad_id = :unidadId " +
+	"WHERE id = :id", nativeQuery = true) 
+	int asignar(
+			  @Param("tipoEquipo") Character tipoEquipo, 
+			  @Param("fechaAsignacion") LocalDate fechaAsignacion,	  
+			  @Param("personaId") Long personaId,
+			  @Param("unidadId") Long unidadId,	 
+			  @Param("id") Long id 
+		);
+	
+	@Modifying
+	@Transactional
+	@Query(value = "UPDATE public.equipos SET " +
+	"tipo_equipo = null," +
+	"fecha_asignacion = null, " +
+	"persona_id = null, " +
+	"unidad_id = null " +
+	"WHERE id = :id", nativeQuery = true) 
+	int desasignar(
+			  @Param("id") Long id 
+		);
+	
+	
+	
+	@Modifying
+	@Transactional
 	@Query(value = "UPDATE public.equipos SET " + "tipo_equipo = 'U'," +
 	"numero_serie = :numeroSerie, " +
 	"fecha_adquisicion = :fechaAdquisicion, " +

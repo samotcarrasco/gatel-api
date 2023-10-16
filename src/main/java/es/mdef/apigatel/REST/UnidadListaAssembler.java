@@ -10,14 +10,8 @@ import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.server.RepresentationModelAssembler;
 import org.springframework.stereotype.Component;
 
-import es.mde.acing.gatel.Auriculares;
-import es.mde.acing.gatel.EquipoInformatico;
 import es.mde.acing.gatel.Unidad;
-import es.mde.acing.gatel.WebCam;
 import es.mdef.apigatel.entidades.UnidadConId;
-import es.mdef.apigatel.entidades.EquipoInformaticoAPI;
-import es.mdef.apigatel.entidades.AuricularesAPI;
-import es.mdef.apigatel.entidades.WebCamAPI;
 
 @Component
 public class UnidadListaAssembler<T extends Unidad> implements RepresentationModelAssembler<T, UnidadModel> {

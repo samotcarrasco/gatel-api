@@ -1,14 +1,10 @@
 package es.mdef.apigatel.REST;
 
 import java.time.LocalDate;
-import java.util.List;
-
 import org.springframework.hateoas.RepresentationModel;
 import org.springframework.hateoas.server.core.Relation;
 
-import es.mde.acing.gatel.Modelo;
 import es.mde.acing.gatel.EquipoImpl.TipoEquipo;
-import es.mde.acing.gatel.ModeloImpl.TipoModelo;
 
 @Relation(itemRelation = "equipo", collectionRelation = "equipos")
 public class EquipoModel extends RepresentationModel<EquipoModel> {

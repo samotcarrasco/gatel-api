@@ -7,7 +7,6 @@ import org.springframework.hateoas.server.core.Relation;
 
 import es.mde.acing.gatel.IncidenciaImpl.EstadoIncidencia;
 import es.mde.acing.gatel.IncidenciaImpl.TipoIncidencia;
-import es.mde.acing.gatel.ModeloImpl.TipoModelo;
 
 @Relation(itemRelation = "incidencia")
 public class IncidenciaModel extends RepresentationModel<IncidenciaModel> {

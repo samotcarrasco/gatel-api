@@ -4,8 +4,6 @@ package es.mdef.apigatel.REST;
 import org.springframework.hateoas.RepresentationModel;
 import org.springframework.hateoas.server.core.Relation;
 
-import es.mde.acing.gatel.PersonaImpl.TipoPersona;
-
 @Relation(itemRelation = "login")
 public class LoginPostModel extends RepresentationModel<LoginPostModel> {
 

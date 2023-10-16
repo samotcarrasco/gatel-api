@@ -5,7 +5,6 @@ import java.util.Map;
 
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -25,6 +24,13 @@ public class ControladorExcepciones {
 	@ExceptionHandler(RegisterNotFoundException.class)
 	@ResponseStatus(HttpStatus.NOT_FOUND)
 	String usuarioNotFoundHandler(RegisterNotFoundException ex) {
+		return ex.getMessage();
+	}
+	
+	@ResponseBody
+	@ExceptionHandler(ArgumentNotValidException.class)
+	@ResponseStatus(HttpStatus.BAD_REQUEST)
+	String argumentoNoValido(ArgumentNotValidException ex) {
 		return ex.getMessage();
 	}
 

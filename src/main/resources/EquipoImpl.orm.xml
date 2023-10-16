@@ -14,7 +14,7 @@
                 <join-column name="unidad_id" referenced-column-name="ID"/>
          </many-to-one>
          
-         <many-to-one name="persona" fetch="LAZY" target-entity="es.mdef.apigatel.entidades.PersonaConId">
+         <many-to-one name="persona" fetch="EAGER" target-entity="es.mdef.apigatel.entidades.PersonaConId">
                 <join-column name="persona_id" referenced-column-name="ID"/>
          </many-to-one>
             

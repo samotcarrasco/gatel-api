@@ -13,9 +13,8 @@ public class ApiGatelApp {
 	public static final Logger log = LoggerFactory.getLogger(ApiGatelApp.class);
 
 	public static void main(String[] args) {
+//		System.setProperty("spring.devtools.restart.enabled", "false");
 		SpringApplication.run(ApiGatelApp.class, args);
-
-
 	}
 
 }

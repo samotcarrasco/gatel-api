@@ -13,8 +13,8 @@
                 <generated-value strategy="IDENTITY"/> 
             </id> 
             <basic name="imgReducida" optional="false">
-               <column name="imgReducida"/>
+               <column name="imgReducida" column-definition="varchar(10000)" />
             </basic>
-          </attributes>
+        </attributes>
      </entity>
 </entity-mappings>

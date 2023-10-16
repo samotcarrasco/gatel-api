@@ -1,14 +1,10 @@
 package es.mdef.apigatel.REST;
 
-import java.time.LocalDate;
-
 import org.springframework.hateoas.RepresentationModel;
 import org.springframework.hateoas.server.core.Relation;
 
 import es.mde.acing.gatel.IncidenciaImpl.TipoIncidencia;
-import es.mde.acing.gatel.ModeloImpl.TipoModelo;
 import es.mdef.apigatel.entidades.EquipoConId;
-import es.mdef.apigatel.entidades.PersonaConId;
 
 @Relation(itemRelation = "incidencia")
 public class IncidenciaPostModel extends RepresentationModel<IncidenciaPostModel> {

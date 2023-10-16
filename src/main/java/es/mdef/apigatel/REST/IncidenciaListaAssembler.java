@@ -11,7 +11,6 @@ import org.springframework.hateoas.server.RepresentationModelAssembler;
 import org.springframework.stereotype.Component;
 
 import es.mde.acing.gatel.IncidenciaImpl.TipoIncidencia;
-import es.mde.acing.gatel.IncidenciaImpl.EstadoIncidencia;
 import es.mdef.apigatel.entidades.IncidenciaConId;
 import es.mdef.apigatel.entidades.EquipoConId;
 import es.mdef.apigatel.entidades.PersonaConId;

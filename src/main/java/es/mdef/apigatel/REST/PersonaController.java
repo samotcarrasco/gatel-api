@@ -5,32 +5,18 @@ import java.util.List;
 
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import es.mde.acing.gatel.Equipo;
 import es.mde.acing.gatel.EquipoPersonal;
 import es.mde.acing.gatel.Incidencia;
-import es.mde.acing.gatel.PersonaImpl;
-import es.mde.acing.gatel.PersonaImpl.TipoPersona;
-import es.mdef.apigatel.ApiGatelApp;
-import es.mdef.apigatel.entidades.AuricularesAPI;
 import es.mdef.apigatel.entidades.EquipoConId;
-import es.mdef.apigatel.entidades.EquipoInformaticoAPI;
 import es.mdef.apigatel.entidades.IncidenciaConId;
 import es.mdef.apigatel.entidades.PersonaConId;
-import es.mdef.apigatel.entidades.UnidadConId;
-import es.mdef.apigatel.entidades.WebCamAPI;
 import es.mdef.apigatel.repositorios.PersonaRepositorio;
 import es.mdef.apigatel.validation.RegisterNotFoundException;
-import jakarta.validation.Valid;
 
 @CrossOrigin(origins = "*")
 @RestController
@@ -38,13 +24,13 @@ import jakarta.validation.Valid;
 public class PersonaController {
 	private final PersonaRepositorio repositorio;
 	private final PersonaAssembler assembler;
-	private final PersonaListaAssembler listaAssembler;
-	private final IncidenciaListaAssembler incListaAssembler;
-	private final EquipoListaAssembler equipoListaAssembler;
+	private final PersonaListaAssembler<PersonaConId> listaAssembler;
+	private final IncidenciaListaAssembler<IncidenciaConId> incListaAssembler;
+	private final EquipoListaAssembler<EquipoConId> equipoListaAssembler;
 
 	PersonaController(PersonaRepositorio repositorio, PersonaAssembler assembler,
-			PersonaListaAssembler listaAssembler, EquipoListaAssembler equipoListaAssembler,
-			IncidenciaListaAssembler incListaAssembler) {
+			PersonaListaAssembler<PersonaConId> listaAssembler, EquipoListaAssembler<EquipoConId> equipoListaAssembler,
+			IncidenciaListaAssembler<IncidenciaConId> incListaAssembler) {
 		this.repositorio = repositorio;
 		this.assembler = assembler;
 		this.listaAssembler = listaAssembler;
@@ -57,6 +43,17 @@ public class PersonaController {
 		PersonaConId persona = repositorio.findById(id).orElseThrow(() -> new RegisterNotFoundException(id, "Persona"));
 		return assembler.toModel(persona);
 	}
+	
+	@GetMapping("tip/{tip}")
+	public PersonaModel oneByTip(@PathVariable String tip) {
+		PersonaConId persona = repositorio.buscaPorTip(tip);
+		
+		if(persona == null) {
+			throw new RegisterNotFoundException(tip, "TIP");
+		}
+		
+		return assembler.toModel(persona);
+	}
 
 	@GetMapping
 	public CollectionModel<PersonaListaModel> all() {
@@ -67,7 +64,7 @@ public class PersonaController {
 	public CollectionModel<EquipoModel> equiposDePersona(@PathVariable Long id) {
 		PersonaConId persona = repositorio.findById(id)
 				.orElseThrow(() -> new RegisterNotFoundException(id, "Persona"));
-		return equipoListaAssembler.toCollection(persona.getEquiposPersonales());
+		return equipoListaAssembler.toCollection((List<EquipoConId>)(List<?>)persona.getEquiposPersonales());
 	}
 	
 	@GetMapping("{id}/incidencias")
@@ -79,15 +76,10 @@ public class PersonaController {
 
 	    for (EquipoPersonal equipo : persona.getEquiposPersonales()) {
 	        for (Incidencia incidencia : ((EquipoConId) equipo).getIncidencias()) {
-	            //IncidenciaListaModel incidenciaModel = incListaAssembler.toModel(incidencia); 
 	            incidencias.add((Incidencia) incidencia);
 	        }
 	    }
-
-	    return incListaAssembler.toCollection(incidencias);
+	    return incListaAssembler.toCollection((List<IncidenciaConId>)(List<?>)incidencias);
 	}
-
-
-
 
 }
