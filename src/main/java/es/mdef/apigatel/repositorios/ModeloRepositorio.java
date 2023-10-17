@@ -86,7 +86,7 @@ public interface ModeloRepositorio extends JpaRepository<ModeloConId, Long> {
 	"conexion = null ," +
 	"stereo = null ," +
 	"resolucion = :resolucion, " +
-	"tipo_equipo_informatico = null, " + 
+	"tipo_equipo_informatico = null " + 
 	"WHERE id = :id", nativeQuery = true) 
 	  void actualizarWebCam( 
 			  @Param("marca") String marca,	  
