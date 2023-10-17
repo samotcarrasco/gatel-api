@@ -25,6 +25,8 @@ public class ModeloModel extends RepresentationModel<ModeloModel> {
 	private Integer memoria;
 	private Integer stock;
 	private Integer numEquipos;
+	private Integer asignadosAPersona;
+	private Integer asignadosAUnidad;
 	private String sistemaOperativo;
 	private TipoModelo tipoModelo;
 	private String tipoEquipoInformatico;
@@ -176,6 +178,28 @@ public class ModeloModel extends RepresentationModel<ModeloModel> {
 		this.numEquipos = numEquipos;
 	}
 	
+	
+	
+	public Integer getAsignadosAPersona() {
+		return asignadosAPersona;
+	}
+
+	public void setAsignadosAPersona(Integer asignadosAPersona) {
+		this.asignadosAPersona = asignadosAPersona;
+	}
+
+	public Integer getAsignadosAUnidad() {
+		return asignadosAUnidad;
+	}
+
+	public void setAsignadosAUnidad(Integer asignadosAUnidad) {
+		this.asignadosAUnidad = asignadosAUnidad;
+	}
+
+	public Boolean getStereo() {
+		return stereo;
+	}
+
 	@Override
 	public String toString() {
 		return "ModeloModel [id=" + id + ", marca=" + marca + ", nombreModelo="

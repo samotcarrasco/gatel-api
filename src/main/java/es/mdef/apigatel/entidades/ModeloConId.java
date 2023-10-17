@@ -30,15 +30,37 @@ public class ModeloConId extends ModeloImpl {
 //		return materiales;
 //	}
 
-	public int getStock() {
-		
+	public int getStock() {	
 		int contador = 0;
 		if (this.getEquipos() != null) {
 		for (Equipo equipo : this.getEquipos()) {
 			if (equipo.getPersona() == null && equipo.getUnidad() == null) {
 				contador ++;
 			}
-			
+		}
+	}
+		return contador;
+	}
+	
+	public int getAsignadosAPersona() {	
+		int contador = 0;
+		if (this.getEquipos() != null) {
+		for (Equipo equipo : this.getEquipos()) {
+			if (equipo.getPersona() != null && equipo.getUnidad() == null) {
+				contador ++;
+			}
+		}
+	}
+		return contador;
+	}
+	
+	public int getAsignadosAUnidad() {	
+		int contador = 0;
+		if (this.getEquipos() != null) {
+		for (Equipo equipo : this.getEquipos()) {
+			if (equipo.getPersona() == null && equipo.getUnidad() != null) {
+				contador ++;
+			}
 		}
 	}
 		return contador;
