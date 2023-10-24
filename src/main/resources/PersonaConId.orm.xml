@@ -12,6 +12,18 @@
             <id name="id"> 
                 <generated-value strategy="IDENTITY"/> 
             </id> 
+            <basic name="accountNonExpired">
+            	<column name="cuenta_activa"/>
+            </basic>
+            <basic name="accountNonLocked">
+            	<column name="cuenta_desbloqueada"/>
+            </basic>
+            <basic name="credentialsNonExpired">
+            	<column name="credenciales_activas"/>
+            </basic>
+            <basic name="enabled">
+            	<column name="cuenta_habilitada"/>
+            </basic>
           </attributes>
      </entity>
 </entity-mappings>

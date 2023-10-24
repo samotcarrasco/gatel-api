@@ -10,7 +10,7 @@
 		<basic name="fechaAdquisicion"/>
 		<basic name="fechaAsignacion"/>
 		
-		 <many-to-one name="unidad" fetch="LAZY" target-entity="es.mdef.apigatel.entidades.UnidadConId">
+		 <many-to-one name="unidad" fetch="EAGER" target-entity="es.mdef.apigatel.entidades.UnidadConId">
                 <join-column name="unidad_id" referenced-column-name="ID"/>
          </many-to-one>
          

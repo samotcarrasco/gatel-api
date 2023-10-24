@@ -1,5 +1,6 @@
 package es.mdef.apigatel.repositorios;
 import java.time.LocalDate;
+import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -122,5 +123,18 @@ public interface EquipoRepositorio extends JpaRepository<EquipoConId, Long> {
 	  );
 
 	
+	@Query(value = "SELECT * FROM public.equipos WHERE persona_id = :id", nativeQuery = true)
+	List<EquipoConId> findByPersonaId(@Param("id") Long id);
+	
+	
+	@Query(value = "SELECT * FROM public.equipos WHERE unidad_id = :id", nativeQuery = true)
+	List<EquipoConId> findEquiposUnidadByUnidadId(@Param("id") Long id);
+//
+//	
+//	@Query(value = "SELECT e.* FROM public.equipos e " +
+//            "INNER JOIN public.personas p ON e.persona_id = p.id " +
+//            "WHERE p.unidad_id = :id", nativeQuery = true)
+//	List<EquipoConId> findEquiposPersonalesByUnidadId(@Param("id") Long id);
+
 
 }
