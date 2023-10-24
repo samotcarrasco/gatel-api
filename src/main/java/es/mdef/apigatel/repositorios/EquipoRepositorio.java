@@ -128,7 +128,7 @@ public interface EquipoRepositorio extends JpaRepository<EquipoConId, Long> {
 	
 	
 	@Query(value = "SELECT * FROM public.equipos WHERE unidad_id = :id", nativeQuery = true)
-	List<EquipoConId> findEquiposUnidadByUnidadId(@Param("id") Long id);
+	List<EquipoConId> findByUnidadId(@Param("id") Long id);
 //
 //	
 //	@Query(value = "SELECT e.* FROM public.equipos e " +

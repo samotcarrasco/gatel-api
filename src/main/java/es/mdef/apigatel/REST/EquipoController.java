@@ -68,135 +68,143 @@ public class EquipoController {
 	public EquipoModel one(@PathVariable Long id) {
 		EquipoConId equipo = repositorio.findById(id).orElseThrow(() -> new RegisterNotFoundException(id, "Equipo"));
 		EquipoModel equipoObtenido = null;
-		
-		Collection<? extends GrantedAuthority> rolesUsuario =  SecurityContextHolder.getContext().getAuthentication().getAuthorities();
+
+		Collection<? extends GrantedAuthority> rolesUsuario = SecurityContextHolder.getContext().getAuthentication()
+				.getAuthorities();
 		String rol = rolesUsuario.iterator().next().toString();
-		
+
 //		System.out.println(SecurityContextHolder.getContext().getAuthentication());
 //		System.out.println("principal = " + SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString());
 //		System.out.println("rol = " + rolesUsuario.iterator().next());
 //			
-		Optional<PersonaConId> usuario = perRepositorio.findByNombreUsuario(SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString());
-		
-		  switch (rol) {
-	        case "USUARIO_FINAL":
-	            if (((PersonaConId) equipo.getPersona()).getId() == usuario.get().getId()) {
-	            	equipoObtenido = assembler.toModel(equipo);
-	            }
-	            break;
-	        case "ADMIN_UNIDAD":  	 
-	        	Optional<UnidadConId> unidad = uniRepositorio.findById(((UnidadConId) usuario.get().getUnidad()).getId());
-	        	  if (unidad.isPresent() && equipo.getUnidad() != null) { 
-	        		  if (((UnidadConId) equipo.getUnidad()).getId() == unidad.get().getId()) {
-	        		  System.out.println(" unidad usuario contectdo:" + unidad.get().getId() + " unidad del equipo: " + ((UnidadConId) equipo.getUnidad()).getId());
-	        		  equipoObtenido = assembler.toModel(equipo);
-		            }
-	        	  }
-	            break;
-	        case "ADMIN_CENTRAL":
-	        	equipoObtenido = assembler.toModel(equipo);
-	        	break;
-	        case "RESOLUTOR":
-	        	break;
-	    }
-		  
-		  if (equipoObtenido != null) {
-		        return equipoObtenido;
-		    } else {
-		        throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Acceso denegado");
-		  }
-	}
+		Optional<PersonaConId> usuario = perRepositorio
+				.findByNombreUsuario(SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString());
 
-//	@GetMapping
-//	public CollectionModel<EquipoModel> all() {
-//		
-//		return listaAssembler.toCollection(repositorio.findAll());
-//	}
+		switch (rol) {
+		case "USUARIO_FINAL":
+			if (((PersonaConId) equipo.getPersona()).getId() == usuario.get().getId()) {
+				equipoObtenido = assembler.toModel(equipo);
+			}
+			break;
+		case "ADMIN_UNIDAD":
+			if (equipo.getPersona() != null) {
+				if (((UnidadConId) equipo.getPersona().getUnidad()).getId() == ((UnidadConId) usuario.get().getUnidad())
+						.getId()) {
+					equipoObtenido = assembler.toModel(equipo);
+				}
+			} else if (equipo.getUnidad() != null) {
+				List<EquipoConId> equiposUnidad = repositorio
+						.findByUnidadId(((UnidadConId) usuario.get().getUnidad()).getId());
+				for (EquipoConId equipoUnidad : equiposUnidad) {
+					if (((UnidadConId) equipoUnidad.getUnidad()).getId() == ((UnidadConId) usuario.get().getUnidad())
+							.getId()) {
+						equipoObtenido = assembler.toModel(equipoUnidad);
+						break;
+					}
+				}
+			}
+			break;
+		case "ADMIN_CENTRAL":
+			equipoObtenido = assembler.toModel(equipo);
+			break;
+		case "RESOLUTOR":
+			break;
+		}
+
+		if (equipoObtenido != null) {
+			return equipoObtenido;
+		} else {
+			throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Acceso denegado");
+		}
+	}
 
 	@GetMapping
 	public CollectionModel<EquipoModel> all() {
-	    Collection<? extends GrantedAuthority> rolesUsuario = SecurityContextHolder.getContext().getAuthentication().getAuthorities();
-	    String rol = rolesUsuario.iterator().next().toString();
-	    
-	    Optional<PersonaConId> usuario = perRepositorio.findByNombreUsuario(SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString());
+		Collection<? extends GrantedAuthority> rolesUsuario = SecurityContextHolder.getContext().getAuthentication()
+				.getAuthorities();
+		String rol = rolesUsuario.iterator().next().toString();
 
-	    List<EquipoConId> equiposObtenidos = new ArrayList<>();
+		Optional<PersonaConId> usuario = perRepositorio
+				.findByNombreUsuario(SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString());
 
-	    switch (rol) {
-	        case "USUARIO_FINAL":
-	        	  List<EquipoConId> equiposPersona = repositorio.findByPersonaId(usuario.get().getId());
-	              for (EquipoConId equipo : equiposPersona) {
-	                  equiposObtenidos.add(equipo);
-	              }
-	              break;
-	            
-	        case "ADMIN_UNIDAD":
-	        	 List<EquipoConId> equiposTotales = repositorio.findAll();
-	              for (EquipoConId equipo : equiposTotales) {
-	            	  if (equipo.getPersona() != null) {
-	            		  if (((UnidadConId) equipo.getPersona().getUnidad()).getId() == ((UnidadConId) usuario.get().getUnidad()).getId() ) {
-	            		  equiposObtenidos.add(equipo);
-	            		  }
-	            	  }		
-	            	  else if (equipo.getUnidad() != null) {
-	            		  if (((UnidadConId) equipo.getUnidad()).getId() == ((UnidadConId) usuario.get().getUnidad()).getId() ) {
-	            		  equiposObtenidos.add(equipo);
-	            	  }
-	              }
-	            	
-	              }
-	              break;
-	        case "ADMIN_CENTRAL":
-	       	  List<EquipoConId> equipos = repositorio.findAll();
-              for (EquipoConId equipo : equipos) {
-                  equiposObtenidos.add(equipo);
-              }
-              break;
-	        
-	        case "RESOLUTOR":
-	            break;
-	        
-	        default:
-	            System.out.println("Rol desconocido");
-	    }
+		List<EquipoConId> equiposObtenidos = new ArrayList<>();
 
-	    if (equiposObtenidos.isEmpty()) {
-	        throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Acceso denegado");
-	    }
+		switch (rol) {
+		case "USUARIO_FINAL":
+			List<EquipoConId> equiposPersona = repositorio.findByPersonaId(usuario.get().getId());
+			for (EquipoConId equipo : equiposPersona) {
+				equiposObtenidos.add(equipo);
+			}
+			break;
 
-	    return listaAssembler.toCollection(equiposObtenidos);
+		case "ADMIN_UNIDAD":
+			List<EquipoConId> equiposTotales = repositorio.findAll();
+			for (EquipoConId equipo : equiposTotales) {
+				if (equipo.getPersona() != null) {
+					if (((UnidadConId) equipo.getPersona().getUnidad())
+							.getId() == ((UnidadConId) usuario.get().getUnidad()).getId()) {
+						equiposObtenidos.add(equipo);
+					}
+				} else if (equipo.getUnidad() != null) {
+					if (((UnidadConId) equipo.getUnidad()).getId() == ((UnidadConId) usuario.get().getUnidad())
+							.getId()) {
+						equiposObtenidos.add(equipo);
+					}
+				}
+
+			}
+			break;
+		case "ADMIN_CENTRAL":
+			List<EquipoConId> equipos = repositorio.findAll();
+			for (EquipoConId equipo : equipos) {
+				equiposObtenidos.add(equipo);
+			}
+			break;
+
+		case "RESOLUTOR":
+			break;
+
+		default:
+			System.out.println("Rol desconocido");
+		}
+
+		if (equiposObtenidos.isEmpty()) {
+			throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Acceso denegado");
+		}
+
+		return listaAssembler.toCollection(equiposObtenidos);
 	}
 
-	
 	@PostMapping
 	public EquipoModel add(@Valid @RequestBody EquipoPostModel model) {
 
-	EquipoModel equipoGenerado = null;
-		
-	Collection<? extends GrantedAuthority> rolesUsuario = SecurityContextHolder.getContext().getAuthentication().getAuthorities();
-	String rol = rolesUsuario.iterator().next().toString();
-			
-	if (rol.equals("ADMIN_UNIDAD") || rol.equals("ADMIN_CENTRAL")) {
+		EquipoModel equipoGenerado = null;
 
-		if ((model.getNumeroSerie() == null) || (model.getFechaAdquisicion() == null)) {
-			throw new ArgumentNotValidException("Datos nulos, no se puede dar de alta");
+		Collection<? extends GrantedAuthority> rolesUsuario = SecurityContextHolder.getContext().getAuthentication()
+				.getAuthorities();
+		String rol = rolesUsuario.iterator().next().toString();
+
+		if (rol.equals("ADMIN_UNIDAD") || rol.equals("ADMIN_CENTRAL")) {
+
+			if ((model.getNumeroSerie() == null) || (model.getFechaAdquisicion() == null)) {
+				throw new ArgumentNotValidException("Datos nulos, no se puede dar de alta");
+			}
+
+			model.setFechaAsignacion(null);
+			model.setTipoEquipo(null);
+			model.setUnidad(null);
+			model.setPersona(null);
+
+			EquipoConId equipo = repositorio.save(assembler.toEntity(model));
+			equipoGenerado = assembler.toModel(equipo);
+			// System.out.println(equipoGenerado.toString());
 		}
 
-		model.setFechaAsignacion(null);
-		model.setTipoEquipo(null);
-		model.setUnidad(null);
-		model.setPersona(null);
-
-		EquipoConId equipo = repositorio.save(assembler.toEntity(model));
-		equipoGenerado = assembler.toModel(equipo);
-		//	    System.out.println(equipoGenerado.toString()); 
-	}
-
-	if (equipoGenerado != null) {
-		     return equipoGenerado;
+		if (equipoGenerado != null) {
+			return equipoGenerado;
 		} else {
-		  	 	throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Acceso denegado");
-		}	
+			throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Acceso denegado");
+		}
 	}
 
 //	@PutMapping("{id}")
@@ -260,14 +268,15 @@ public class EquipoController {
 //		
 //	}
 
-
 	@PatchMapping("/asignarEquipo")
 	public EquipoModel asignarEquipo(@RequestBody EquipoAsignarModel model) {
 
-		int n_regs = 0;
-		EquipoConId equipo = new EquipoConId();
-		LocalDate fechaAsignacion = LocalDate.now();
+		System.out.println("entrando en método asignar equipo");
 
+		EquipoConId equipo = new EquipoConId();
+		int n_regs = 0;
+		LocalDate fechaAsignacion = LocalDate.now();
+		
 		if ((model.getEquipo() == null) || !((model.getPersona() == null) ^ (model.getUnidad() == null))) {
 			throw new ArgumentNotValidException(" asignar el equipo");
 		}
@@ -301,21 +310,26 @@ public class EquipoController {
 		equipo.setModelo(model.getEquipo().getModelo());
 		equipo.setId(model.getEquipo().getId());
 		
-		log.info("Asignado equipo " + model.getEquipo().getId());
-		
-		
 		return assembler.toModel(equipo);
 	}
 
 	@PatchMapping("/desasignarEquipo/{idEquipo}")
 	public EquipoModel desasignarEquipo(@PathVariable Long idEquipo) {
 
+		EquipoConId equipo = repositorio.findById(idEquipo)
+				.orElseThrow(() -> new RegisterNotFoundException(idEquipo, "Equipo"));
+		
+		Collection<? extends GrantedAuthority> rolesUsuario = SecurityContextHolder.getContext().getAuthentication()
+				.getAuthorities();
+		String rol = rolesUsuario.iterator().next().toString();
+
+		if (rol.equals("ADMIN_CENTRAL") || rol.equals("ADMIN_UNIDAD")) {
+
 		int n_regs = 0;
 		EquipoConId equipoDesasignado = new EquipoConId();
 		
-		EquipoConId equipo = repositorio.findById(idEquipo)
-				.orElseThrow(() -> new RegisterNotFoundException(idEquipo, "Equipo"));
-
+		
+		if (equipo.getPersona() != null || equipo.getUnidad() != null){
 		n_regs = repositorio.desasignar(idEquipo);
 
 		if (n_regs == 0) {
@@ -329,9 +343,18 @@ public class EquipoController {
 		equipoDesasignado.setFechaAsignacion(null);
 		equipoDesasignado.setModelo(equipo.getModelo());
 		equipoDesasignado.setId(equipo.getId());
-
-		log.info("Desasignado " + equipo.getId());
+		
 		return assembler.toModel(equipoDesasignado);
+		}
+		else {
+			throw new ArgumentNotValidException("El equipo no está asignado, no se puede desasignar");
+					
+		}
+		} else {
+			throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Acceso denegado");
+		}	
+	
+
 	}
 
 	@GetMapping("{id}/incidencias")
@@ -343,7 +366,7 @@ public class EquipoController {
 	@DeleteMapping("{id}")
 	public void delete(@PathVariable Long id) {
 		EquipoConId equipo = repositorio.findById(id).orElseThrow(() -> new RegisterNotFoundException(id, "Equipo"));
-		EquipoConId equipoBorrado = null;
+		Boolean equipoBorrado = false;
 		
 		Collection<? extends GrantedAuthority> rolesUsuario =  SecurityContextHolder.getContext().getAuthentication().getAuthorities();
 		String rol = rolesUsuario.iterator().next().toString();
@@ -357,28 +380,31 @@ public class EquipoController {
 		  switch (rol) {
 	        case "ADMIN_CENTRAL":
 	        	repositorio.deleteById(equipo.getId());
-	        	equipoBorrado = equipo;
+	        	//equipoBorrado = true;
 	            break;
 	     	        
 		    case "ADMIN_UNIDAD":
-		    	Optional<UnidadConId> unidad = uniRepositorio.findById(((UnidadConId) usuario.get().getUnidad()).getId());
-        		
-	        	  List<EquipoConId> equiposUnidad = repositorio.findEquiposUnidadByUnidadId(unidad.get().getId());
-	              for (EquipoConId equipoUni : equiposUnidad) {
-	                  if (equipoUni.getId() == equipo.getId()) {
+		    	
+		    	 if (equipo.getPersona() != null) {  		
+	           		  if (((UnidadConId) equipo.getPersona().getUnidad()).getId() == ((UnidadConId) usuario.get().getUnidad()).getId() ) {
 	                		repositorio.deleteById(equipo.getId());
-	        	        	equipoBorrado = equipo;
-	        	            break;
-	        	      }
-	              }
-	              break;
+	               // 		equipoBorrado = true;
+	           		  }
+	           	  	}		
+		       	  else if (equipo.getUnidad() != null) {	
+		       		  List<EquipoConId> equiposUnidad = repositorio.findByUnidadId(((UnidadConId) usuario.get().getUnidad()).getId());
+		       		 for (EquipoConId equipoUnidad : equiposUnidad) {
+		         		  if (((UnidadConId) equipoUnidad.getUnidad()).getId() == ((UnidadConId) usuario.get().getUnidad()).getId() ) {
+		                	  repositorio.deleteById(equipo.getId());
+		         	//		  equipoBorrado = true;
+		        	         break;
+		         		  }
+		       		 }	
+		       	  }
+		          break;
 		       
 		   default:
 		         break;
-		    }
-
-		    if (equipoBorrado == null) {
-		        throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Acceso denegado");
 		    }
 		}
 	
