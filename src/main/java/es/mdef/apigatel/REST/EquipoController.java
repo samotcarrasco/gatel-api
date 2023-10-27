@@ -271,7 +271,7 @@ public class EquipoController {
 	@PatchMapping("/asignarEquipo")
 	public EquipoModel asignarEquipo(@RequestBody EquipoAsignarModel model) {
 
-		System.out.println("entrando en método asignar equipo");
+		System.out.println("entrando en método asignar Equipo");
 
 		EquipoConId equipo = new EquipoConId();
 		int n_regs = 0;
@@ -325,36 +325,34 @@ public class EquipoController {
 
 		if (rol.equals("ADMIN_CENTRAL") || rol.equals("ADMIN_UNIDAD")) {
 
-		int n_regs = 0;
-		EquipoConId equipoDesasignado = new EquipoConId();
-		
-		
-		if (equipo.getPersona() != null || equipo.getUnidad() != null){
-		n_regs = repositorio.desasignar(idEquipo);
-
-		if (n_regs == 0) {
-			throw new RegisterNotFoundException(idEquipo, "Equipo");
-		}
-
-		equipoDesasignado.setPersona(null);
-		equipoDesasignado.setUnidad(null);
-		equipoDesasignado.setNumeroSerie(equipo.getNumeroSerie());
-		equipoDesasignado.setFechaAdquisicion(equipo.getFechaAdquisicion());
-		equipoDesasignado.setFechaAsignacion(null);
-		equipoDesasignado.setModelo(equipo.getModelo());
-		equipoDesasignado.setId(equipo.getId());
-		
-		return assembler.toModel(equipoDesasignado);
+			int n_regs = 0;
+			EquipoConId equipoDesasignado = new EquipoConId();
+			
+			
+			if (equipo.getPersona() != null || equipo.getUnidad() != null){
+			n_regs = repositorio.desasignar(idEquipo);
+	
+			if (n_regs == 0) {
+				throw new RegisterNotFoundException(idEquipo, "Equipo");
+			}
+	
+			equipoDesasignado.setPersona(null);
+			equipoDesasignado.setUnidad(null);
+			equipoDesasignado.setNumeroSerie(equipo.getNumeroSerie());
+			equipoDesasignado.setFechaAdquisicion(equipo.getFechaAdquisicion());
+			equipoDesasignado.setFechaAsignacion(null);
+			equipoDesasignado.setModelo(equipo.getModelo());
+			equipoDesasignado.setId(equipo.getId());
+			
+			return assembler.toModel(equipoDesasignado);
 		}
 		else {
-			throw new ArgumentNotValidException("El equipo no está asignado, no se puede desasignar");
-					
+			throw new ArgumentNotValidException("El equipo no está asignado, no se puede desasignar");					
 		}
 		} else {
 			throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Acceso denegado");
 		}	
 	
-
 	}
 
 	@GetMapping("{id}/incidencias")

@@ -1,9 +1,14 @@
 package es.mdef.apigatel.REST;
 
 import java.io.IOException;
+import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.hateoas.CollectionModel;
+import org.springframework.http.HttpStatus;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,10 +18,12 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
 
 import es.mde.acing.gatel.ModeloImpl.TipoModelo;
 import es.mdef.apigatel.entidades.EquipoConId;
 import es.mdef.apigatel.entidades.ModeloConId;
+import es.mdef.apigatel.entidades.PersonaConId;
 import es.mdef.apigatel.repositorios.ModeloRepositorio;
 import es.mdef.apigatel.validation.RegisterNotFoundException;
 import jakarta.validation.Valid;
@@ -40,13 +47,31 @@ public class ModeloController {
 
 	@GetMapping("{id}")
 	public ModeloModel one(@PathVariable Long id) {
-		ModeloConId modelo = repositorio.findById(id).orElseThrow(() -> new RegisterNotFoundException(id, "modelo"));
-		return assembler.toModel(modelo);
+		Collection<? extends GrantedAuthority> rolesUsuario = SecurityContextHolder.getContext().getAuthentication()
+				.getAuthorities();
+		String rol = rolesUsuario.iterator().next().toString();
+		if (rol.equals("ADMIN_UNIDAD") || rol.equals("ADMIN_CENTRAL")) {
+			ModeloConId modelo = repositorio.findById(id)
+					.orElseThrow(() -> new RegisterNotFoundException(id, "modelo"));
+			return assembler.toModel(modelo);
+
+		} else {
+			throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Acceso denegado");
+		}
 	}
 
 	@GetMapping
 	public CollectionModel<ModeloListaModel> all() {
-		return listaAssembler.toCollection(repositorio.findAll());
+
+		Collection<? extends GrantedAuthority> rolesUsuario = SecurityContextHolder.getContext().getAuthentication()
+				.getAuthorities();
+		String rol = rolesUsuario.iterator().next().toString();
+		if (rol.equals("ADMIN_UNIDAD") || rol.equals("ADMIN_CENTRAL")) {
+			return listaAssembler.toCollection(repositorio.findAll());
+
+		} else {
+			throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Acceso denegado");
+		}
 	}
 
 	@GetMapping("{id}/equipos")
@@ -57,50 +82,61 @@ public class ModeloController {
 
 	@PostMapping
 	public ModeloModel add(@Valid @RequestBody ModeloPostModel model) throws IOException {
-		ModeloConId modelo = repositorio.save(assembler.toEntity(model));
-		return assembler.toModel(modelo);
+
+		Collection<? extends GrantedAuthority> rolesUsuario = SecurityContextHolder.getContext().getAuthentication()
+				.getAuthorities();
+		String rol = rolesUsuario.iterator().next().toString();
+		if (rol.equals("ADMIN_CENTRAL")) {
+			ModeloConId modelo = repositorio.save(assembler.toEntity(model));
+			return assembler.toModel(modelo);
+		} else {
+			throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Acceso denegado");
+		}
+
 	}
 
 	@PutMapping("{id}")
 	public ModeloModel edit(@Valid @PathVariable Long id, @RequestBody ModeloPostModel model) throws IOException {
 
-		if (model.getTipoModelo() == TipoModelo.EQUIPO_INFORMATICO) {
-			// EquipoInformaticoAPI equipo = new EquipoInformaticoAPI();
-//			String imgReducida = ReductorImagen.reducirImagen(model.getImagen(), 150, 150);
-//			repositorio.actualizarEquipo(model.getMarca(), model.getNombreModelo(), model.getDetalles(),
-//					model.getImagen(), imgReducida, model.getMemoria(), model.getDiscoDuro(),
-//					model.getSistemaOperativo(), model.getPulgadas(), model.getTipoEquipoInformatico(), id);
-			
-			repositorio.actualizarEquipo(model.getMarca(), model.getNombreModelo(), model.getDetalles(),
-					model.getImagen(), model.getImgReducida(), model.getMemoria(), model.getDiscoDuro(),
-					model.getSistemaOperativo(), model.getPulgadas(), model.getTipoEquipoInformatico(), id);
-		} else if (model.getTipoModelo() == TipoModelo.AURICULARES) {
-			// AuricularesAPI equipo = new AuricularesAPI();
-//			repositorio.actualizarAuriculares(model.getMarca(), model.getNombreModelo(), model.getDetalles(),
-//					model.getImagen(), ReductorImagen.reducirImagen(model.getImagen(), 150, 150), model.isStereo(),
-//					model.getConexion(), id);
+		Collection<? extends GrantedAuthority> rolesUsuario = SecurityContextHolder.getContext().getAuthentication()
+				.getAuthorities();
+		String rol = rolesUsuario.iterator().next().toString();
+		if (rol.equals("ADMIN_CENTRAL")) {
 
-			repositorio.actualizarAuriculares(model.getMarca(), model.getNombreModelo(), model.getDetalles(),
-					model.getImagen(), model.getImgReducida(), model.isStereo(), model.getConexion(), id);
-			
-			
-		} else if (model.getTipoModelo() == TipoModelo.WEBCAM) {
-			repositorio.actualizarWebCam(model.getMarca(), model.getNombreModelo(), model.getDetalles(),
-					model.getImagen(), model.getImgReducida(), model.getResolucion(), id);
+			if (model.getTipoModelo() == TipoModelo.EQUIPO_INFORMATICO) {
+				repositorio.actualizarEquipo(model.getMarca(), model.getNombreModelo(), model.getDetalles(),
+						model.getImagen(), model.getImgReducida(), model.getMemoria(), model.getDiscoDuro(),
+						model.getSistemaOperativo(), model.getPulgadas(), model.getTipoEquipoInformatico(), id);
+			} else if (model.getTipoModelo() == TipoModelo.AURICULARES) {
+				repositorio.actualizarAuriculares(model.getMarca(), model.getNombreModelo(), model.getDetalles(),
+						model.getImagen(), model.getImgReducida(), model.isStereo(), model.getConexion(), id);
+			} else if (model.getTipoModelo() == TipoModelo.WEBCAM) {
+				repositorio.actualizarWebCam(model.getMarca(), model.getNombreModelo(), model.getDetalles(),
+						model.getImagen(), model.getImgReducida(), model.getResolucion(), id);
+			}
+
+			ModeloConId modelo = repositorio.findById(id)
+					.orElseThrow(() -> new RegisterNotFoundException(id, "modelo"));
+
+			return assembler.toModel(modelo);
+		} else {
+			throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Acceso denegado");
 		}
-
-		ModeloConId modelo = repositorio.findById(id).orElseThrow(() -> new RegisterNotFoundException(id, "modelo"));
-
-		return assembler.toModel(modelo);
-
 	}
 
 	@DeleteMapping("{id}")
 	public void delete(@PathVariable Long id) {
-		repositorio.findById(id).map(mod -> {
+		Collection<? extends GrantedAuthority> rolesUsuario = SecurityContextHolder.getContext().getAuthentication()
+				.getAuthorities();
+		String rol = rolesUsuario.iterator().next().toString();
+		if (rol.equals("ADMIN_CENTRAL")) {
+			repositorio.findById(id).map(mod -> {
 			repositorio.deleteById(id);
 			return mod;
 		}).orElseThrow(() -> new RegisterNotFoundException(id, "Modelo"));
+	} else {
+		throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Acceso denegado");
+	}
 	}
 
 }

@@ -44,6 +44,13 @@ public class PersonaController {
 		return assembler.toModel(persona);
 	}
 	
+	@GetMapping("nombreUsuario/{nombreUsuario}")
+	public PersonaModel oneByNombreUsuario(@PathVariable String nombreUsuario) {
+		PersonaConId persona = repositorio.findByNombreUsuario(nombreUsuario).orElseThrow(() -> new RegisterNotFoundException(nombreUsuario, "Persona"));
+
+		return assembler.toModel(persona);
+	}
+	
 	@GetMapping("tip/{tip}")
 	public PersonaModel oneByTip(@PathVariable String tip) {
 		PersonaConId persona = repositorio.buscaPorTip(tip);

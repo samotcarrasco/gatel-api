@@ -5,7 +5,7 @@ import org.springframework.hateoas.RepresentationModel;
 import org.springframework.hateoas.server.core.Relation;
 
 import es.mde.acing.gatel.EquipoImpl.TipoEquipo;
-
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 @Relation(itemRelation = "equipo", collectionRelation = "equipos")
 public class EquipoModel extends RepresentationModel<EquipoModel> {
 
