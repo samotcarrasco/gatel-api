@@ -27,6 +27,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
 import es.mde.acing.gatel.Incidencia;
+import es.mde.acing.gatel.PersonaImpl.Perfil;
 import es.mdef.apigatel.ApiGatelApp;
 import es.mdef.apigatel.entidades.EquipoConId;
 import es.mdef.apigatel.entidades.EquipoDeUnidadAPI;
@@ -71,7 +72,7 @@ public class EquipoController {
 
 		Collection<? extends GrantedAuthority> rolesUsuario = SecurityContextHolder.getContext().getAuthentication()
 				.getAuthorities();
-		String rol = rolesUsuario.iterator().next().toString();
+		Perfil rol = Perfil.valueOf(rolesUsuario.iterator().next().toString());
 
 //		System.out.println(SecurityContextHolder.getContext().getAuthentication());
 //		System.out.println("principal = " + SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString());
@@ -81,12 +82,12 @@ public class EquipoController {
 				.findByNombreUsuario(SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString());
 
 		switch (rol) {
-		case "USUARIO_FINAL":
+		case USUARIO:
 			if (((PersonaConId) equipo.getPersona()).getId() == usuario.get().getId()) {
 				equipoObtenido = assembler.toModel(equipo);
 			}
 			break;
-		case "ADMIN_UNIDAD":
+		case ADMIN_UNIDAD:
 			if (equipo.getPersona() != null) {
 				if (((UnidadConId) equipo.getPersona().getUnidad()).getId() == ((UnidadConId) usuario.get().getUnidad())
 						.getId()) {
@@ -104,10 +105,10 @@ public class EquipoController {
 				}
 			}
 			break;
-		case "ADMIN_CENTRAL":
+		case ADMIN_CENTRAL:
 			equipoObtenido = assembler.toModel(equipo);
 			break;
-		case "RESOLUTOR":
+		case RESOLUTOR:
 			break;
 		}
 
@@ -122,7 +123,7 @@ public class EquipoController {
 	public CollectionModel<EquipoModel> all() {
 		Collection<? extends GrantedAuthority> rolesUsuario = SecurityContextHolder.getContext().getAuthentication()
 				.getAuthorities();
-		String rol = rolesUsuario.iterator().next().toString();
+		Perfil rol = Perfil.valueOf(rolesUsuario.iterator().next().toString());
 
 		Optional<PersonaConId> usuario = perRepositorio
 				.findByNombreUsuario(SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString());
@@ -130,46 +131,39 @@ public class EquipoController {
 		List<EquipoConId> equiposObtenidos = new ArrayList<>();
 
 		switch (rol) {
-		case "USUARIO_FINAL":
+		case USUARIO:
 			List<EquipoConId> equiposPersona = repositorio.findByPersonaId(usuario.get().getId());
 			for (EquipoConId equipo : equiposPersona) {
 				equiposObtenidos.add(equipo);
 			}
 			break;
 
-		case "ADMIN_UNIDAD":
-			List<EquipoConId> equiposTotales = repositorio.findAll();
-			for (EquipoConId equipo : equiposTotales) {
-				if (equipo.getPersona() != null) {
-					if (((UnidadConId) equipo.getPersona().getUnidad())
-							.getId() == ((UnidadConId) usuario.get().getUnidad()).getId()) {
-						equiposObtenidos.add(equipo);
-					}
-				} else if (equipo.getUnidad() != null) {
-					if (((UnidadConId) equipo.getUnidad()).getId() == ((UnidadConId) usuario.get().getUnidad())
-							.getId()) {
-						equiposObtenidos.add(equipo);
-					}
-				}
-
+		case ADMIN_UNIDAD:
+			List<EquipoConId> equiposDeUnidad = repositorio.findByUnidadId(((UnidadConId) usuario.get().getUnidad()).getId());
+			List<PersonaConId> personasDeUnidad = perRepositorio.findPersonasByUnidad(((UnidadConId) usuario.get().getUnidad()).getId());
+			
+			for (PersonaConId persona: personasDeUnidad) {
+					List<EquipoConId> equiposPersonaUnidad = repositorio.findByPersonaId(persona.getId());
+						equiposObtenidos.addAll(equiposPersonaUnidad);
 			}
+			for (EquipoConId equipo: equiposDeUnidad) {
+				equiposObtenidos.add(equipo);
+			}
+			
 			break;
-		case "ADMIN_CENTRAL":
+
+		case ADMIN_CENTRAL:
 			List<EquipoConId> equipos = repositorio.findAll();
 			for (EquipoConId equipo : equipos) {
 				equiposObtenidos.add(equipo);
 			}
 			break;
 
-		case "RESOLUTOR":
-			break;
-
+		case RESOLUTOR:
+			throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Acceso denegado");
+		
 		default:
 			System.out.println("Rol desconocido");
-		}
-
-		if (equiposObtenidos.isEmpty()) {
-			throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Acceso denegado");
 		}
 
 		return listaAssembler.toCollection(equiposObtenidos);
@@ -184,7 +178,7 @@ public class EquipoController {
 				.getAuthorities();
 		String rol = rolesUsuario.iterator().next().toString();
 
-		if (rol.equals("ADMIN_UNIDAD") || rol.equals("ADMIN_CENTRAL")) {
+		if (rol.equals(Perfil.ADMIN_CENTRAL) || rol.equals(Perfil.ADMIN_UNIDAD)) {
 
 			if ((model.getNumeroSerie() == null) || (model.getFechaAdquisicion() == null)) {
 				throw new ArgumentNotValidException("Datos nulos, no se puede dar de alta");
@@ -271,13 +265,19 @@ public class EquipoController {
 	@PatchMapping("/asignarEquipo")
 	public EquipoModel asignarEquipo(@RequestBody EquipoAsignarModel model) {
 
-		System.out.println("entrando en método asignar Equipo");
-
+		
 		EquipoConId equipo = new EquipoConId();
+
+		Collection<? extends GrantedAuthority> rolesUsuario = SecurityContextHolder.getContext().getAuthentication()
+				.getAuthorities();
+		String rol = rolesUsuario.iterator().next().toString();
+
+		if (rol.equals(Perfil.ADMIN_CENTRAL) || rol.equals(Perfil.ADMIN_UNIDAD)) {
+
 		int n_regs = 0;
 		LocalDate fechaAsignacion = LocalDate.now();
 		
-		if ((model.getEquipo() == null) || !((model.getPersona() == null) ^ (model.getUnidad() == null))) {
+		if ((model.getEquipo() != null) || (model.getPersona() != null)) {
 			throw new ArgumentNotValidException(" asignar el equipo");
 		}
 
@@ -311,6 +311,15 @@ public class EquipoController {
 		equipo.setId(model.getEquipo().getId());
 		
 		return assembler.toModel(equipo);
+		}
+//		else {
+//			throw new ArgumentNotValidException("El equipo ya está asignado, debe desasignarlo antes de asignarlo");					
+//		}
+//		}
+	else {
+			throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Acceso denegado");
+		}	
+	
 	}
 
 	@PatchMapping("/desasignarEquipo/{idEquipo}")
@@ -323,7 +332,7 @@ public class EquipoController {
 				.getAuthorities();
 		String rol = rolesUsuario.iterator().next().toString();
 
-		if (rol.equals("ADMIN_CENTRAL") || rol.equals("ADMIN_UNIDAD")) {
+		if (rol.equals(Perfil.ADMIN_CENTRAL) || rol.equals(Perfil.ADMIN_UNIDAD)) {
 
 			int n_regs = 0;
 			EquipoConId equipoDesasignado = new EquipoConId();
@@ -364,29 +373,21 @@ public class EquipoController {
 	@DeleteMapping("{id}")
 	public void delete(@PathVariable Long id) {
 		EquipoConId equipo = repositorio.findById(id).orElseThrow(() -> new RegisterNotFoundException(id, "Equipo"));
-		Boolean equipoBorrado = false;
 		
 		Collection<? extends GrantedAuthority> rolesUsuario =  SecurityContextHolder.getContext().getAuthentication().getAuthorities();
-		String rol = rolesUsuario.iterator().next().toString();
-		
-//		System.out.println(SecurityContextHolder.getContext().getAuthentication());
-//		System.out.println("principal = " + SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString());
-//		System.out.println("rol = " + rolesUsuario.iterator().next());
-//			
+		Perfil rol = Perfil.valueOf(rolesUsuario.iterator().next().toString());
+	
 		Optional<PersonaConId> usuario = perRepositorio.findByNombreUsuario(SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString());
 		
 		  switch (rol) {
-	        case "ADMIN_CENTRAL":
+	        case ADMIN_CENTRAL:
 	        	repositorio.deleteById(equipo.getId());
-	        	//equipoBorrado = true;
 	            break;
 	     	        
-		    case "ADMIN_UNIDAD":
-		    	
+		    case ADMIN_UNIDAD:
 		    	 if (equipo.getPersona() != null) {  		
 	           		  if (((UnidadConId) equipo.getPersona().getUnidad()).getId() == ((UnidadConId) usuario.get().getUnidad()).getId() ) {
 	                		repositorio.deleteById(equipo.getId());
-	               // 		equipoBorrado = true;
 	           		  }
 	           	  	}		
 		       	  else if (equipo.getUnidad() != null) {	
@@ -394,15 +395,13 @@ public class EquipoController {
 		       		 for (EquipoConId equipoUnidad : equiposUnidad) {
 		         		  if (((UnidadConId) equipoUnidad.getUnidad()).getId() == ((UnidadConId) usuario.get().getUnidad()).getId() ) {
 		                	  repositorio.deleteById(equipo.getId());
-		         	//		  equipoBorrado = true;
 		        	         break;
 		         		  }
 		       		 }	
 		       	  }
 		          break;
-		       
 		   default:
-		         break;
+				throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Acceso denegado");
 		    }
 		}
 	

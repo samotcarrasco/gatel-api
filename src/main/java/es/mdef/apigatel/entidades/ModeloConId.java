@@ -6,7 +6,6 @@ import es.mde.acing.gatel.Equipo;
 import es.mde.acing.gatel.ModeloImpl;
 import es.mdef.apigatel.REST.ModeloDeserializer;
 
-@JsonDeserialize(using = ModeloDeserializer.class)
 public class ModeloConId extends ModeloImpl {
 	private Long id;
 	private String imgReducida;

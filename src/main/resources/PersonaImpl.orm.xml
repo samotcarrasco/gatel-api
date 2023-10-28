@@ -15,7 +15,7 @@
 		<basic name="nombreUsuario"/>		
 		<basic name="password"/>
 	
-        <many-to-one name="unidad" fetch="LAZY"  optional="true" target-entity="es.mdef.apigatel.entidades.UnidadConId">
+        <many-to-one name="unidad" fetch="EAGER"  optional="true" target-entity="es.mdef.apigatel.entidades.UnidadConId">
                 <join-column name="unidad_id" referenced-column-name="ID"/>
         </many-to-one>
            

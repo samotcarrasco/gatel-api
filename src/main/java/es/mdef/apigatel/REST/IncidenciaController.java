@@ -2,10 +2,17 @@ package es.mdef.apigatel.REST;
 
 import java.io.IOException;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.springframework.hateoas.CollectionModel;
+import org.springframework.http.HttpStatus;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,12 +23,18 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
 
+import es.mde.acing.gatel.Incidencia;
 import es.mde.acing.gatel.IncidenciaImpl.EstadoIncidencia;
+import es.mde.acing.gatel.Persona;
+import es.mde.acing.gatel.PersonaImpl.Perfil;
 import es.mdef.apigatel.entidades.ExtravioAPI;
 import es.mdef.apigatel.entidades.SolicitudAPI;
+import es.mdef.apigatel.entidades.UnidadConId;
 import es.mdef.apigatel.ApiGatelApp;
 import es.mdef.apigatel.entidades.AveriaAPI;
+import es.mdef.apigatel.entidades.EquipoConId;
 import es.mdef.apigatel.entidades.PersonaConId;
 import es.mdef.apigatel.entidades.IncidenciaConId;
 
@@ -56,18 +69,104 @@ public class IncidenciaController {
 
 	@GetMapping("{id}")
 	public IncidenciaModel one(@PathVariable Long id) {
-		IncidenciaConId Incidencia = repositorio.findById(id)
-				.orElseThrow(() -> new RegisterNotFoundException(id, "Incidencia"));
-		return assembler.toModel(Incidencia);
+		
+		IncidenciaConId incidencia = null;
+			
+		Collection<? extends GrantedAuthority> rolesUsuario = SecurityContextHolder.getContext().getAuthentication()
+				.getAuthorities();
+		Perfil rol = Perfil.valueOf(rolesUsuario.iterator().next().toString());
+
+		Optional<PersonaConId> usuario = perRepositorio
+				.findByNombreUsuario(SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString());
+
+		switch (rol) {
+		case USUARIO:
+			List <EquipoConId> equiposPersona = eqRepositorio.findByPersonaId(usuario.get().getId());
+			for (EquipoConId equipo : equiposPersona) {
+				for (Incidencia incidenciaE : equipo.getIncidencias()) {
+					if (((IncidenciaConId) incidenciaE).getId() == id){
+					incidencia = (IncidenciaConId) incidenciaE;
+					break;
+					}
+				}
+			}
+			break;
+		}
+		
+		if (incidencia != null) {
+			return assembler.toModel(incidencia);
+		}  
+		else	
+			throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Acceso denegado");
+
 	}
 
 	@GetMapping
 	public CollectionModel<IncidenciaListaModel> all() {
-		return listaAssembler.toCollection(repositorio.findAll());
+		
+		Collection<? extends GrantedAuthority> rolesUsuario = SecurityContextHolder.getContext().getAuthentication()
+				.getAuthorities();
+		Perfil rol = Perfil.valueOf(rolesUsuario.iterator().next().toString());
+
+		Optional<PersonaConId> usuario = perRepositorio
+				.findByNombreUsuario(SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString());
+
+		List<IncidenciaConId> incidenciasObtenidas = new ArrayList<>();
+
+		switch (rol) {
+		case USUARIO:
+			List <EquipoConId> equiposPersona = eqRepositorio.findByPersonaId(usuario.get().getId());
+			for (EquipoConId equipo : equiposPersona) {
+				for (Incidencia incidencia : equipo.getIncidencias()) {
+					incidenciasObtenidas.add((IncidenciaConId) incidencia);
+				}
+			}
+			break;
+
+		case ADMIN_UNIDAD:
+			List<PersonaConId> personasDeUnidad = perRepositorio.findPersonasByUnidad(((UnidadConId) usuario.get().getUnidad()).getId());
+			List<EquipoConId> equiposDeUnidad = eqRepositorio.findByUnidadId(((UnidadConId) usuario.get().getUnidad()).getId());
+			
+			System.out.println("personas de la unidad" + personasDeUnidad.size());
+			for (PersonaConId persona: personasDeUnidad) {
+					List<EquipoConId> equiposPersonaUnidad = eqRepositorio.findByPersonaId(persona.getId());
+					for (EquipoConId equipo: equiposPersonaUnidad) {
+						List<IncidenciaConId> incidenciasDeEquipo = repositorio.findByEquipoId(equipo.getId());
+						for (IncidenciaConId incidencia: incidenciasDeEquipo) {
+						incidenciasObtenidas.add(incidencia);
+						}
+					}
+			}
+			for (EquipoConId equipo: equiposDeUnidad) {
+				List<IncidenciaConId> incidenciasDeEquipo = repositorio.findByEquipoId(equipo.getId());
+				for (IncidenciaConId incidencia: incidenciasDeEquipo) {
+				incidenciasObtenidas.add(incidencia);
+				}
+			}	
+			
+			break;
+
+		case ADMIN_CENTRAL:
+			incidenciasObtenidas = repositorio.findAll();
+			break;
+
+		case RESOLUTOR:
+			List <IncidenciaConId> incidencias = repositorio.findIncidenciasByResolutor(usuario.get().getId());
+			incidenciasObtenidas.addAll(incidencias);	
+		break;
+		default:
+			System.out.println("Rol desconocido");
+		}
+
+		return listaAssembler.toCollection(incidenciasObtenidas);
 	}
+	
+	
+	
 
 	@PostMapping
 	public IncidenciaModel add(@Valid @RequestBody IncidenciaPostModel model) throws IOException {
+		
 		IncidenciaConId incidencia = repositorio.save(assembler.toEntity(model));
 		return assembler.toModel(incidencia);
 	}
@@ -159,11 +258,18 @@ public class IncidenciaController {
 
 	@DeleteMapping("{id}")
 	public void delete(@PathVariable Long id) {
+		Collection<? extends GrantedAuthority> rolesUsuario = SecurityContextHolder.getContext().getAuthentication()
+				.getAuthorities();
+		String rol = rolesUsuario.iterator().next().toString();
+		if (rol.equals(Perfil.ADMIN_CENTRAL)) {
+	
 		IncidenciaConId incidencia = (IncidenciaConId) repositorio.findById(id).map(mod -> {
 			repositorio.deleteById(id);
 			return mod;
 		}).orElseThrow(() -> new RegisterNotFoundException(id, "Incidencia"));
-		log.info("Borrada incidencia con ID: " + incidencia.getId());
+		} else {
+			throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Acceso denegado");
+		}
 	}
 
 }

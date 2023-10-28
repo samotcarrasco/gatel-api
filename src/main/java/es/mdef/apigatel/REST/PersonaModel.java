@@ -5,6 +5,7 @@ import org.springframework.hateoas.RepresentationModel;
 import org.springframework.hateoas.server.core.Relation;
 
 import es.mde.acing.gatel.PersonaImpl.TipoPersona;
+import es.mde.acing.gatel.PersonaImpl.Perfil;
 
 
 
@@ -16,7 +17,7 @@ public class PersonaModel extends RepresentationModel<PersonaModel> {
 	private String apellidos;
 	private String telefono;
 	private String email;
-	private String perfil;
+	private Perfil perfil;
 	private String nombreUsuario;
 	private String password;
 	private TipoPersona tipoPersona;
@@ -58,10 +59,10 @@ public class PersonaModel extends RepresentationModel<PersonaModel> {
 	public void setEmail(String email) {
 		this.email = email;
 	}
-	public String getPerfil() {
+	public Perfil getPerfil() {
 		return perfil;
 	}
-	public void setPerfil(String perfil) {
+	public void setPerfil(Perfil perfil) {
 		this.perfil = perfil;
 	}
 	public String getNombreUsuario() {

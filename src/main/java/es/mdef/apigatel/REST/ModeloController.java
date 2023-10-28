@@ -3,7 +3,6 @@ package es.mdef.apigatel.REST;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.http.HttpStatus;
@@ -21,9 +20,9 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
 import es.mde.acing.gatel.ModeloImpl.TipoModelo;
+import es.mde.acing.gatel.PersonaImpl.Perfil;
 import es.mdef.apigatel.entidades.EquipoConId;
 import es.mdef.apigatel.entidades.ModeloConId;
-import es.mdef.apigatel.entidades.PersonaConId;
 import es.mdef.apigatel.repositorios.ModeloRepositorio;
 import es.mdef.apigatel.validation.RegisterNotFoundException;
 import jakarta.validation.Valid;
@@ -86,7 +85,7 @@ public class ModeloController {
 		Collection<? extends GrantedAuthority> rolesUsuario = SecurityContextHolder.getContext().getAuthentication()
 				.getAuthorities();
 		String rol = rolesUsuario.iterator().next().toString();
-		if (rol.equals("ADMIN_CENTRAL")) {
+		if (rol.equals(Perfil.ADMIN_CENTRAL)) {
 			ModeloConId modelo = repositorio.save(assembler.toEntity(model));
 			return assembler.toModel(modelo);
 		} else {
@@ -101,7 +100,7 @@ public class ModeloController {
 		Collection<? extends GrantedAuthority> rolesUsuario = SecurityContextHolder.getContext().getAuthentication()
 				.getAuthorities();
 		String rol = rolesUsuario.iterator().next().toString();
-		if (rol.equals("ADMIN_CENTRAL")) {
+		if (rol.equals(Perfil.ADMIN_CENTRAL)) {
 
 			if (model.getTipoModelo() == TipoModelo.EQUIPO_INFORMATICO) {
 				repositorio.actualizarEquipo(model.getMarca(), model.getNombreModelo(), model.getDetalles(),
@@ -129,7 +128,7 @@ public class ModeloController {
 		Collection<? extends GrantedAuthority> rolesUsuario = SecurityContextHolder.getContext().getAuthentication()
 				.getAuthorities();
 		String rol = rolesUsuario.iterator().next().toString();
-		if (rol.equals("ADMIN_CENTRAL")) {
+		if (rol.equals(Perfil.ADMIN_CENTRAL)) {
 			repositorio.findById(id).map(mod -> {
 			repositorio.deleteById(id);
 			return mod;
