@@ -12,6 +12,10 @@
 		<basic name="fechaResolucion"/>
 		<basic name="estado"/>
 		<basic name="descripcion"/>
+		<basic name="detalles"/>
+		<basic name="fechaCierre"/>
+		<basic name="fechaAsignacion"/>
+		
 		
 		 <many-to-one name="agenteResolutor" fetch="LAZY" target-entity="es.mdef.apigatel.entidades.PersonaConId">
                 <join-column name="persona_id" referenced-column-name="ID"/>

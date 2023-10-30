@@ -18,7 +18,9 @@ public class IncidenciaModel extends RepresentationModel<IncidenciaModel> {
 	private EstadoIncidencia estado;
 	private String descripcion;
 	private String equipoN;
-	
+	private String detalles;
+	private LocalDate fechaCierre;
+	private LocalDate fechaAsignacion;
 	private TipoIncidencia tipoIncidencia;
 	
 	//Averia
@@ -176,6 +178,30 @@ public class IncidenciaModel extends RepresentationModel<IncidenciaModel> {
 				+ ", reparable=" + reparable + ", ultimaUbicacion=" + ultimaUbicacion + ", bloqueado=" + bloqueado
 				+ ", borrado=" + borrado + ", encontrado=" + encontrado + ", aplicacion=" + aplicacion + ", aceptacion="
 				+ aceptado + "]";
+	}
+
+	public String getDetalles() {
+		return detalles;
+	}
+
+	public void setDetalles(String detalles) {
+		this.detalles = detalles;
+	}
+
+	public LocalDate getFechaCierre() {
+		return fechaCierre;
+	}
+
+	public void setFechaCierre(LocalDate fechaCierre) {
+		this.fechaCierre = fechaCierre;
+	}
+
+	public LocalDate getFechaAsignacion() {
+		return fechaAsignacion;
+	}
+
+	public void setFechaAsignacion(LocalDate fechaAsignacion) {
+		this.fechaAsignacion = fechaAsignacion;
 	}
 
 	

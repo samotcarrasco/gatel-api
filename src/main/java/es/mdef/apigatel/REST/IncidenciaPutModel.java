@@ -19,6 +19,7 @@ public class IncidenciaPutModel extends RepresentationModel<IncidenciaPutModel> 
 	private PersonaConId agenteResolutor;
 	private EquipoConId equipo;
 	private TipoIncidencia tipoIncidencia;
+	private String detalles;
 	
 	//Averia
 	private String compomente;
@@ -91,5 +92,13 @@ public class IncidenciaPutModel extends RepresentationModel<IncidenciaPutModel> 
 
 	public EquipoConId getEquipo() {
 		return equipo;
+	}
+
+	public String getDetalles() {
+		return detalles;
+	}
+
+	public void setDetalles(String detalles) {
+		this.detalles = detalles;
 	}
 }

@@ -34,6 +34,7 @@ import es.mdef.apigatel.entidades.SolicitudAPI;
 import es.mdef.apigatel.entidades.UnidadConId;
 import es.mdef.apigatel.ApiGatelApp;
 import es.mdef.apigatel.entidades.AveriaAPI;
+import es.mdef.apigatel.entidades.ConfiguracionAPI;
 import es.mdef.apigatel.entidades.EquipoConId;
 import es.mdef.apigatel.entidades.PersonaConId;
 import es.mdef.apigatel.entidades.IncidenciaConId;
@@ -71,7 +72,8 @@ public class IncidenciaController {
 	public IncidenciaModel one(@PathVariable Long id) {
 		
 		IncidenciaConId incidencia = null;
-			
+		Boolean incidenciaEncontrada = false;	
+		
 		Collection<? extends GrantedAuthority> rolesUsuario = SecurityContextHolder.getContext().getAuthentication()
 				.getAuthorities();
 		Perfil rol = Perfil.valueOf(rolesUsuario.iterator().next().toString());
@@ -81,25 +83,23 @@ public class IncidenciaController {
 
 		switch (rol) {
 		case USUARIO:
-			List <EquipoConId> equiposPersona = eqRepositorio.findByPersonaId(usuario.get().getId());
-			for (EquipoConId equipo : equiposPersona) {
-				for (Incidencia incidenciaE : equipo.getIncidencias()) {
-					if (((IncidenciaConId) incidenciaE).getId() == id){
-					incidencia = (IncidenciaConId) incidenciaE;
-					break;
-					}
-				}
+			incidencia = repositorio.findById(id).orElseThrow(() -> new NoSuchElementException("No se encontró la incidencia"));
+			
+			if (((PersonaConId) incidencia.getEquipo().getPersona()).getId() == usuario.get().getId()) {
+				incidenciaEncontrada = true;
 			}
 			break;
 		case ADMIN_CENTRAL:
 			incidencia = repositorio.findById(id).orElseThrow(() -> new NoSuchElementException("No se encontró la incidencia"));
+			incidenciaEncontrada = true;
 			break;
 		case ADMIN_UNIDAD:
 			incidencia = repositorio.findById(id).orElseThrow(() -> new NoSuchElementException("No se encontró la incidencia"));
+			incidenciaEncontrada = true;
 			break;
 		}
 		
-		if (incidencia != null) {
+		if (incidenciaEncontrada) {
 			return assembler.toModel(incidencia);
 		}  
 		else	
@@ -203,10 +203,12 @@ public class IncidenciaController {
 				inc = solicitud;
 				break;
 			case CONFIGURACION:
-				//TODO
+				ConfiguracionAPI configuracion = new ConfiguracionAPI();
+				configuracion.setAplicacion(model.getAplicacion());
+				inc = configuracion;
 				break;
 			default:
-				//TODO
+				break;
 			}
 
 			inc.setFechaResolucion(model.getFechaResolucion());
@@ -214,6 +216,7 @@ public class IncidenciaController {
 			inc.setDescripcion(model.getDescripcion());
 			inc.setAgenteResolutor(model.getAgenteResolutor());
 			inc.setEquipo(model.getEquipo());
+			inc.setDetalles(model.getDetalles());
 
 			return repositorio.save(inc);
 		}).orElseThrow(() -> new RegisterNotFoundException(id, "incidencia"));
@@ -232,7 +235,7 @@ public class IncidenciaController {
 		IncidenciaConId incidencia = repositorio.findById(idIncidencia).map(inc -> {
 			inc.setAgenteResolutor(agenteResolutor);
 			inc.setEstado(EstadoIncidencia.ASIGNADA);
-
+			inc.setFechaAsignacion(LocalDate.now());
 			return repositorio.save(inc);
 		}).orElseThrow(() -> new RegisterNotFoundException(idIncidencia, "Incidencia"));
 
@@ -256,6 +259,7 @@ public class IncidenciaController {
 	public IncidenciaModel cerrarIncidencia(@PathVariable Long idIncidencia) {
 		IncidenciaConId incidencia = repositorio.findById(idIncidencia).map(inc -> {
 			inc.setEstado(EstadoIncidencia.CERRADA);
+			inc.setFechaCierre(LocalDate.now());
 			return repositorio.save(inc);
 		}).orElseThrow(() -> new RegisterNotFoundException(idIncidencia, "Incidencia"));
 
