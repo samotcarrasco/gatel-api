@@ -91,6 +91,12 @@ public class IncidenciaController {
 				}
 			}
 			break;
+		case ADMIN_CENTRAL:
+			incidencia = repositorio.findById(id).orElseThrow(() -> new NoSuchElementException("No se encontró la incidencia"));
+			break;
+		case ADMIN_UNIDAD:
+			incidencia = repositorio.findById(id).orElseThrow(() -> new NoSuchElementException("No se encontró la incidencia"));
+			break;
 		}
 		
 		if (incidencia != null) {
