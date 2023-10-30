@@ -36,6 +36,9 @@ public class IncidenciaAssembler implements RepresentationModelAssembler<Inciden
 		model.setFechaResolucion(entity.getFechaResolucion());
 		model.setEstado(entity.getEstado());
 		model.setDescripcion(entity.getDescripcion());
+		model.setDetalles(entity.getDetalles());
+		model.setFechaCierre(entity.getFechaCierre());
+		model.setFechaAsignacion(entity.getFechaAsignacion());
 		model.setEquipoN(entity.getEquipo().getModelo().getMarca() + " " + entity.getEquipo().getModelo().getNombreModelo() + 
 				"-" +entity.getEquipo().getNumeroSerie());
 
