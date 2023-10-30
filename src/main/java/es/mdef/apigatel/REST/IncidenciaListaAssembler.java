@@ -27,6 +27,8 @@ public class IncidenciaListaAssembler<T extends Incidencia> implements Represent
 		model.setCodigo(entity.getCodigo());
 		model.setFechaAlta(entity.getFechaAlta());
 		model.setFechaResolucion(entity.getFechaResolucion());
+		model.setFechaCierre(entity.getFechaCierre());
+		model.setFechaAsignacion(entity.getFechaAsignacion());
 		model.setEstado(((IncidenciaConId) entity).getEstado());
 		model.setEquipoN(entity.getEquipo().getModelo().getMarca() + " " + entity.getEquipo().getModelo().getNombreModelo() + 
 				"-" +entity.getEquipo().getNumeroSerie());

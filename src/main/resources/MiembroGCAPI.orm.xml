@@ -6,7 +6,9 @@
     <entity class="es.mdef.apigatel.entidades.MiembroGCAPI" access="FIELD">
 		<discriminator-value>G</discriminator-value>
         <attributes> 
-            <basic name="tip"/>
+            <basic name="tip" >
+            	<column name="tip" unique="true"/>
+            </basic>
             <basic name="empleo"/>
         </attributes>
      </entity>

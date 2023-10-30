@@ -17,6 +17,9 @@ public class IncidenciaListaModel extends RepresentationModel<IncidenciaListaMod
 	private LocalDate fechaResolucion;
 	private String equipoN;
 	private EstadoIncidencia estado;
+	private LocalDate fechaCierre;
+	private LocalDate fechaAsignacion;
+	private String detalles;
 	
 	private TipoIncidencia tipoIncidencia;
 	
@@ -82,6 +85,30 @@ public class IncidenciaListaModel extends RepresentationModel<IncidenciaListaMod
 	public String toString() {
 		return "IncidenciaPostModel [id=" + id + ", codigo=" + codigo + ", fechaAlta=" + fechaAlta + ", fechaResolucion="
 				+ fechaResolucion + ", estado=" + estado ;
+	}
+
+	public LocalDate getFechaCierre() {
+		return fechaCierre;
+	}
+
+	public void setFechaCierre(LocalDate fechaCierre) {
+		this.fechaCierre = fechaCierre;
+	}
+
+	public LocalDate getFechaAsignacion() {
+		return fechaAsignacion;
+	}
+
+	public void setFechaAsignacion(LocalDate fechaAsignacion) {
+		this.fechaAsignacion = fechaAsignacion;
+	}
+
+	public String getDetalles() {
+		return detalles;
+	}
+
+	public void setDetalles(String detalles) {
+		this.detalles = detalles;
 	}
 	
 }
