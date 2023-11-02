@@ -61,4 +61,15 @@ public interface IncidenciaRepositorio extends JpaRepository<IncidenciaConId, Lo
 			  @Param("id") Long id 
 	  );
 
+	@Modifying
+	@Transactional
+	@Query(value = "UPDATE public.incidencias SET " +
+	"detalles = :detallesActuales, " +
+	"acepatdo = :aceptado " +
+	"WHERE id = :id", nativeQuery = true) 
+	void actualizarSolicitud( 
+			  @Param("detallesActuales") String detallesActuales,	  
+			  @Param("aceptado") Boolean aceptado,	  
+			  @Param("id") Long id 
+	  );
 }

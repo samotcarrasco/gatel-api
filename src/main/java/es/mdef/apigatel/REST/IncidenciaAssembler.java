@@ -70,9 +70,10 @@ public class IncidenciaAssembler implements RepresentationModelAssembler<Inciden
 		model.add(linkTo(methodOn(PersonaController.class)
 				.one(((PersonaConId) entity.getAgenteResolutor()).getId())).withRel("agenteResolutor"));
 		}
+		if (entity.getEquipo() != null) {	
 		model.add(linkTo(methodOn(EquipoController.class)
 				.one(((EquipoConId) entity.getEquipo()).getId())).withRel("equipo"));
-		
+		}
 		return model;
 	}
 

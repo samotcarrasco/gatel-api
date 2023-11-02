@@ -18,4 +18,5 @@ public class IncidenciaConId extends IncidenciaImpl {
 		return "IncidenciaconId [id=" + id + " " + super.toString() + "]";
 	}
 
+
 }

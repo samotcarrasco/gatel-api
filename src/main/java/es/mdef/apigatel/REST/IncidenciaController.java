@@ -189,8 +189,6 @@ public class IncidenciaController {
 
 	@PutMapping("{id}")
 	public IncidenciaModel edit(@Valid @PathVariable Long id, @RequestBody IncidenciaPutModel model) {
-
-		
 		
 		Collection<? extends GrantedAuthority> rolesUsuario = SecurityContextHolder.getContext().getAuthentication()
 				.getAuthorities();
@@ -212,13 +210,34 @@ public class IncidenciaController {
 				repositorio.actualizarExtravio(detallesActuales, model.isBloqueado(), model.isBorrado(), model.isEncontrado(), id);
 			} else if (model.getTipoIncidencia() == TipoIncidencia.CONFIGURACION) {
 				repositorio.actualizarConfiguracion(detallesActuales, model.getReparable(), id);
+			}else if (model.getTipoIncidencia() == TipoIncidencia.SOLICITUD) {
+				repositorio.actualizarSolicitud(detallesActuales, model.isAceptado(), id);
 			}
-			incidencia.setDetalles(detallesActuales);
-			incidencia.set
 			
-			System.out.println(incidencia.getDetalles());
-
-		
+			incidencia.setDetalles(detallesActuales);
+			
+			
+			switch (incidencia.getTipoIncidencia()) {
+			case AVERIA:
+				((AveriaAPI) incidencia).setReparable(model.getReparable());
+				break;
+			case EXTRAVIO:
+				((ExtravioAPI) incidencia).setUltimaUbicacion(model.getUltimaUbicacion());
+				((ExtravioAPI) incidencia).setBloqueado(model.isBloqueado());
+				((ExtravioAPI) incidencia).setBorrado(model.isBorrado());
+				((ExtravioAPI) incidencia).setEncontrado(model.isEncontrado());
+				break;
+			case SOLICITUD:
+				((SolicitudAPI) incidencia).setAceptado(model.isAceptado());
+				break;
+			case CONFIGURACION:
+				((ConfiguracionAPI) incidencia).setAplicacion(model.getAplicacion());
+				break;
+			default:
+				break;
+			}
+			
+			
 			return assembler.toModel(incidencia);
 		} else {
 			throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Acceso denegado");

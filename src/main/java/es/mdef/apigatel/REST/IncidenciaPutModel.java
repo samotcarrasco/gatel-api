@@ -32,6 +32,66 @@ public class IncidenciaPutModel extends RepresentationModel<IncidenciaPutModel> 
 	private boolean encontrado;
 
 	
+	public Boolean getAceptado() {
+		return aceptado;
+	}
+
+	public void setAceptado(Boolean aceptado) {
+		this.aceptado = aceptado;
+	}
+
+	public void setFechaResolucion(LocalDate fechaResolucion) {
+		this.fechaResolucion = fechaResolucion;
+	}
+
+	public void setEstado(EstadoIncidencia estado) {
+		this.estado = estado;
+	}
+
+	public void setDescripcion(String descripcion) {
+		this.descripcion = descripcion;
+	}
+
+	public void setAgenteResolutor(PersonaConId agenteResolutor) {
+		this.agenteResolutor = agenteResolutor;
+	}
+
+	public void setEquipo(EquipoConId equipo) {
+		this.equipo = equipo;
+	}
+
+	public void setTipoIncidencia(TipoIncidencia tipoIncidencia) {
+		this.tipoIncidencia = tipoIncidencia;
+	}
+
+	public void setCompomente(String compomente) {
+		this.compomente = compomente;
+	}
+
+	public void setReparable(Boolean reparable) {
+		this.reparable = reparable;
+	}
+
+	public void setUltimaUbicacion(String ultimaUbicacion) {
+		this.ultimaUbicacion = ultimaUbicacion;
+	}
+
+	public void setBloqueado(boolean bloqueado) {
+		this.bloqueado = bloqueado;
+	}
+
+	public void setBorrado(boolean borrado) {
+		this.borrado = borrado;
+	}
+
+	public void setEncontrado(boolean encontrado) {
+		this.encontrado = encontrado;
+	}
+
+	public void setAplicacion(String aplicacion) {
+		this.aplicacion = aplicacion;
+	}
+
 	//Configuracion
 	private String aplicacion;
 
