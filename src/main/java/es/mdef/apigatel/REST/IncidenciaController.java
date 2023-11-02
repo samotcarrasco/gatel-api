@@ -196,7 +196,6 @@ public class IncidenciaController {
 				.getAuthorities();
 		Perfil rol = Perfil.valueOf(rolesUsuario.iterator().next().toString());
 		if (rol.equals(Perfil.RESOLUTOR)) {
-			System.out.print("dentro del if" + rol);
 
 			IncidenciaConId incidencia = repositorio.findById(id)
 					.orElseThrow(() -> new RegisterNotFoundException(id, "incicencia"));
@@ -207,15 +206,17 @@ public class IncidenciaController {
 						+ LocalDate.now() + "---- \n";
 			detallesActuales += model.getDetalles();
 
-			 System.out.println("detalles actuales" + detallesActuales);
-
 			if (model.getTipoIncidencia() == TipoIncidencia.AVERIA) {
 				repositorio.actualizarAveria(detallesActuales, model.getReparable(), id);
 			} else if (model.getTipoIncidencia() == TipoIncidencia.EXTRAVIO) {
 				repositorio.actualizarExtravio(detallesActuales, model.isBloqueado(), model.isBorrado(), model.isEncontrado(), id);
 			} else if (model.getTipoIncidencia() == TipoIncidencia.CONFIGURACION) {
-			//	repositorio.actualizarConfiguracion(detallesActuales,  id);
+				repositorio.actualizarConfiguracion(detallesActuales, model.getReparable(), id);
 			}
+			incidencia.setDetalles(detallesActuales);
+			incidencia.set
+			
+			System.out.println(incidencia.getDetalles());
 
 		
 			return assembler.toModel(incidencia);
