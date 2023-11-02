@@ -209,13 +209,12 @@ public class IncidenciaController {
 			} else if (model.getTipoIncidencia() == TipoIncidencia.EXTRAVIO) {
 				repositorio.actualizarExtravio(detallesActuales, model.isBloqueado(), model.isBorrado(), model.isEncontrado(), id);
 			} else if (model.getTipoIncidencia() == TipoIncidencia.CONFIGURACION) {
-				repositorio.actualizarConfiguracion(detallesActuales, model.getReparable(), id);
+				repositorio.actualizarConfiguracion(detallesActuales, id);
 			}else if (model.getTipoIncidencia() == TipoIncidencia.SOLICITUD) {
 				repositorio.actualizarSolicitud(detallesActuales, model.isAceptado(), id);
 			}
 			
 			incidencia.setDetalles(detallesActuales);
-			
 			
 			switch (incidencia.getTipoIncidencia()) {
 			case AVERIA:
@@ -236,7 +235,6 @@ public class IncidenciaController {
 			default:
 				break;
 			}
-			
 			
 			return assembler.toModel(incidencia);
 		} else {
