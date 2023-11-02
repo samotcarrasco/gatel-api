@@ -29,4 +29,7 @@ public interface PersonaRepositorio extends JpaRepository<PersonaConId, Long> {
 
 	@Query(value = "SELECT * FROM public.personas WHERE unidad_id = :unidad_id", nativeQuery = true)
 	List<PersonaConId> findPersonasByUnidad(Long unidad_id);
+	
+	@Query(value = "SELECT * FROM public.personas WHERE is_resolutor='true'", nativeQuery = true)
+	List<PersonaConId> findResolutores();
 }

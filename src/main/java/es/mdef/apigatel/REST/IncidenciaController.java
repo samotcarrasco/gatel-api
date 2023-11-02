@@ -27,6 +27,8 @@ import org.springframework.web.server.ResponseStatusException;
 
 import es.mde.acing.gatel.Incidencia;
 import es.mde.acing.gatel.IncidenciaImpl.EstadoIncidencia;
+import es.mde.acing.gatel.IncidenciaImpl.TipoIncidencia;
+import es.mde.acing.gatel.ModeloImpl.TipoModelo;
 import es.mde.acing.gatel.Persona;
 import es.mde.acing.gatel.PersonaImpl.Perfil;
 import es.mdef.apigatel.entidades.ExtravioAPI;
@@ -38,7 +40,7 @@ import es.mdef.apigatel.entidades.ConfiguracionAPI;
 import es.mdef.apigatel.entidades.EquipoConId;
 import es.mdef.apigatel.entidades.PersonaConId;
 import es.mdef.apigatel.entidades.IncidenciaConId;
-
+import es.mdef.apigatel.entidades.ModeloConId;
 import es.mdef.apigatel.repositorios.EquipoRepositorio;
 import es.mdef.apigatel.repositorios.IncidenciaRepositorio;
 import es.mdef.apigatel.repositorios.PersonaRepositorio;
@@ -97,7 +99,15 @@ public class IncidenciaController {
 			incidencia = repositorio.findById(id).orElseThrow(() -> new NoSuchElementException("No se encontró la incidencia"));
 			incidenciaEncontrada = true;
 			break;
-		}
+			
+		case RESOLUTOR:
+			incidencia = repositorio.findById(id).orElseThrow(() -> new NoSuchElementException("No se encontró la incidencia"));
+		
+			if (((PersonaConId) incidencia.getAgenteResolutor()).getId() == usuario.get().getId()) {
+				incidenciaEncontrada = true;
+			}
+			break;
+		} 
 		
 		if (incidenciaEncontrada) {
 			return assembler.toModel(incidencia);
@@ -180,48 +190,87 @@ public class IncidenciaController {
 	@PutMapping("{id}")
 	public IncidenciaModel edit(@Valid @PathVariable Long id, @RequestBody IncidenciaPutModel model) {
 
-		IncidenciaConId incidencia = repositorio.findById(id).map(inc -> {
+		
+		
+		Collection<? extends GrantedAuthority> rolesUsuario = SecurityContextHolder.getContext().getAuthentication()
+				.getAuthorities();
+		Perfil rol = Perfil.valueOf(rolesUsuario.iterator().next().toString());
+		if (rol.equals(Perfil.RESOLUTOR)) {
+			System.out.print("dentro del if" + rol);
 
-			switch (model.getTipoIncidencia()) {
-			case AVERIA:
-				AveriaAPI averia = new AveriaAPI();
-				averia.setComponente(model.getCompomente());
-				averia.setReparable(model.getReparable());
-				inc = averia;
-				break;
-			case EXTRAVIO:
-				ExtravioAPI extravio = new ExtravioAPI();
-				extravio.setUltimaUbicacion(model.getUltimaUbicacion());
-				extravio.setBloqueado(model.isBloqueado());
-				extravio.setBorrado(model.isBorrado());
-				extravio.setEncontrado(model.isEncontrado());
-				inc = extravio;
-				break;
-			case SOLICITUD:
-				SolicitudAPI solicitud = new SolicitudAPI();
-				solicitud.setAceptado(model.isAceptado());
-				inc = solicitud;
-				break;
-			case CONFIGURACION:
-				ConfiguracionAPI configuracion = new ConfiguracionAPI();
-				configuracion.setAplicacion(model.getAplicacion());
-				inc = configuracion;
-				break;
-			default:
-				break;
+			IncidenciaConId incidencia = repositorio.findById(id)
+					.orElseThrow(() -> new RegisterNotFoundException(id, "incicencia"));
+
+			String detallesActuales = incidencia.getDetalles();
+			 
+			detallesActuales +=  " \n ---- " + incidencia.getAgenteResolutor().getNombre() + " " + incidencia.getAgenteResolutor().getApellidos()
+						+ LocalDate.now() + "---- \n";
+			detallesActuales += model.getDetalles();
+
+			 System.out.println("detalles actuales" + detallesActuales);
+
+			if (model.getTipoIncidencia() == TipoIncidencia.AVERIA) {
+				repositorio.actualizarAveria(detallesActuales, model.getReparable(), id);
+			} else if (model.getTipoIncidencia() == TipoIncidencia.EXTRAVIO) {
+				repositorio.actualizarExtravio(detallesActuales, model.isBloqueado(), model.isBorrado(), model.isEncontrado(), id);
+			} else if (model.getTipoIncidencia() == TipoIncidencia.CONFIGURACION) {
+			//	repositorio.actualizarConfiguracion(detallesActuales,  id);
 			}
 
-			inc.setFechaResolucion(model.getFechaResolucion());
-			inc.setEstado(model.getEstado());
-			inc.setDescripcion(model.getDescripcion());
-			inc.setAgenteResolutor(model.getAgenteResolutor());
-			inc.setEquipo(model.getEquipo());
-			inc.setDetalles(model.getDetalles());
-
-			return repositorio.save(inc);
-		}).orElseThrow(() -> new RegisterNotFoundException(id, "incidencia"));
-
-		return assembler.toModel(incidencia);
+		
+			return assembler.toModel(incidencia);
+		} else {
+			throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Acceso denegado");
+		}
+//		
+//		
+//		IncidenciaConId incidencia = repositorio.findById(id).map(inc -> {
+//
+//			 
+//			switch (model.getTipoIncidencia()) {
+//			case AVERIA:
+//				AveriaAPI averia = new AveriaAPI();
+//				averia.setComponente(model.getCompomente());
+//				averia.setReparable(model.getReparable());
+//				inc = averia;
+//				break;
+//			case EXTRAVIO:
+//				ExtravioAPI extravio = new ExtravioAPI();
+//				extravio.setUltimaUbicacion(model.getUltimaUbicacion());
+//				extravio.setBloqueado(model.isBloqueado());
+//				extravio.setBorrado(model.isBorrado());
+//				extravio.setEncontrado(model.isEncontrado());
+//				inc = extravio;
+//				break;
+//			case SOLICITUD:
+//				SolicitudAPI solicitud = new SolicitudAPI();
+//				solicitud.setAceptado(model.isAceptado());
+//				inc = solicitud;
+//				break;
+//			case CONFIGURACION:
+//				ConfiguracionAPI configuracion = new ConfiguracionAPI();
+//				configuracion.setAplicacion(model.getAplicacion());
+//				inc = configuracion;
+//				break;
+//			default:
+//				break;
+//			}
+//
+//			inc.setFechaResolucion(model.getFechaResolucion());
+//			inc.setEstado(model.getEstado());
+//			inc.setDescripcion(model.getDescripcion());
+//			inc.setAgenteResolutor(model.getAgenteResolutor());
+//			inc.setEquipo(model.getEquipo());
+//			
+//			detallesActuales +=  " \n ---- " + inc.getAgenteResolutor().getNombre() + " " + inc.getAgenteResolutor().getApellidos()
+//					 							+ LocalDate.now() + "---- \n";
+//			 
+//			inc.setDetalles(detallesActuales + model.getDetalles());
+//
+//			return repositorio.save(inc);
+//		}).orElseThrow(() -> new RegisterNotFoundException(id, "incidencia"));
+//
+//		return assembler.toModel(incidencia);
 	}
 
 	@Transactional

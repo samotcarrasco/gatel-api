@@ -22,6 +22,8 @@ public class IncidenciaModel extends RepresentationModel<IncidenciaModel> {
 	private LocalDate fechaCierre;
 	private LocalDate fechaAsignacion;
 	private TipoIncidencia tipoIncidencia;
+	private String resolutorN;
+	private String resolutorEmail;
 	
 	//Averia
 	private String componente;
@@ -202,6 +204,22 @@ public class IncidenciaModel extends RepresentationModel<IncidenciaModel> {
 
 	public void setFechaAsignacion(LocalDate fechaAsignacion) {
 		this.fechaAsignacion = fechaAsignacion;
+	}
+
+	public String getResolutorN() {
+		return resolutorN;
+	}
+
+	public void setResolutorN(String resolutorN) {
+		this.resolutorN = resolutorN;
+	}
+
+	public String getResolutorEmail() {
+		return resolutorEmail;
+	}
+
+	public void setResolutorEmail(String resolutorEmail) {
+		this.resolutorEmail = resolutorEmail;
 	}
 
 	

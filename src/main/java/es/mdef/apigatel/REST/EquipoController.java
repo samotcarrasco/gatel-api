@@ -176,7 +176,7 @@ public class EquipoController {
 
 		Collection<? extends GrantedAuthority> rolesUsuario = SecurityContextHolder.getContext().getAuthentication()
 				.getAuthorities();
-		String rol = rolesUsuario.iterator().next().toString();
+		Perfil rol = Perfil.valueOf(rolesUsuario.iterator().next().toString());
 
 		if (rol.equals(Perfil.ADMIN_CENTRAL) || rol.equals(Perfil.ADMIN_UNIDAD)) {
 
@@ -270,7 +270,7 @@ public class EquipoController {
 
 		Collection<? extends GrantedAuthority> rolesUsuario = SecurityContextHolder.getContext().getAuthentication()
 				.getAuthorities();
-		String rol = rolesUsuario.iterator().next().toString();
+		Perfil rol = Perfil.valueOf(rolesUsuario.iterator().next().toString());
 
 		if (rol.equals(Perfil.ADMIN_CENTRAL) || rol.equals(Perfil.ADMIN_UNIDAD)) {
 
@@ -330,7 +330,7 @@ public class EquipoController {
 		
 		Collection<? extends GrantedAuthority> rolesUsuario = SecurityContextHolder.getContext().getAuthentication()
 				.getAuthorities();
-		String rol = rolesUsuario.iterator().next().toString();
+		Perfil rol = Perfil.valueOf(rolesUsuario.iterator().next().toString());
 
 		if (rol.equals(Perfil.ADMIN_CENTRAL) || rol.equals(Perfil.ADMIN_UNIDAD)) {
 

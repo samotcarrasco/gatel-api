@@ -67,6 +67,11 @@ public class PersonaController {
 		return listaAssembler.toCollection(repositorio.findAll());
 	}
 	
+	@GetMapping("/resolutores")
+	public CollectionModel<PersonaListaModel> resolutores() {		
+		return listaAssembler.toCollection(repositorio.findResolutores());
+	}
+	
 	@GetMapping("{id}/equipos")
 	public CollectionModel<EquipoModel> equiposDePersona(@PathVariable Long id) {
 		PersonaConId persona = repositorio.findById(id)

@@ -82,4 +82,5 @@ public class ModeloListaModel extends RepresentationModel<ModeloListaModel> {
 				+ ", imgReducida=" + imgReducida + ", tipoModelo=" + tipoModelo + "]";
 	}
 
+
 }

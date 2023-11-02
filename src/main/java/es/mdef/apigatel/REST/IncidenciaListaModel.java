@@ -20,6 +20,8 @@ public class IncidenciaListaModel extends RepresentationModel<IncidenciaListaMod
 	private LocalDate fechaCierre;
 	private LocalDate fechaAsignacion;
 	private String detalles;
+	private String descripcion;
+
 	
 	private TipoIncidencia tipoIncidencia;
 	
@@ -110,5 +112,14 @@ public class IncidenciaListaModel extends RepresentationModel<IncidenciaListaMod
 	public void setDetalles(String detalles) {
 		this.detalles = detalles;
 	}
+
+	public String getDescripcion() {
+		return descripcion;
+	}
+
+	public void setDescripcion(String descripcion) {
+		this.descripcion = descripcion;
+	}
+
 	
 }

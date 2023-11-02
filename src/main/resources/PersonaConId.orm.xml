@@ -12,6 +12,7 @@
             <id name="id"> 
                 <generated-value strategy="IDENTITY"/> 
             </id> 
+            <basic name="esResolutor" />
             <basic name="accountNonExpired">
             	<column name="cuenta_activa"/>
             </basic>

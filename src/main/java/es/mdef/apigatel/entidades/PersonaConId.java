@@ -14,6 +14,7 @@ public class PersonaConId extends PersonaImpl implements UserDetails {
 	
 	private static final long serialVersionUID = 1L;
 	private Long id;
+	private Boolean isResolutor;
 
 	private boolean accountNonExpired = true;
 	private boolean accountNonLocked = true;
@@ -75,6 +76,14 @@ public class PersonaConId extends PersonaImpl implements UserDetails {
 	@Override
 	public String toString() {
 		return "PersonaConId [id=" + id + " " + super.toString() + "]";
+	}
+
+	public Boolean getIsResolutor() {
+		return isResolutor;
+	}
+
+	public void setIsResolutor(Boolean isResolutor) {
+		this.isResolutor = isResolutor;
 	}
 
 }
