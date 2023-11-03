@@ -4,6 +4,7 @@ import es.mde.acing.gatel.PersonalExterno;
 
 public class PersonalExternoAPI extends PersonaConId implements PersonalExterno {
 	
+	private static final long serialVersionUID = 1L;
 	private String dni;
 	private String empresa;
 	

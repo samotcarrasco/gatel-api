@@ -7,6 +7,8 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import es.mde.acing.gatel.Persona;
+import es.mde.acing.gatel.Unidad;
 import es.mdef.apigatel.entidades.EquipoConId;
 import jakarta.transaction.Transactional;
 
@@ -123,18 +125,9 @@ public interface EquipoRepositorio extends JpaRepository<EquipoConId, Long> {
 	  );
 
 	
-	@Query(value = "SELECT * FROM public.equipos WHERE persona_id = :id", nativeQuery = true)
-	List<EquipoConId> findByPersonaId(@Param("id") Long id);
+	List<EquipoConId> findByPersona(Persona persona);
 	
-	
-	@Query(value = "SELECT * FROM public.equipos WHERE unidad_id = :id", nativeQuery = true)
-	List<EquipoConId> findByUnidadId(@Param("id") Long id);
-//
-//	
-//	@Query(value = "SELECT e.* FROM public.equipos e " +
-//            "INNER JOIN public.personas p ON e.persona_id = p.id " +
-//            "WHERE p.unidad_id = :id", nativeQuery = true)
-//	List<EquipoConId> findEquiposPersonalesByUnidadId(@Param("id") Long id);
+	List<EquipoConId> findByUnidad(Unidad unidad);
 
 
 }

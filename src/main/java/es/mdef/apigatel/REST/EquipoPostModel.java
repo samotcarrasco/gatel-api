@@ -5,8 +5,6 @@ import java.time.LocalDate;
 import org.springframework.hateoas.RepresentationModel;
 import org.springframework.hateoas.server.core.Relation;
 
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-
 import es.mde.acing.gatel.EquipoImpl.TipoEquipo;
 import es.mdef.apigatel.entidades.ModeloConId;
 import es.mdef.apigatel.entidades.PersonaConId;

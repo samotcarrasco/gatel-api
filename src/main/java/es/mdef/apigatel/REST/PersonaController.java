@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import es.mde.acing.gatel.EquipoPersonal;
 import es.mde.acing.gatel.Incidencia;
+import es.mde.acing.gatel.PersonaImpl.Perfil;
 import es.mdef.apigatel.entidades.EquipoConId;
 import es.mdef.apigatel.entidades.IncidenciaConId;
 import es.mdef.apigatel.entidades.PersonaConId;
@@ -53,7 +54,7 @@ public class PersonaController {
 	
 	@GetMapping("tip/{tip}")
 	public PersonaModel oneByTip(@PathVariable String tip) {
-		PersonaConId persona = repositorio.buscaPorTip(tip);
+		PersonaConId persona = repositorio.findByTip(tip);
 		
 		if(persona == null) {
 			throw new RegisterNotFoundException(tip, "TIP");
@@ -68,10 +69,11 @@ public class PersonaController {
 	}
 	
 	@GetMapping("/resolutores")
-	public CollectionModel<PersonaListaModel> resolutores() {		
-		return listaAssembler.toCollection(repositorio.findResolutores());
+	public CollectionModel<PersonaListaModel> resolutores() {			
+		return listaAssembler.toCollection(repositorio.findByPerfil(Perfil.RESOLUTOR));
 	}
 	
+	@SuppressWarnings("unchecked")
 	@GetMapping("{id}/equipos")
 	public CollectionModel<EquipoModel> equiposDePersona(@PathVariable Long id) {
 		PersonaConId persona = repositorio.findById(id)
@@ -79,6 +81,7 @@ public class PersonaController {
 		return equipoListaAssembler.toCollection((List<EquipoConId>)(List<?>)persona.getEquiposPersonales());
 	}
 	
+	@SuppressWarnings("unchecked")
 	@GetMapping("{id}/incidencias")
 	public CollectionModel<IncidenciaListaModel> incidenciasDePersona(@PathVariable Long id) {
 	    PersonaConId persona = repositorio.findById(id)

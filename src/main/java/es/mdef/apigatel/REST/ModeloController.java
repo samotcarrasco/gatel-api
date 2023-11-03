@@ -73,6 +73,7 @@ public class ModeloController {
 		}
 	}
 
+	@SuppressWarnings("unchecked")
 	@GetMapping("{id}/equipos")
 	public CollectionModel<EquipoModel> equipos(@PathVariable Long id) {
 		ModeloConId modelo = repositorio.findById(id).orElseThrow(() -> new RegisterNotFoundException(id, "modelo"));

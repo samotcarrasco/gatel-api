@@ -5,13 +5,9 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
-
 import org.slf4j.Logger;
-import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 //import org.springframework.security.core.context.SecurityContextHolder;
@@ -50,8 +46,6 @@ public class EquipoController {
 	private final EquipoListaAssembler<EquipoConId> listaAssembler;
 	private final IncidenciaListaAssembler<Incidencia> incListaAssembler;
 	private final PersonaRepositorio perRepositorio;
-	private final UnidadRepositorio uniRepositorio;
-	private final Logger log;
 
 	EquipoController(EquipoRepositorio repositorio, EquipoAssembler assembler,
 			EquipoListaAssembler<EquipoConId> listaAssembler, PersonaRepositorio perRepositorio,
@@ -61,8 +55,6 @@ public class EquipoController {
 		this.listaAssembler = listaAssembler;
 		this.perRepositorio = perRepositorio;
 		this.incListaAssembler = incListaAssembler;
-		this.uniRepositorio = uniRepositorio;
-		log = ApiGatelApp.log;
 	}
 
 	@GetMapping("{id}")
@@ -74,10 +66,6 @@ public class EquipoController {
 				.getAuthorities();
 		Perfil rol = Perfil.valueOf(rolesUsuario.iterator().next().toString());
 
-//		System.out.println(SecurityContextHolder.getContext().getAuthentication());
-//		System.out.println("principal = " + SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString());
-//		System.out.println("rol = " + rolesUsuario.iterator().next());
-//			
 		Optional<PersonaConId> usuario = perRepositorio
 				.findByNombreUsuario(SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString());
 
@@ -95,7 +83,7 @@ public class EquipoController {
 				}
 			} else if (equipo.getUnidad() != null) {
 				List<EquipoConId> equiposUnidad = repositorio
-						.findByUnidadId(((UnidadConId) usuario.get().getUnidad()).getId());
+						.findByUnidad(usuario.get().getUnidad());
 				for (EquipoConId equipoUnidad : equiposUnidad) {
 					if (((UnidadConId) equipoUnidad.getUnidad()).getId() == ((UnidadConId) usuario.get().getUnidad())
 							.getId()) {
@@ -132,18 +120,18 @@ public class EquipoController {
 
 		switch (rol) {
 		case USUARIO:
-			List<EquipoConId> equiposPersona = repositorio.findByPersonaId(usuario.get().getId());
+			List<EquipoConId> equiposPersona = repositorio.findByPersona(usuario.get());
 			for (EquipoConId equipo : equiposPersona) {
 				equiposObtenidos.add(equipo);
 			}
 			break;
 
 		case ADMIN_UNIDAD:
-			List<EquipoConId> equiposDeUnidad = repositorio.findByUnidadId(((UnidadConId) usuario.get().getUnidad()).getId());
-			List<PersonaConId> personasDeUnidad = perRepositorio.findPersonasByUnidad(((UnidadConId) usuario.get().getUnidad()).getId());
+			List<EquipoConId> equiposDeUnidad = repositorio.findByUnidad(usuario.get().getUnidad());
+			List<PersonaConId> personasDeUnidad = perRepositorio.findPersonasByUnidad(usuario.get().getUnidad());
 			
 			for (PersonaConId persona: personasDeUnidad) {
-					List<EquipoConId> equiposPersonaUnidad = repositorio.findByPersonaId(persona.getId());
+					List<EquipoConId> equiposPersonaUnidad = repositorio.findByPersona(persona);
 						equiposObtenidos.addAll(equiposPersonaUnidad);
 			}
 			for (EquipoConId equipo: equiposDeUnidad) {
@@ -201,84 +189,15 @@ public class EquipoController {
 		}
 	}
 
-//	@PutMapping("{id}")
-//	public EquipoModel edit(@Valid @PathVariable Long id, @RequestBody EquipoPostModel model) {
-//
-//		if (model.getTipoEquipo() == TipoEquipo.EQUIPO_UNIDAD) {
-//			repositorio.actualizarEquipoDeUnidad(model.getNumeroSerie(), model.getFechaAdquisicion(),
-//					model.getFechaAsignacion(),	model.getModelo().getId(), model.getUnidad().getId(), id);
-//		} else if (model.getTipoEquipo() == TipoEquipo.EQUIPO_PERSONAL) {
-//			repositorio.actualizarEquipoPersonal(model.getNumeroSerie(), model.getFechaAdquisicion(),
-//					model.getFechaAsignacion(), model.getModelo().getId(), model.getPersona().getId(), id);
-//		}	
-//
-//		EquipoConId equipo = repositorio.findById(id).orElseThrow(() -> new RegisterNotFoundException(id, "equipo"));
-//
-////		return assembler.toModel(equipo);
-//		
-//		int n_regs = 0;
-//
-//		if (model.getTipoEquipo() == TipoEquipo.EQUIPO_UNIDAD) {
-//			if ((model.getFechaAsignacion() == null)||(model.getUnidad() == null)) {
-//				new RegisterNotFoundException(id, "Error en la asignación del equipo");
-//			} else {
-//				n_regs = repositorio.update('U', model.getNumeroSerie(), model.getFechaAdquisicion(),
-//						model.getFechaAsignacion(), model.getModelo().getId(), model.getUnidad().getId(),
-//						null, id);
-//			}
-//		} else if (model.getTipoEquipo() == TipoEquipo.EQUIPO_PERSONAL) {
-//			if ((model.getFechaAsignacion() == null)||(model.getPersona() == null)) {
-//				new RegisterNotFoundException(id, "Error en la asignación del equipo");
-//			} else {
-//				n_regs = repositorio.update('P', model.getNumeroSerie(), model.getFechaAdquisicion(),
-//						model.getFechaAsignacion(), model.getModelo().getId(), model.getUnidad().getId(),
-//						null, id);
-//			}
-//		}
-//		
-//		if (n_regs == 0) {
-//			throw new RegisterNotFoundException(id, "comision");
-//		}
-//		
-////		} else if (model.getTipo() == Tipo.VIOGEN) {
-////			n_regs = repositorio.update(model.getPuesto(), model.getLocalidad(), model.getEspecialidad(),
-////					model.getEmpleo(), model.getFechaLimite(), model.getDuracion(), model.getDetalles(), 'V', null,
-////					model.getRiesgo(), id);
-////		} else {
-////			n_regs = repositorio.update(model.getPuesto(), model.getLocalidad(), model.getEspecialidad(),
-////					model.getEmpleo(), model.getFechaLimite(), model.getDuracion(), model.getDetalles(), null, null,
-////					null, id);
-////		}
-////
-//		
-////
-////		ComisionApi comision = repositorio.findById(id)
-////				.orElseThrow(() -> new RegisterNotFoundException(id, "comision"));
-////
-////		log.info("Actualizado " + comision);
-////		return assembler.toModel(comision);
-//		
-//		
-//		
-//	}
-
 	@PatchMapping("/asignarEquipo")
 	public EquipoModel asignarEquipo(@RequestBody EquipoAsignarModel model) {
 
-		
-		EquipoConId equipo = new EquipoConId();
-
-		Collection<? extends GrantedAuthority> rolesUsuario = SecurityContextHolder.getContext().getAuthentication()
-				.getAuthorities();
-		Perfil rol = Perfil.valueOf(rolesUsuario.iterator().next().toString());
-
-		if (rol.equals(Perfil.ADMIN_CENTRAL) || rol.equals(Perfil.ADMIN_UNIDAD)) {
-
 		int n_regs = 0;
+		EquipoConId equipo = new EquipoConId();
 		LocalDate fechaAsignacion = LocalDate.now();
-		
-		if ((model.getEquipo() != null) || (model.getPersona() != null)) {
-			throw new ArgumentNotValidException(" asignar el equipo");
+
+		if ((model.getEquipo() == null) || !((model.getPersona() == null) ^ (model.getUnidad() == null))) {
+			throw new ArgumentNotValidException("asignar el equipo");
 		}
 
 		if (model.getPersona() != null) {
@@ -311,17 +230,9 @@ public class EquipoController {
 		equipo.setId(model.getEquipo().getId());
 		
 		return assembler.toModel(equipo);
-		}
-//		else {
-//			throw new ArgumentNotValidException("El equipo ya está asignado, debe desasignarlo antes de asignarlo");					
-//		}
-//		}
-	else {
-			throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Acceso denegado");
-		}	
-	
 	}
-
+	
+	
 	@PatchMapping("/desasignarEquipo/{idEquipo}")
 	public EquipoModel desasignarEquipo(@PathVariable Long idEquipo) {
 
@@ -391,7 +302,7 @@ public class EquipoController {
 	           		  }
 	           	  	}		
 		       	  else if (equipo.getUnidad() != null) {	
-		       		  List<EquipoConId> equiposUnidad = repositorio.findByUnidadId(((UnidadConId) usuario.get().getUnidad()).getId());
+		       		  List<EquipoConId> equiposUnidad = repositorio.findByUnidad(usuario.get().getUnidad());
 		       		 for (EquipoConId equipoUnidad : equiposUnidad) {
 		         		  if (((UnidadConId) equipoUnidad.getUnidad()).getId() == ((UnidadConId) usuario.get().getUnidad()).getId() ) {
 		                	  repositorio.deleteById(equipo.getId());

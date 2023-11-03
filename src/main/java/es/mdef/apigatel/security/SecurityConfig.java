@@ -7,6 +7,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.switchuser.SwitchUserFilter;
 @Configuration
 public class SecurityConfig {
 	
@@ -18,11 +19,12 @@ public class SecurityConfig {
 			.and()
 			.authorizeHttpRequests()
 			.requestMatchers("/login").permitAll()
-			//.requestMatchers(HttpMethod.DELETE).hasAuthority("Administrador")
+			.requestMatchers(HttpMethod.DELETE).hasAnyAuthority("ADMIN_CENTRAL","ADMIN_UNIDAD")
 			.anyRequest().authenticated()
 			.and()
 			.addFilter(new JwtAuthenticationFilter(authenticationManager))
 			.addFilter(new JwtAuthorizationFilter(authenticationManager))
+			.addFilterAfter(new AddResponseHeaderFilter(), SwitchUserFilter.class)
 			.cors()
 			;
 		return http.build();

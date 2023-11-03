@@ -4,6 +4,7 @@ import es.mde.acing.gatel.MiembroGC;
 
 public class MiembroGCAPI extends PersonaConId implements MiembroGC {
 	
+	private static final long serialVersionUID = 1L;
 	private String tip;
 	private String empleo;
 	
@@ -33,8 +34,6 @@ public class MiembroGCAPI extends PersonaConId implements MiembroGC {
 		return "MiembroGCAPI [tip=" + tip + ", empleo=" + empleo + ", getTipoPersona()=" + getTipoPersona()
 				+ super.toString() ;
 	}
-
-	
 
 }
 	

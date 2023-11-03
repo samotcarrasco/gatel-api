@@ -41,13 +41,15 @@ public class UnidadController {
 		return assembler.toModel(Unidad);
 	}
 	
+	@SuppressWarnings("unchecked")
 	@GetMapping("{id}/equipos")
 	public CollectionModel<EquipoModel> equiposDeUnidad(@PathVariable Long id) {
 		UnidadConId unidad = repositorio.findById(id)
 				.orElseThrow(() -> new RegisterNotFoundException(id, "unidad"));
 		return equipoListaAssembler.toCollection((List<EquipoConId>)(List<?>)unidad.getEquiposDeUnidad());
-	}
+		}
 	
+	@SuppressWarnings("unchecked")
 	@GetMapping("{id}/miembros")
 	public CollectionModel<PersonaListaModel> miembros(@PathVariable Long id) {
 		UnidadConId unidad = repositorio.findById(id)
