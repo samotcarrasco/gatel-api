@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
-import org.slf4j.Logger;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.GrantedAuthority;
@@ -24,7 +23,6 @@ import org.springframework.web.server.ResponseStatusException;
 
 import es.mde.acing.gatel.Incidencia;
 import es.mde.acing.gatel.PersonaImpl.Perfil;
-import es.mdef.apigatel.ApiGatelApp;
 import es.mdef.apigatel.entidades.EquipoConId;
 import es.mdef.apigatel.entidades.EquipoDeUnidadAPI;
 import es.mdef.apigatel.entidades.EquipoPersonalAPI;
