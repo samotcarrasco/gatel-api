@@ -187,8 +187,10 @@ public class IncidenciaController {
 		if (rol.equals(Perfil.RESOLUTOR)) {
 
 			IncidenciaConId incidencia = repositorio.findById(id).map(inc -> {
+			
+			String detallesAnteriores = (inc.getDetalles() != null) ? inc.getDetalles() : "";
 					
-			inc.setDetalles(inc.getDetalles() + " \n ---- " + inc.getAgenteResolutor().getNombre() + " " + inc.getAgenteResolutor().getApellidos()
+			inc.setDetalles(detallesAnteriores + " \n ---- " + inc.getAgenteResolutor().getNombre() + " " + inc.getAgenteResolutor().getApellidos()
 						+ LocalDate.now() + "---- \n" + model.getDetalles());
 
 			if (model.getTipoIncidencia() == TipoIncidencia.AVERIA) {
@@ -198,9 +200,9 @@ public class IncidenciaController {
 				((ExtravioAPI) inc).setBloqueado(model.isBloqueado());
 				((ExtravioAPI) inc).setBorrado(model.isBorrado());
 				((ExtravioAPI) inc).setEncontrado(model.isEncontrado());
-			} else if (model.getTipoIncidencia() == TipoIncidencia.CONFIGURACION) {
+			} else if (model.getTipoIncidencia() == TipoIncidencia.SOLICITUD) {
 				((SolicitudAPI) inc).setAceptado(model.isAceptado());
-			}else if (model.getTipoIncidencia() == TipoIncidencia.SOLICITUD) {
+			}else if (model.getTipoIncidencia() == TipoIncidencia.CONFIGURACION) {
 				((ConfiguracionAPI) inc).setAplicacion(model.getAplicacion());
 			}
 			

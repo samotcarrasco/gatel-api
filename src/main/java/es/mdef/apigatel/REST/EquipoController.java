@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
+import es.mde.acing.gatel.EquipoImpl.TipoEquipo;
 import es.mde.acing.gatel.Incidencia;
 import es.mde.acing.gatel.PersonaImpl.Perfil;
 import es.mdef.apigatel.entidades.EquipoConId;
@@ -170,14 +171,17 @@ public class EquipoController {
 				throw new ArgumentNotValidException("Datos nulos, no se puede dar de alta");
 			}
 
-			model.setFechaAsignacion(null);
-			model.setTipoEquipo(null);
-			model.setUnidad(null);
-			model.setPersona(null);
+			if (rol.equals(Perfil.ADMIN_UNIDAD)) {
+				
+				Optional<PersonaConId> usuario = perRepositorio
+						.findByNombreUsuario(SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString());
+				model.setFechaAsignacion(LocalDate.now());
+				model.setUnidad((UnidadConId) usuario.get().getUnidad());
+				model.setTipoEquipo(TipoEquipo.EQUIPO_UNIDAD);
+			}
 
 			EquipoConId equipo = repositorio.save(assembler.toEntity(model));
 			equipoGenerado = assembler.toModel(equipo);
-			// System.out.println(equipoGenerado.toString());
 		}
 
 		if (equipoGenerado != null) {
@@ -200,19 +204,15 @@ public class EquipoController {
 
 		if (model.getPersona() != null) {
 			equipo = new EquipoPersonalAPI();
-
 			equipo.setPersona(model.getPersona());
 			equipo.setUnidad(null);
-
 			n_regs = repositorio.asignar('P', fechaAsignacion, model.getPersona().getId(), null,
 					model.getEquipo().getId());
 
 		} else if (model.getUnidad() != null) {
 			equipo = new EquipoDeUnidadAPI();
-
 			equipo.setPersona(null);
 			equipo.setUnidad(model.getUnidad());
-			
 			n_regs = repositorio.asignar('U', fechaAsignacion, null, model.getUnidad().getId(),
 					model.getEquipo().getId());
 		}
