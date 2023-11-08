@@ -12,20 +12,19 @@ public class IncidenciaPostModel extends RepresentationModel<IncidenciaPostModel
 	private String descripcion;
 	private EquipoConId equipo;
 	private TipoIncidencia tipoIncidencia;
-	
-	//Averia
+
+	// Averia
 	private String componente;
-	
-	//Extravio
+
+	// Extravio
 	private String ultimaUbicacion;
-	
-	//Configuracion
+
+	// Configuracion
 	private String aplicacion;
 
-	//Solicitud
-	//private Boolean aceptado;
+	// Solicitud
+	// private Boolean aceptado;
 
-	
 	public String getDescripcion() {
 		return descripcion;
 	}

@@ -3,7 +3,7 @@ package es.mdef.apigatel.entidades;
 import es.mde.acing.gatel.Configuracion;
 
 public class ConfiguracionAPI extends IncidenciaConId implements Configuracion {
-	
+
 	private String aplicacion;
 
 	@Override
@@ -17,7 +17,7 @@ public class ConfiguracionAPI extends IncidenciaConId implements Configuracion {
 
 	@Override
 	public TipoIncidencia getTipoIncidencia() {
-	    return TipoIncidencia.CONFIGURACION;
+		return TipoIncidencia.CONFIGURACION;
 	}
 
 	@Override
@@ -25,5 +25,4 @@ public class ConfiguracionAPI extends IncidenciaConId implements Configuracion {
 		return "ConfiguracionAPI [aplicacion=" + aplicacion + "]";
 	}
 
-	
 }

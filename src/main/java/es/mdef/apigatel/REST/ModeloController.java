@@ -131,12 +131,12 @@ public class ModeloController {
 		Perfil rol = Perfil.valueOf(rolesUsuario.iterator().next().toString());
 		if (rol.equals(Perfil.ADMIN_CENTRAL)) {
 			repositorio.findById(id).map(mod -> {
-			repositorio.deleteById(id);
-			return mod;
-		}).orElseThrow(() -> new RegisterNotFoundException(id, "Modelo"));
-	} else {
-		throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Acceso denegado");
-	}
+				repositorio.deleteById(id);
+				return mod;
+			}).orElseThrow(() -> new RegisterNotFoundException(id, "Modelo"));
+		} else {
+			throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Acceso denegado");
+		}
 	}
 
 }

@@ -21,12 +21,10 @@ public class ModeloPostModel extends RepresentationModel<ModeloPostModel> {
 	private String sistemaOperativo;
 	private TipoModelo tipoModelo;
 	private String tipoEquipoInformatico;
- 
 
 	public String getMarca() {
 		return marca;
 	}
-
 
 	public String getNombreModelo() {
 		return nombreModelo;
@@ -71,7 +69,7 @@ public class ModeloPostModel extends RepresentationModel<ModeloPostModel> {
 	public String getConexion() {
 		return conexion;
 	}
-	
+
 	public String getTipoEquipoInformatico() {
 		return tipoEquipoInformatico;
 	}
@@ -82,12 +80,11 @@ public class ModeloPostModel extends RepresentationModel<ModeloPostModel> {
 
 	@Override
 	public String toString() {
-		return "ModeloPostModel [marca=" + marca + ", nombreModelo="
-				+ nombreModelo + ", detalles=" + detalles + ", imagen=" 
-				+ ", stereo=" + stereo + ", conexion=" + conexion + ", resolucion=" + resolucion + ", pulgadas="
-				+ pulgadas + ", discoDuro=" + discoDuro + ", memoria=" + memoria + ", sistemaOperativo="
+		return "ModeloPostModel [marca=" + marca + ", nombreModelo=" + nombreModelo + ", detalles=" + detalles
+				+ ", imagen=" + ", stereo=" + stereo + ", conexion=" + conexion + ", resolucion=" + resolucion
+				+ ", pulgadas=" + pulgadas + ", discoDuro=" + discoDuro + ", memoria=" + memoria + ", sistemaOperativo="
 				+ sistemaOperativo + ", tipoModelo=" + tipoModelo + ", tipoEquipoInformatico=" + tipoEquipoInformatico
 				+ "]";
 	}
-	
+
 }

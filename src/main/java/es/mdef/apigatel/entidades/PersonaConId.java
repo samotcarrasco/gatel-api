@@ -11,7 +11,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import es.mde.acing.gatel.PersonaImpl;
 
 public class PersonaConId extends PersonaImpl implements UserDetails {
-	
+
 	private static final long serialVersionUID = 1L;
 	private Long id;
 
@@ -27,7 +27,6 @@ public class PersonaConId extends PersonaImpl implements UserDetails {
 	public void setId(Long id) {
 		this.id = id;
 	}
-
 
 	public boolean isAccountNonExpired() {
 		return accountNonExpired;
@@ -63,8 +62,7 @@ public class PersonaConId extends PersonaImpl implements UserDetails {
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
-		return new ArrayList<SimpleGrantedAuthority>(Arrays.asList(
-				new SimpleGrantedAuthority(getPerfil().toString())));
+		return new ArrayList<SimpleGrantedAuthority>(Arrays.asList(new SimpleGrantedAuthority(getPerfil().toString())));
 	}
 
 	@Override

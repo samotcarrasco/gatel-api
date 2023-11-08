@@ -8,11 +8,10 @@ public class EquipoDeUnidadAPI extends EquipoConId implements EquipoDeUnidad {
 	public TipoEquipo getTipoEquipo() {
 		return TipoEquipo.EQUIPO_UNIDAD;
 	}
+
 	@Override
 	public String toString() {
-		return "EquipoDeUnidadAPI [unidad=" +  super.toString() + "]";
+		return "EquipoDeUnidadAPI [unidad=" + super.toString() + "]";
 	}
 
-
 }
-	

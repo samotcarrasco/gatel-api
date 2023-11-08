@@ -7,7 +7,7 @@ import es.mdef.apigatel.entidades.PersonaConId;
 public class AsignarIncidenciaModel extends RepresentationModel<AsignarIncidenciaModel> {
 
 	private PersonaConId agenteResolutor;
-	
+
 	public PersonaConId getAgenteResolutor() {
 		return agenteResolutor;
 	}
@@ -15,7 +15,5 @@ public class AsignarIncidenciaModel extends RepresentationModel<AsignarIncidenci
 	public void setAgenteResolutor(PersonaConId agenteResolutor) {
 		this.agenteResolutor = agenteResolutor;
 	}
-	
-		
 
 }

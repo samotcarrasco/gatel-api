@@ -5,8 +5,6 @@ import org.springframework.hateoas.server.core.Relation;
 
 import es.mde.acing.gatel.ModeloImpl.TipoModelo;
 
-
-
 @Relation(itemRelation = "modelo")
 public class ModeloModel extends RepresentationModel<ModeloModel> {
 
@@ -54,7 +52,6 @@ public class ModeloModel extends RepresentationModel<ModeloModel> {
 	public void setMarca(String marca) {
 		this.marca = marca;
 	}
-
 
 	public String getNombreModelo() {
 		return nombreModelo;
@@ -159,7 +156,6 @@ public class ModeloModel extends RepresentationModel<ModeloModel> {
 	public void setTipoEquipoInformatico(String tipoEquipoInf) {
 		this.tipoEquipoInformatico = tipoEquipoInf;
 	}
-	
 
 	public Integer getStock() {
 		return stock;
@@ -169,7 +165,6 @@ public class ModeloModel extends RepresentationModel<ModeloModel> {
 		this.stock = stock;
 	}
 
-
 	public Integer getNumEquipos() {
 		return numEquipos;
 	}
@@ -177,9 +172,7 @@ public class ModeloModel extends RepresentationModel<ModeloModel> {
 	public void setNumEquipos(Integer numEquipos) {
 		this.numEquipos = numEquipos;
 	}
-	
-	
-	
+
 	public Integer getAsignadosAPersona() {
 		return asignadosAPersona;
 	}
@@ -202,8 +195,8 @@ public class ModeloModel extends RepresentationModel<ModeloModel> {
 
 	@Override
 	public String toString() {
-		return "ModeloModel [id=" + id + ", marca=" + marca + ", nombreModelo="
-				+ nombreModelo + ", detalles=" + detalles + ", imagen=" + imagen // + ", equipos=" + equipos
+		return "ModeloModel [id=" + id + ", marca=" + marca + ", nombreModelo=" + nombreModelo + ", detalles="
+				+ detalles + ", imagen=" + imagen // + ", equipos=" + equipos
 				+ ", imgReducida=" + imgReducida + ", stereo=" + stereo + ", conexion=" + conexion + ", resolucion="
 				+ resolucion + ", pulgadas=" + pulgadas + ", discoDuro=" + discoDuro + ", memoria=" + memoria
 				+ ", sistemaOperativo=" + sistemaOperativo + ", tipoModelo=" + tipoModelo + "]";

@@ -11,30 +11,30 @@ import javax.imageio.ImageIO;
 
 public class ReductorImagen {
 
-    public static String reducirImagen(String base64Image, int newWidth, int newHeight) throws IOException {
-    	
-    	String base64ImageWithoutHeader = base64Image.replaceFirst("data:image/jpeg;base64,", "");
+	public static String reducirImagen(String base64Image, int newWidth, int newHeight) throws IOException {
 
-    	byte[] imageBytes = Base64.getDecoder().decode(base64ImageWithoutHeader);
+		String base64ImageWithoutHeader = base64Image.replaceFirst("data:image/jpeg;base64,", "");
 
-        //byte[] imageBytes = Base64.getDecoder().decode(base64Image);
+		byte[] imageBytes = Base64.getDecoder().decode(base64ImageWithoutHeader);
 
-        ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(imageBytes);
-        BufferedImage originalImage = ImageIO.read(byteArrayInputStream);
+		// byte[] imageBytes = Base64.getDecoder().decode(base64Image);
 
-        BufferedImage resizedImage = new BufferedImage(newWidth, newHeight, BufferedImage.TYPE_INT_RGB);
-        Graphics2D g = resizedImage.createGraphics();
-        g.drawImage(originalImage, 0, 0, newWidth, newHeight, null);
-        g.dispose();
+		ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(imageBytes);
+		BufferedImage originalImage = ImageIO.read(byteArrayInputStream);
 
-        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-        ImageIO.write(resizedImage, "JPEG", byteArrayOutputStream);
-        byte[] resizedImageBytes = byteArrayOutputStream.toByteArray();
-        String resizedBase64Image = Base64.getEncoder().encodeToString(resizedImageBytes);
-        
-        String finalBase64Image = "data:image/jpeg;base64," + resizedBase64Image;
-        
-        return finalBase64Image;
-    }
+		BufferedImage resizedImage = new BufferedImage(newWidth, newHeight, BufferedImage.TYPE_INT_RGB);
+		Graphics2D g = resizedImage.createGraphics();
+		g.drawImage(originalImage, 0, 0, newWidth, newHeight, null);
+		g.dispose();
+
+		ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+		ImageIO.write(resizedImage, "JPEG", byteArrayOutputStream);
+		byte[] resizedImageBytes = byteArrayOutputStream.toByteArray();
+		String resizedBase64Image = Base64.getEncoder().encodeToString(resizedImageBytes);
+
+		String finalBase64Image = "data:image/jpeg;base64," + resizedBase64Image;
+
+		return finalBase64Image;
+	}
 
 }

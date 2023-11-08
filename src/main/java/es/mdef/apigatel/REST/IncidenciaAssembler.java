@@ -11,8 +11,10 @@ import org.springframework.hateoas.server.RepresentationModelAssembler;
 import org.springframework.stereotype.Component;
 
 import es.mde.acing.gatel.IncidenciaImpl.TipoIncidencia;
+import es.mde.acing.gatel.PersonaImpl.TipoPersona;
 import es.mde.acing.gatel.IncidenciaImpl.EstadoIncidencia;
 import es.mdef.apigatel.entidades.IncidenciaConId;
+import es.mdef.apigatel.entidades.MiembroGCAPI;
 import es.mdef.apigatel.entidades.EquipoConId;
 import es.mdef.apigatel.entidades.PersonaConId;
 import es.mdef.apigatel.entidades.SolicitudAPI;
@@ -21,7 +23,6 @@ import es.mdef.apigatel.entidades.AveriaAPI;
 import es.mdef.apigatel.entidades.ConfiguracionAPI;
 import es.mde.acing.gatel.Averia;
 import es.mde.acing.gatel.Extravio;
-
 
 @Component
 public class IncidenciaAssembler implements RepresentationModelAssembler<IncidenciaConId, IncidenciaModel> {
@@ -39,13 +40,14 @@ public class IncidenciaAssembler implements RepresentationModelAssembler<Inciden
 		model.setDetalles(entity.getDetalles());
 		model.setFechaCierre(entity.getFechaCierre());
 		model.setFechaAsignacion(entity.getFechaAsignacion());
-		model.setEquipoN(entity.getEquipo().getModelo().getMarca() + " " + entity.getEquipo().getModelo().getNombreModelo() + 
-				"-" +entity.getEquipo().getNumeroSerie());
+		model.setEquipoN(entity.getEquipo().getModelo().getMarca() + " "
+				+ entity.getEquipo().getModelo().getNombreModelo() + "-" + entity.getEquipo().getNumeroSerie());
 		if (entity.getAgenteResolutor() != null) {
-			model.setResolutorN(entity.getAgenteResolutor().getNombre() + " " + entity.getAgenteResolutor().getApellidos());
+			model.setResolutorN(
+					entity.getAgenteResolutor().getNombre() + " " + entity.getAgenteResolutor().getApellidos());
 			model.setResolutorEmail(entity.getAgenteResolutor().getEmail());
-			}
-		
+		}
+
 		if (entity.getTipoIncidencia() == TipoIncidencia.AVERIA) {
 			model.setComponente(((Averia) entity).getComponente());
 			model.setReparable(((Averia) entity).isReparable());
@@ -64,32 +66,46 @@ public class IncidenciaAssembler implements RepresentationModelAssembler<Inciden
 			model.setTipoIncidencia(TipoIncidencia.SOLICITUD);
 		}
 
-		model.add(linkTo(methodOn(IncidenciaController.class).one(((IncidenciaConId) entity).getId())).withSelfRel());
-		
-		if (entity.getAgenteResolutor() != null) {
-		model.add(linkTo(methodOn(PersonaController.class)
-				.one(((PersonaConId) entity.getAgenteResolutor()).getId())).withRel("agenteResolutor"));
+		if (entity.getEquipo().getPersona() != null) {
+			String empleo = "";
+			if (entity.getEquipo().getPersona().getTipoPersona() != TipoPersona.MIEMBRO_GC) {
+				empleo = ((MiembroGCAPI) entity.getEquipo().getPersona()).getEmpleo();
+			}
+			model.setInformador(empleo + " " + entity.getEquipo().getPersona().getNombre() + " "
+					+ entity.getEquipo().getPersona().getApellidos() + " " + entity.getEquipo().getPersona().getEmail()
+					+ " " + entity.getEquipo().getPersona().getTelefono());
+		} else if (entity.getEquipo().getUnidad() != null) {
+			model.setInformador(
+					entity.getEquipo().getUnidad().getNombre() + " " + entity.getEquipo().getUnidad().getTelefono());
 		}
-		if (entity.getEquipo() != null) {	
-		model.add(linkTo(methodOn(EquipoController.class)
-				.one(((EquipoConId) entity.getEquipo()).getId())).withRel("equipo"));
+
+		model.add(linkTo(methodOn(IncidenciaController.class).one(((IncidenciaConId) entity).getId())).withSelfRel());
+
+		if (entity.getAgenteResolutor() != null) {
+			model.add(
+					linkTo(methodOn(PersonaController.class).one(((PersonaConId) entity.getAgenteResolutor()).getId()))
+							.withRel("agenteResolutor"));
+		}
+		if (entity.getEquipo() != null) {
+			model.add(linkTo(methodOn(EquipoController.class).one(((EquipoConId) entity.getEquipo()).getId()))
+					.withRel("equipo"));
 		}
 		return model;
 	}
 
 	public IncidenciaConId toEntity(IncidenciaPostModel model) throws IOException {
 		IncidenciaConId incidencia = new IncidenciaConId();
-		
+
 		Date fechaActual = new Date();
 		// segundos desde 1970
 		long segundosDesdeEpoch = fechaActual.getTime() / 1000;
-		
+
 		switch (model.getTipoIncidencia()) {
 		case AVERIA:
 			AveriaAPI averia = new AveriaAPI();
 			averia.setComponente(model.getComponente());
 			averia.setReparable(true);
-			incidencia = averia;  
+			incidencia = averia;
 			incidencia.setCodigo("AV-" + model.getEquipo().getId() + "-" + segundosDesdeEpoch);
 			break;
 		case EXTRAVIO:
@@ -110,15 +126,15 @@ public class IncidenciaAssembler implements RepresentationModelAssembler<Inciden
 			incidencia = configuracion;
 			incidencia.setCodigo("CONF-" + model.getEquipo().getId() + "-" + segundosDesdeEpoch);
 			break;
-	}
+		}
 
 		incidencia.setFechaAlta(LocalDate.now());
-		//incidencia.setFechaResolucion(model.getFechaResolucion());
+		// incidencia.setFechaResolucion(model.getFechaResolucion());
 		incidencia.setEstado(EstadoIncidencia.NUEVA);
 		incidencia.setDescripcion(model.getDescripcion());
-		//incidencia.setAgenteResolutor(model.getAgenteResolutor());
+		// incidencia.setAgenteResolutor(model.getAgenteResolutor());
 		incidencia.setEquipo(model.getEquipo());
-		
+
 		return incidencia;
 	}
 }

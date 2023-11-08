@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -63,10 +62,10 @@ public class IncidenciaController {
 
 	@GetMapping("{id}")
 	public IncidenciaModel one(@PathVariable Long id) {
-		
+
 		IncidenciaConId incidencia = null;
-		Boolean incidenciaEncontrada = false;	
-		
+		Boolean incidenciaEncontrada = false;
+
 		Collection<? extends GrantedAuthority> rolesUsuario = SecurityContextHolder.getContext().getAuthentication()
 				.getAuthorities();
 		Perfil rol = Perfil.valueOf(rolesUsuario.iterator().next().toString());
@@ -76,41 +75,44 @@ public class IncidenciaController {
 
 		switch (rol) {
 		case USUARIO:
-			incidencia = repositorio.findById(id).orElseThrow(() -> new NoSuchElementException("No se encontró la incidencia"));
-			
+			incidencia = repositorio.findById(id)
+					.orElseThrow(() -> new NoSuchElementException("No se encontró la incidencia"));
+
 			if (((PersonaConId) incidencia.getEquipo().getPersona()).getId() == usuario.get().getId()) {
 				incidenciaEncontrada = true;
 			}
 			break;
 		case ADMIN_CENTRAL:
-			incidencia = repositorio.findById(id).orElseThrow(() -> new NoSuchElementException("No se encontró la incidencia"));
+			incidencia = repositorio.findById(id)
+					.orElseThrow(() -> new NoSuchElementException("No se encontró la incidencia"));
 			incidenciaEncontrada = true;
 			break;
 		case ADMIN_UNIDAD:
-			incidencia = repositorio.findById(id).orElseThrow(() -> new NoSuchElementException("No se encontró la incidencia"));
+			incidencia = repositorio.findById(id)
+					.orElseThrow(() -> new NoSuchElementException("No se encontró la incidencia"));
 			incidenciaEncontrada = true;
 			break;
-			
+
 		case RESOLUTOR:
-			incidencia = repositorio.findById(id).orElseThrow(() -> new NoSuchElementException("No se encontró la incidencia"));
-		
+			incidencia = repositorio.findById(id)
+					.orElseThrow(() -> new NoSuchElementException("No se encontró la incidencia"));
+
 			if (((PersonaConId) incidencia.getAgenteResolutor()).getId() == usuario.get().getId()) {
 				incidenciaEncontrada = true;
 			}
 			break;
-		} 
-		
+		}
+
 		if (incidenciaEncontrada) {
 			return assembler.toModel(incidencia);
-		}  
-		else	
+		} else
 			throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Acceso denegado");
 
 	}
 
 	@GetMapping
 	public CollectionModel<IncidenciaListaModel> all() {
-		
+
 		Collection<? extends GrantedAuthority> rolesUsuario = SecurityContextHolder.getContext().getAuthentication()
 				.getAuthorities();
 		Perfil rol = Perfil.valueOf(rolesUsuario.iterator().next().toString());
@@ -122,7 +124,7 @@ public class IncidenciaController {
 
 		switch (rol) {
 		case USUARIO:
-			List <EquipoConId> equiposPersona = eqRepositorio.findByPersona(usuario.get());
+			List<EquipoConId> equiposPersona = eqRepositorio.findByPersona(usuario.get());
 			for (EquipoConId equipo : equiposPersona) {
 				for (Incidencia incidencia : equipo.getIncidencias()) {
 					incidenciasObtenidas.add((IncidenciaConId) incidencia);
@@ -133,24 +135,24 @@ public class IncidenciaController {
 		case ADMIN_UNIDAD:
 			List<PersonaConId> personasDeUnidad = perRepositorio.findPersonasByUnidad(usuario.get().getUnidad());
 			List<EquipoConId> equiposDeUnidad = eqRepositorio.findByUnidad(usuario.get().getUnidad());
-			
+
 			System.out.println("personas de la unidad" + personasDeUnidad.size());
-			for (PersonaConId persona: personasDeUnidad) {
-					List<EquipoConId> equiposPersonaUnidad = eqRepositorio.findByPersona(persona);
-					for (EquipoConId equipo: equiposPersonaUnidad) {
-						List<IncidenciaConId> incidenciasDeEquipo = repositorio.findByEquipo(equipo);
-						for (IncidenciaConId incidencia: incidenciasDeEquipo) {
+			for (PersonaConId persona : personasDeUnidad) {
+				List<EquipoConId> equiposPersonaUnidad = eqRepositorio.findByPersona(persona);
+				for (EquipoConId equipo : equiposPersonaUnidad) {
+					List<IncidenciaConId> incidenciasDeEquipo = repositorio.findByEquipo(equipo);
+					for (IncidenciaConId incidencia : incidenciasDeEquipo) {
 						incidenciasObtenidas.add(incidencia);
-						}
 					}
-			}
-			for (EquipoConId equipo: equiposDeUnidad) {
-				List<IncidenciaConId> incidenciasDeEquipo = repositorio.findByEquipo(equipo);
-				for (IncidenciaConId incidencia: incidenciasDeEquipo) {
-				incidenciasObtenidas.add(incidencia);
 				}
-			}	
-			
+			}
+			for (EquipoConId equipo : equiposDeUnidad) {
+				List<IncidenciaConId> incidenciasDeEquipo = repositorio.findByEquipo(equipo);
+				for (IncidenciaConId incidencia : incidenciasDeEquipo) {
+					incidenciasObtenidas.add(incidencia);
+				}
+			}
+
 			break;
 
 		case ADMIN_CENTRAL:
@@ -158,57 +160,54 @@ public class IncidenciaController {
 			break;
 
 		case RESOLUTOR:
-			List <IncidenciaConId> incidencias = repositorio.findByAgenteResolutor(usuario.get());
-			incidenciasObtenidas.addAll(incidencias);	
-		break;
+			List<IncidenciaConId> incidencias = repositorio.findByAgenteResolutor(usuario.get());
+			incidenciasObtenidas.addAll(incidencias);
+			break;
 		default:
 			System.out.println("Rol desconocido");
 		}
 
 		return listaAssembler.toCollection(incidenciasObtenidas);
 	}
-	
-	
-	
 
 	@PostMapping
 	public IncidenciaModel add(@Valid @RequestBody IncidenciaPostModel model) throws IOException {
-		
+
 		IncidenciaConId incidencia = repositorio.save(assembler.toEntity(model));
 		return assembler.toModel(incidencia);
 	}
 
-	@PutMapping("{id}")
+	@PatchMapping("{id}")
 	public IncidenciaModel edit(@Valid @PathVariable Long id, @RequestBody IncidenciaPutModel model) {
-		
+
 		Collection<? extends GrantedAuthority> rolesUsuario = SecurityContextHolder.getContext().getAuthentication()
 				.getAuthorities();
 		Perfil rol = Perfil.valueOf(rolesUsuario.iterator().next().toString());
 		if (rol.equals(Perfil.RESOLUTOR)) {
 
 			IncidenciaConId incidencia = repositorio.findById(id).map(inc -> {
-			
-			String detallesAnteriores = (inc.getDetalles() != null) ? inc.getDetalles() : "";
-					
-			inc.setDetalles(detallesAnteriores + " \n ---- " + inc.getAgenteResolutor().getNombre() + " " + inc.getAgenteResolutor().getApellidos()
-						+ LocalDate.now() + "---- \n" + model.getDetalles());
 
-			if (model.getTipoIncidencia() == TipoIncidencia.AVERIA) {
-				((AveriaAPI) inc).setReparable(model.getReparable());
-			} else if (model.getTipoIncidencia() == TipoIncidencia.EXTRAVIO) {
-				((ExtravioAPI) inc).setUltimaUbicacion(model.getUltimaUbicacion());
-				((ExtravioAPI) inc).setBloqueado(model.isBloqueado());
-				((ExtravioAPI) inc).setBorrado(model.isBorrado());
-				((ExtravioAPI) inc).setEncontrado(model.isEncontrado());
-			} else if (model.getTipoIncidencia() == TipoIncidencia.SOLICITUD) {
-				((SolicitudAPI) inc).setAceptado(model.isAceptado());
-			}else if (model.getTipoIncidencia() == TipoIncidencia.CONFIGURACION) {
-				((ConfiguracionAPI) inc).setAplicacion(model.getAplicacion());
-			}
-			
-			return repositorio.save(inc);
-			
-		}).orElseThrow(() -> new RegisterNotFoundException(id, "incicencia"));
+				String detallesAnteriores = (inc.getDetalles() != null) ? inc.getDetalles() : "";
+
+				inc.setDetalles(detallesAnteriores + " \n ---- " + inc.getAgenteResolutor().getNombre() + " "
+						+ inc.getAgenteResolutor().getApellidos() + LocalDate.now() + "---- \n" + model.getDetalles());
+
+				if (model.getTipoIncidencia() == TipoIncidencia.AVERIA) {
+					((AveriaAPI) inc).setReparable(model.getReparable());
+				} else if (model.getTipoIncidencia() == TipoIncidencia.EXTRAVIO) {
+					((ExtravioAPI) inc).setUltimaUbicacion(model.getUltimaUbicacion());
+					((ExtravioAPI) inc).setBloqueado(model.isBloqueado());
+					((ExtravioAPI) inc).setBorrado(model.isBorrado());
+					((ExtravioAPI) inc).setEncontrado(model.isEncontrado());
+				} else if (model.getTipoIncidencia() == TipoIncidencia.SOLICITUD) {
+					((SolicitudAPI) inc).setAceptado(model.isAceptado());
+				} else if (model.getTipoIncidencia() == TipoIncidencia.CONFIGURACION) {
+					((ConfiguracionAPI) inc).setAplicacion(model.getAplicacion());
+				}
+
+				return repositorio.save(inc);
+
+			}).orElseThrow(() -> new RegisterNotFoundException(id, "incicencia"));
 
 			return assembler.toModel(incidencia);
 		} else {
@@ -257,6 +256,5 @@ public class IncidenciaController {
 
 		return assembler.toModel(incidencia);
 	}
-
 
 }

@@ -11,6 +11,7 @@ public class UnidadModel extends RepresentationModel<UnidadModel> {
 	private String codigoUnidad;
 	private String correoOficial;
 	private String telefono;
+
 	public Long getId() {
 		return id;
 	}
@@ -18,7 +19,7 @@ public class UnidadModel extends RepresentationModel<UnidadModel> {
 	public void setId(Long id) {
 		this.id = id;
 	}
-	
+
 	public String getNombre() {
 		return nombre;
 	}

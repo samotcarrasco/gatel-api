@@ -17,7 +17,8 @@ import es.mdef.apigatel.entidades.PersonaConId;
 import es.mde.acing.gatel.Incidencia;
 
 @Component
-public class IncidenciaListaAssembler<T extends Incidencia> implements RepresentationModelAssembler<T, IncidenciaListaModel> {
+public class IncidenciaListaAssembler<T extends Incidencia>
+		implements RepresentationModelAssembler<T, IncidenciaListaModel> {
 
 	@Override
 	public IncidenciaListaModel toModel(T entity) {
@@ -31,12 +32,10 @@ public class IncidenciaListaAssembler<T extends Incidencia> implements Represent
 		model.setFechaAsignacion(entity.getFechaAsignacion());
 		model.setEstado(((IncidenciaConId) entity).getEstado());
 		model.setDescripcion(entity.getDescripcion());
-		model.setEquipoN(entity.getEquipo().getModelo().getMarca() + " " + entity.getEquipo().getModelo().getNombreModelo() + 
-				"-" +entity.getEquipo().getNumeroSerie());
+		model.setEquipoN(entity.getEquipo().getModelo().getMarca() + " "
+				+ entity.getEquipo().getModelo().getNombreModelo() + "-" + entity.getEquipo().getNumeroSerie());
 		model.setDetalles(entity.getDetalles());
 
-
-		
 		if (entity.getTipoIncidencia() == TipoIncidencia.AVERIA) {
 			model.setTipoIncidencia(TipoIncidencia.AVERIA);
 		} else if (entity.getTipoIncidencia() == TipoIncidencia.EXTRAVIO) {
@@ -47,19 +46,19 @@ public class IncidenciaListaAssembler<T extends Incidencia> implements Represent
 			model.setTipoIncidencia(TipoIncidencia.SOLICITUD);
 		}
 
-
 		model.add(linkTo(methodOn(IncidenciaController.class).one(((IncidenciaConId) entity).getId())).withSelfRel());
-		
+
 		if (entity.getAgenteResolutor() != null) {
-		model.add(linkTo(methodOn(PersonaController.class)
-				.one(((PersonaConId) entity.getAgenteResolutor()).getId())).withRel("agenteResolutor"));
+			model.add(
+					linkTo(methodOn(PersonaController.class).one(((PersonaConId) entity.getAgenteResolutor()).getId()))
+							.withRel("agenteResolutor"));
 		}
-		model.add(linkTo(methodOn(EquipoController.class)
-				.one(((EquipoConId) entity.getEquipo()).getId())).withRel("equipo"));
-	
+		model.add(linkTo(methodOn(EquipoController.class).one(((EquipoConId) entity.getEquipo()).getId()))
+				.withRel("equipo"));
+
 		return model;
 	}
-	
+
 	public CollectionModel<IncidenciaListaModel> toCollection(List<T> list) {
 		CollectionModel<IncidenciaListaModel> collection = CollectionModel
 				.of(list.stream().map(this::toModel).collect(Collectors.toList()));

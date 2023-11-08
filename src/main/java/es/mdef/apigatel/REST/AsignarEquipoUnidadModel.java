@@ -8,7 +8,7 @@ import es.mdef.apigatel.entidades.UnidadConId;
 public class AsignarEquipoUnidadModel extends RepresentationModel<AsignarEquipoUnidadModel> {
 
 	private UnidadConId unidad;
-	
+
 	private EquipoConId equipo;
 
 	public UnidadConId getUnidad() {
@@ -26,7 +26,5 @@ public class AsignarEquipoUnidadModel extends RepresentationModel<AsignarEquipoU
 	public void setEquipo(EquipoConId equipo) {
 		this.equipo = equipo;
 	}
-	
-	
 
 }

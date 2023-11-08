@@ -23,34 +23,34 @@ import jakarta.servlet.http.HttpServletResponse;
 
 public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 
-    private AuthenticationManager authenticationManager;
+	private AuthenticationManager authenticationManager;
 
-    public JwtAuthenticationFilter(AuthenticationManager authenticationManager) {
-        this.authenticationManager = authenticationManager;
-    }
+	public JwtAuthenticationFilter(AuthenticationManager authenticationManager) {
+		this.authenticationManager = authenticationManager;
+	}
 
-    @Override
-    protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authResult) throws IOException, ServletException {
-    	Claims claims = new DefaultClaims();
-        HashMap<String, Object> responseBody = new HashMap<>();
+	@Override
+	protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain,
+			Authentication authResult) throws IOException, ServletException {
+		Claims claims = new DefaultClaims();
+		HashMap<String, Object> responseBody = new HashMap<>();
 
-        String username = ((UserDetails) authResult.getPrincipal()).getUsername();
+		String username = ((UserDetails) authResult.getPrincipal()).getUsername();
 
-        List<String> authorities = authResult.getAuthorities().stream()
-                .map(role -> role.getAuthority())
-                .collect(Collectors.toList());
-        claims.put("authorities", authorities);
+		List<String> authorities = authResult.getAuthorities().stream().map(role -> role.getAuthority())
+				.collect(Collectors.toList());
+		claims.put("authorities", authorities);
 
-        String token = JwtTokenService.generateToken(username, claims);
+		String token = JwtTokenService.generateToken(username, claims);
 
-        responseBody.put("token", token);
-        response.setContentType(MediaType.APPLICATION_JSON_VALUE);
-        new ObjectMapper().writeValue(response.getWriter(), responseBody);
-    }
+		responseBody.put("token", token);
+		response.setContentType(MediaType.APPLICATION_JSON_VALUE);
+		new ObjectMapper().writeValue(response.getWriter(), responseBody);
+	}
 
-    @Override
-    public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) {
-        return authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(request.getParameter("nombreUsuario"), request.getParameter("password")));
-    }
+	@Override
+	public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) {
+		return authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
+				request.getParameter("nombreUsuario"), request.getParameter("password")));
+	}
 }

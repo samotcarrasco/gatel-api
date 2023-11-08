@@ -26,7 +26,7 @@ public class ControladorExcepciones {
 	String usuarioNotFoundHandler(RegisterNotFoundException ex) {
 		return ex.getMessage();
 	}
-	
+
 	@ResponseBody
 	@ExceptionHandler(ArgumentNotValidException.class)
 	@ResponseStatus(HttpStatus.BAD_REQUEST)

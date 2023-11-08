@@ -32,7 +32,6 @@ public class ModeloAssembler implements RepresentationModelAssembler<ModeloConId
 		model.setAsignadosAUnidad(entity.getAsignadosAUnidad());
 		model.setNumEquipos(entity.getAsignadosAPersona() + entity.getAsignadosAUnidad() + entity.getStock());
 
-
 		if (entity.getTipoModelo() == TipoModelo.EQUIPO_INFORMATICO) {
 			model.setPulgadas(((EquipoInformaticoAPI) entity).getPulgadas());
 			model.setDiscoDuro(((EquipoInformaticoAPI) entity).getDiscoDuro());
@@ -51,7 +50,6 @@ public class ModeloAssembler implements RepresentationModelAssembler<ModeloConId
 
 		model.add(linkTo(methodOn(ModeloController.class).one(((ModeloConId) entity).getId())).withSelfRel());
 		model.add(linkTo(methodOn(ModeloController.class).equipos(entity.getId())).withRel("equipos"));
-		
 
 		return model;
 	}
@@ -83,7 +81,6 @@ public class ModeloAssembler implements RepresentationModelAssembler<ModeloConId
 		}
 
 		modelo.setImagen(model.getImagen());
-		//modelo.setImgReducida(ReductorImagen.reducirImagen(model.getImagen(), 150, 150));
 		modelo.setImgReducida(model.getImgReducida());
 		modelo.setMarca(model.getMarca());
 		modelo.setNombreModelo(model.getNombreModelo());

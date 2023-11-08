@@ -20,18 +20,17 @@ public class IncidenciaPutModel extends RepresentationModel<IncidenciaPutModel> 
 	private EquipoConId equipo;
 	private TipoIncidencia tipoIncidencia;
 	private String detalles;
-	
-	//Averia
+
+	// Averia
 	private String compomente;
 	private Boolean reparable;
-	
-	//Extravio
+
+	// Extravio
 	private String ultimaUbicacion;
 	private boolean bloqueado;
 	private boolean borrado;
 	private boolean encontrado;
 
-	
 	public Boolean getAceptado() {
 		return aceptado;
 	}
@@ -92,10 +91,10 @@ public class IncidenciaPutModel extends RepresentationModel<IncidenciaPutModel> 
 		this.aplicacion = aplicacion;
 	}
 
-	//Configuracion
+	// Configuracion
 	private String aplicacion;
 
-	//Solicitud
+	// Solicitud
 	private Boolean aceptado;
 
 	public LocalDate getFechaResolucion() {

@@ -27,25 +27,25 @@ public class PersonaListaAssembler<T extends Persona> implements RepresentationM
 		model.setNombre(entity.getNombre());
 		model.setApellidos(entity.getApellidos());
 		model.setEmail(entity.getEmail());
-		
+
 		if (entity.getTipoPersona() == TipoPersona.MIEMBRO_GC) {
+			model.setEmpleo(((MiembroGCAPI) entity).getEmpleo());
 			model.setTipoPersona(TipoPersona.MIEMBRO_GC);
 			model.setTip(((MiembroGCAPI) entity).getTip());
-			model.add(linkTo(
-					methodOn(UnidadController.class).one(((UnidadConId) entity.getUnidad()).getId()))
+			model.add(linkTo(methodOn(UnidadController.class).one(((UnidadConId) entity.getUnidad()).getId()))
 					.withRel("unidad"));
-			
+
 			model.add(linkTo(methodOn(PersonaController.class).equiposDePersona(((PersonaConId) entity).getId()))
-							.withRel("equiposPersonales"));
+					.withRel("equiposPersonales"));
 
 		} else if (entity.getTipoPersona() == TipoPersona.PERSONAL_EXTERNO) {
 			model.setTipoPersona(TipoPersona.PERSONAL_EXTERNO);
 			model.setDni(((PersonalExternoAPI) entity).getDni());
-		} 
-		
+		}
+
 		model.add(linkTo(methodOn(PersonaController.class).one(((PersonaConId) entity).getId())).withSelfRel());
 
-	return model; 
+		return model;
 
 	}
 

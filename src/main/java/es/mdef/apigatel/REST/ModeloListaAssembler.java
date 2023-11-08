@@ -25,7 +25,7 @@ public class ModeloListaAssembler implements RepresentationModelAssembler<Modelo
 		model.setNombreModelo(((ModeloConId) entity).getNombreModelo());
 		model.setStock(((ModeloConId) entity).getStock());
 		model.setImgReducida(((ModeloConId) entity).getImgReducida());
-		
+
 		if (entity.getTipoModelo() == TipoModelo.EQUIPO_INFORMATICO) {
 			model.setTipoModelo(TipoModelo.EQUIPO_INFORMATICO);
 		} else if (entity.getTipoModelo() == TipoModelo.WEBCAM) {
@@ -35,8 +35,7 @@ public class ModeloListaAssembler implements RepresentationModelAssembler<Modelo
 		}
 
 		model.add(linkTo(methodOn(ModeloController.class).one(((ModeloConId) entity).getId())).withSelfRel());
-		model.add(linkTo(methodOn(ModeloController.class).equipos(((ModeloConId) entity).getId()))
-						.withRel("equipos"));
+		model.add(linkTo(methodOn(ModeloController.class).equipos(((ModeloConId) entity).getId())).withRel("equipos"));
 
 		return model;
 	}

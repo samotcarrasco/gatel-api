@@ -6,6 +6,7 @@ import es.mde.acing.gatel.PersonaImpl.TipoPersona;
 
 @Relation(collectionRelation = "personas")
 public class PersonaListaModel extends RepresentationModel<PersonaListaModel> {
+	private String empleo;
 	private String nombre;
 	private String apellidos;
 	private String email;
@@ -65,6 +66,14 @@ public class PersonaListaModel extends RepresentationModel<PersonaListaModel> {
 	public String toString() {
 		return "PersonaListaModel [nombre=" + nombre + ", apellidos=" + apellidos + ", email=" + email
 				+ ", tipoPersona=" + tipoPersona + "]";
+	}
+
+	public String getEmpleo() {
+		return empleo;
+	}
+
+	public void setEmpleo(String empleo) {
+		this.empleo = empleo;
 	}
 
 }

@@ -8,12 +8,10 @@ public class EquipoPersonalAPI extends EquipoConId implements EquipoPersonal {
 	public TipoEquipo getTipoEquipo() {
 		return TipoEquipo.EQUIPO_PERSONAL;
 	}
-	
+
 	@Override
 	public String toString() {
-		return "EquipoPersonalAPI [unidad=" +  super.toString() + "]";
+		return "EquipoPersonalAPI [unidad=" + super.toString() + "]";
 	}
 
-
 }
-	

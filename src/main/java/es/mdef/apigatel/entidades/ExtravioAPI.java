@@ -3,13 +3,11 @@ package es.mdef.apigatel.entidades;
 import es.mde.acing.gatel.Extravio;
 
 public class ExtravioAPI extends IncidenciaConId implements Extravio {
-	
+
 	private String ultimaUbicacion;
 	private boolean bloqueado;
 	private boolean borrado;
 	private boolean encontrado;
-	
-	
 
 	@Override
 	public TipoIncidencia getTipoIncidencia() {

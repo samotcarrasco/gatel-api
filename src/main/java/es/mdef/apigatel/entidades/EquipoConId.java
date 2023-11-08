@@ -4,7 +4,7 @@ import es.mde.acing.gatel.EquipoImpl;
 
 public class EquipoConId extends EquipoImpl {
 	private Long id;
-	
+
 	public Long getId() {
 		return id;
 	}

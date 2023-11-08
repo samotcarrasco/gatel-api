@@ -4,7 +4,7 @@ import es.mde.acing.gatel.UnidadImpl;
 
 public class UnidadConId extends UnidadImpl {
 	private Long id;
-	
+
 	public Long getId() {
 		return id;
 	}

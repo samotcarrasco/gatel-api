@@ -24,22 +24,22 @@ public class IncidenciaModel extends RepresentationModel<IncidenciaModel> {
 	private TipoIncidencia tipoIncidencia;
 	private String resolutorN;
 	private String resolutorEmail;
-	
-	//Averia
+	private String informador;
+
+	// Averia
 	private String componente;
 	private Boolean reparable;
-	
-	//Extravio
+
+	// Extravio
 	private String ultimaUbicacion;
 	private boolean bloqueado;
 	private boolean borrado;
 	private boolean encontrado;
 
-	
-	//Configuracion
+	// Configuracion
 	private String aplicacion;
 
-	//Solicitud
+	// Solicitud
 	private Boolean aceptado;
 
 	public Long getId() {
@@ -161,8 +161,6 @@ public class IncidenciaModel extends RepresentationModel<IncidenciaModel> {
 	public void setAceptado(Boolean aceptado) {
 		this.aceptado = aceptado;
 	}
-	
-	
 
 	public String getEquipoN() {
 		return equipoN;
@@ -176,10 +174,9 @@ public class IncidenciaModel extends RepresentationModel<IncidenciaModel> {
 	public String toString() {
 		return "IncidenciaModel [id=" + id + ", codigo=" + codigo + ", fechaAlta=" + fechaAlta + ", fechaResolucion="
 				+ fechaResolucion + ", estado=" + estado + ", descripcion=" + descripcion + ", tipoIncidencia="
-				+ tipoIncidencia + ", componente=" + componente
-				+ ", reparable=" + reparable + ", ultimaUbicacion=" + ultimaUbicacion + ", bloqueado=" + bloqueado
-				+ ", borrado=" + borrado + ", encontrado=" + encontrado + ", aplicacion=" + aplicacion + ", aceptacion="
-				+ aceptado + "]";
+				+ tipoIncidencia + ", componente=" + componente + ", reparable=" + reparable + ", ultimaUbicacion="
+				+ ultimaUbicacion + ", bloqueado=" + bloqueado + ", borrado=" + borrado + ", encontrado=" + encontrado
+				+ ", aplicacion=" + aplicacion + ", aceptacion=" + aceptado + "]";
 	}
 
 	public String getDetalles() {
@@ -222,7 +219,12 @@ public class IncidenciaModel extends RepresentationModel<IncidenciaModel> {
 		this.resolutorEmail = resolutorEmail;
 	}
 
-	
-	
-	
+	public String getInformador() {
+		return informador;
+	}
+
+	public void setInformador(String informador) {
+		this.informador = informador;
+	}
+
 }

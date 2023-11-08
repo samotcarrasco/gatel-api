@@ -27,24 +27,23 @@ public class PersonaAssembler implements RepresentationModelAssembler<PersonaCon
 		model.setNombreUsuario(entity.getNombreUsuario());
 		model.setPassword(entity.getPassword());
 		model.setPerfil(entity.getPerfil());
-		
+
 		if (entity.getTipoPersona() == TipoPersona.MIEMBRO_GC) {
 			model.setTipoPersona(TipoPersona.MIEMBRO_GC);
 			model.setTip(((MiembroGCAPI) entity).getTip());
 			model.setEmpleo(((MiembroGCAPI) entity).getEmpleo());
-			model.add(linkTo(
-					methodOn(UnidadController.class).one(((UnidadConId) entity.getUnidad()).getId()))
+			model.add(linkTo(methodOn(UnidadController.class).one(((UnidadConId) entity.getUnidad()).getId()))
 					.withRel("unidad"));
-			
+
 			model.add(linkTo(methodOn(PersonaController.class).equiposDePersona(entity.getId()))
-							.withRel("equiposPersonales"));
+					.withRel("equiposPersonales"));
 
 		} else if (entity.getTipoPersona() == TipoPersona.PERSONAL_EXTERNO) {
 			model.setTipoPersona(TipoPersona.PERSONAL_EXTERNO);
 			model.setDni(((PersonalExternoAPI) entity).getDni());
 			model.setEmpresa(((PersonalExternoAPI) entity).getDni());
-		} 
-		
+		}
+
 		model.add(linkTo(methodOn(PersonaController.class).one(((PersonaConId) entity).getId())).withSelfRel());
 
 		return model;

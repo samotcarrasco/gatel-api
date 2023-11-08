@@ -3,11 +3,11 @@ package es.mdef.apigatel.entidades;
 import es.mde.acing.gatel.MiembroGC;
 
 public class MiembroGCAPI extends PersonaConId implements MiembroGC {
-	
+
 	private static final long serialVersionUID = 1L;
 	private String tip;
 	private String empleo;
-	
+
 	@Override
 	public TipoPersona getTipoPersona() {
 		return TipoPersona.MIEMBRO_GC;
@@ -32,8 +32,7 @@ public class MiembroGCAPI extends PersonaConId implements MiembroGC {
 	@Override
 	public String toString() {
 		return "MiembroGCAPI [tip=" + tip + ", empleo=" + empleo + ", getTipoPersona()=" + getTipoPersona()
-				+ super.toString() ;
+				+ super.toString();
 	}
 
 }
-	

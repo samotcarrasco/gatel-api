@@ -8,7 +8,7 @@ import es.mdef.apigatel.entidades.PersonaConId;
 public class AsignarEquipoPersonalModel extends RepresentationModel<AsignarEquipoPersonalModel> {
 
 	private PersonaConId persona;
-	
+
 	private EquipoConId equipo;
 
 	public PersonaConId getPersona() {
@@ -26,7 +26,5 @@ public class AsignarEquipoPersonalModel extends RepresentationModel<AsignarEquip
 	public void setEquipo(EquipoConId equipo) {
 		this.equipo = equipo;
 	}
-	
-	
 
 }

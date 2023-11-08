@@ -22,9 +22,8 @@ public class IncidenciaListaModel extends RepresentationModel<IncidenciaListaMod
 	private String detalles;
 	private String descripcion;
 
-	
 	private TipoIncidencia tipoIncidencia;
-	
+
 	public Long getId() {
 		return id;
 	}
@@ -72,8 +71,6 @@ public class IncidenciaListaModel extends RepresentationModel<IncidenciaListaMod
 	public void setTipoIncidencia(TipoIncidencia tipoIncidencia) {
 		this.tipoIncidencia = tipoIncidencia;
 	}
-	
-	
 
 	public String getEquipoN() {
 		return equipoN;
@@ -85,8 +82,8 @@ public class IncidenciaListaModel extends RepresentationModel<IncidenciaListaMod
 
 	@Override
 	public String toString() {
-		return "IncidenciaPostModel [id=" + id + ", codigo=" + codigo + ", fechaAlta=" + fechaAlta + ", fechaResolucion="
-				+ fechaResolucion + ", estado=" + estado ;
+		return "IncidenciaPostModel [id=" + id + ", codigo=" + codigo + ", fechaAlta=" + fechaAlta
+				+ ", fechaResolucion=" + fechaResolucion + ", estado=" + estado;
 	}
 
 	public LocalDate getFechaCierre() {
@@ -121,5 +118,4 @@ public class IncidenciaListaModel extends RepresentationModel<IncidenciaListaMod
 		this.descripcion = descripcion;
 	}
 
-	
 }

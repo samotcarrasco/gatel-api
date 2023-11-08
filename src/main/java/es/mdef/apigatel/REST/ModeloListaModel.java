@@ -57,8 +57,6 @@ public class ModeloListaModel extends RepresentationModel<ModeloListaModel> {
 //		this.equipos = equipos;
 //	}
 
-
-
 	public Integer getStock() {
 		return stock;
 	}
@@ -74,13 +72,12 @@ public class ModeloListaModel extends RepresentationModel<ModeloListaModel> {
 	public void setTipoModelo(TipoModelo tipoModelo) {
 		this.tipoModelo = tipoModelo;
 	}
-	
+
 	@Override
 	public String toString() {
-		return "ModeloListaModel [id=" + id + ", marca=" + marca + ", nombreModelo="
-				+ nombreModelo // + ", equipos=" + equipos
+		return "ModeloListaModel [id=" + id + ", marca=" + marca + ", nombreModelo=" + nombreModelo // + ", equipos=" +
+																									// equipos
 				+ ", imgReducida=" + imgReducida + ", tipoModelo=" + tipoModelo + "]";
 	}
-
 
 }

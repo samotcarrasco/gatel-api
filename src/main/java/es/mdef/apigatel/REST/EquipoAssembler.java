@@ -39,7 +39,7 @@ public class EquipoAssembler implements RepresentationModelAssembler<EquipoConId
 				model.setTipoEquipo(TipoEquipo.EQUIPO_PERSONAL);
 				model.setCodigoPropietario(((MiembroGCAPI) entity.getPersona()).getTip());
 			}
-			
+
 			model.add(linkTo(methodOn(PersonaController.class).one(((PersonaConId) entity.getPersona()).getId()))
 					.withRel("persona"));
 		}

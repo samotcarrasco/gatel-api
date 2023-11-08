@@ -25,13 +25,12 @@ public class UnidadListaAssembler<T extends Unidad> implements RepresentationMod
 		model.setCodigoUnidad(entity.getCodigoUnidad());
 		model.setCorreoOficial(entity.getCorreoOficial());
 		model.setTelefono(entity.getTelefono());
-		
+
 		model.add(linkTo(methodOn(UnidadController.class).one(((UnidadConId) entity).getId())).withSelfRel());
 		model.add(linkTo(methodOn(UnidadController.class).equiposDeUnidad(((UnidadConId) entity).getId()))
 				.withRel("equiposDeUnidad"));
 		model.add(linkTo(methodOn(UnidadController.class).miembros(((UnidadConId) entity).getId()))
 				.withRel("miembrosGC"));
-
 
 		return model;
 	}

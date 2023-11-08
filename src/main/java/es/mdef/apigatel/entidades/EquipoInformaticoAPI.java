@@ -2,15 +2,14 @@ package es.mdef.apigatel.entidades;
 
 import es.mde.acing.gatel.EquipoInformatico;
 
-public class EquipoInformaticoAPI extends ModeloConId implements EquipoInformatico{
+public class EquipoInformaticoAPI extends ModeloConId implements EquipoInformatico {
 
 	private String sistemaOperativo;
 	private Integer discoDuro;
 	private Integer memoria;
 	private Integer pulgadas;
 	private String tipoEquipoInformatico;
-	
-	
+
 	@Override
 	public Integer getMemoria() {
 		return memoria;
@@ -46,7 +45,7 @@ public class EquipoInformaticoAPI extends ModeloConId implements EquipoInformati
 	public void setPulgadas(Integer pulgadas) {
 		this.pulgadas = pulgadas;
 	}
-	
+
 	@Override
 	public String getTipoEquipoInformatico() {
 		return tipoEquipoInformatico;

@@ -8,9 +8,9 @@ import es.mdef.apigatel.entidades.IncidenciaConId;
 import es.mdef.apigatel.entidades.PersonaConId;
 
 public interface IncidenciaRepositorio extends JpaRepository<IncidenciaConId, Long> {
-	
+
 	List<IncidenciaConId> findByEquipo(Equipo equipo);
-	
+
 	List<IncidenciaConId> findByAgenteResolutor(PersonaConId persona);
 
 }

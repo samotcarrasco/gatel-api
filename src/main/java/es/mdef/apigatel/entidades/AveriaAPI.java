@@ -3,10 +3,10 @@ package es.mdef.apigatel.entidades;
 import es.mde.acing.gatel.Averia;
 
 public class AveriaAPI extends IncidenciaConId implements Averia {
-	
+
 	private String componente;
 	private Boolean reparable;
-	
+
 	@Override
 	public TipoIncidencia getTipoIncidencia() {
 		return TipoIncidencia.AVERIA;
