@@ -18,11 +18,15 @@
                 <join-column name="persona_id" referenced-column-name="ID"/>
          </many-to-one>
             
-         <many-to-one name="modelo" fetch="LAZY" target-entity="es.mdef.apigatel.entidades.ModeloConId">
+         <many-to-one name="modelo" fetch="EAGER" target-entity="es.mdef.apigatel.entidades.ModeloConId">
                 <join-column name="modelo_id" referenced-column-name="ID"/>
          </many-to-one>
          
-         <one-to-many name="incidencias" mapped-by="equipo" target-entity="es.mdef.apigatel.entidades.IncidenciaConId"/>
+         <one-to-many name="incidencias" mapped-by="equipo" target-entity="es.mdef.apigatel.entidades.IncidenciaConId">
+         <cascade>
+         	<cascade-remove/>
+         </cascade>
+         </one-to-many>
          
         </attributes>
     </mapped-superclass>

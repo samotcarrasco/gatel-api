@@ -11,6 +11,7 @@ import org.springframework.hateoas.server.RepresentationModelAssembler;
 import org.springframework.stereotype.Component;
 
 import es.mde.acing.gatel.ModeloImpl.TipoModelo;
+import es.mdef.apigatel.entidades.EquipoInformaticoAPI;
 import es.mdef.apigatel.entidades.ModeloConId;
 
 @Component
@@ -28,6 +29,7 @@ public class ModeloListaAssembler implements RepresentationModelAssembler<Modelo
 
 		if (entity.getTipoModelo() == TipoModelo.EQUIPO_INFORMATICO) {
 			model.setTipoModelo(TipoModelo.EQUIPO_INFORMATICO);
+			model.setTipoEquipoInformatico(((EquipoInformaticoAPI) entity).getTipoEquipoInformatico());
 		} else if (entity.getTipoModelo() == TipoModelo.WEBCAM) {
 			model.setTipoModelo(TipoModelo.WEBCAM);
 		} else if (entity.getTipoModelo() == TipoModelo.AURICULARES) {

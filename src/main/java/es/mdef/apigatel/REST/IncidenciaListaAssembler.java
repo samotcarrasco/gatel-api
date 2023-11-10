@@ -11,8 +11,10 @@ import org.springframework.hateoas.server.RepresentationModelAssembler;
 import org.springframework.stereotype.Component;
 
 import es.mde.acing.gatel.IncidenciaImpl.TipoIncidencia;
+import es.mde.acing.gatel.ModeloImpl.TipoModelo;
 import es.mdef.apigatel.entidades.IncidenciaConId;
 import es.mdef.apigatel.entidades.EquipoConId;
+import es.mdef.apigatel.entidades.EquipoInformaticoAPI;
 import es.mdef.apigatel.entidades.PersonaConId;
 import es.mde.acing.gatel.Incidencia;
 
@@ -35,6 +37,10 @@ public class IncidenciaListaAssembler<T extends Incidencia>
 		model.setEquipoN(entity.getEquipo().getModelo().getMarca() + " "
 				+ entity.getEquipo().getModelo().getNombreModelo() + "-" + entity.getEquipo().getNumeroSerie());
 		model.setDetalles(entity.getDetalles());
+		model.setTipoModelo(entity.getEquipo().getModelo().getTipoModelo());
+		if (entity.getEquipo().getModelo().getTipoModelo() == TipoModelo.EQUIPO_INFORMATICO) {
+			model.setTipoEquipoInformatico(((EquipoInformaticoAPI) entity.getEquipo().getModelo()).getTipoEquipoInformatico());
+		}
 
 		if (entity.getTipoIncidencia() == TipoIncidencia.AVERIA) {
 			model.setTipoIncidencia(TipoIncidencia.AVERIA);

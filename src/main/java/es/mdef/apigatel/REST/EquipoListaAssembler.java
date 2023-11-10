@@ -13,7 +13,9 @@ import org.springframework.stereotype.Component;
 import es.mde.acing.gatel.PersonaImpl.TipoPersona;
 import es.mde.acing.gatel.Equipo;
 import es.mde.acing.gatel.EquipoImpl.TipoEquipo;
+import es.mde.acing.gatel.ModeloImpl.TipoModelo;
 import es.mdef.apigatel.entidades.EquipoConId;
+import es.mdef.apigatel.entidades.EquipoInformaticoAPI;
 import es.mdef.apigatel.entidades.MiembroGCAPI;
 import es.mdef.apigatel.entidades.ModeloConId;
 import es.mdef.apigatel.entidades.PersonaConId;
@@ -29,8 +31,13 @@ public class EquipoListaAssembler<T extends Equipo> implements RepresentationMod
 		model.setId(((EquipoConId) entity).getId());
 		model.setNumeroSerie(entity.getNumeroSerie());
 		model.setFechaAsignacion(entity.getFechaAsignacion());
-		model.setFechaAdquisicion(entity.getFechaAdquisicion());
+		model.setFechaAdquisicion(entity.getFechaAdquisicion());	
 		model.setModeloN(entity.getModelo().getMarca() + " " + entity.getModelo().getNombreModelo());
+		model.setTipoModelo(entity.getModelo().getTipoModelo());
+		if (entity.getModelo().getTipoModelo() == TipoModelo.EQUIPO_INFORMATICO) {
+			model.setTipoEquipoInformatico(((EquipoInformaticoAPI) entity.getModelo()).getTipoEquipoInformatico());	
+		}
+		
 
 		if (entity.getTipoEquipo() == TipoEquipo.EQUIPO_UNIDAD && entity.getUnidad() != null) {
 			model.setTipoEquipo(TipoEquipo.EQUIPO_UNIDAD);

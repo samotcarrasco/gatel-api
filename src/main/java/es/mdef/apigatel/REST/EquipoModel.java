@@ -5,6 +5,7 @@ import org.springframework.hateoas.RepresentationModel;
 import org.springframework.hateoas.server.core.Relation;
 
 import es.mde.acing.gatel.EquipoImpl.TipoEquipo;
+import es.mde.acing.gatel.ModeloImpl.TipoModelo;
 
 @Relation(itemRelation = "equipo", collectionRelation = "equipos")
 public class EquipoModel extends RepresentationModel<EquipoModel> {
@@ -16,7 +17,9 @@ public class EquipoModel extends RepresentationModel<EquipoModel> {
 	private TipoEquipo tipoEquipo;
 	private String modeloN;
 	private String codigoPropietario;
-
+	private TipoModelo tipoModelo;
+	private String tipoEquipoInformatico;
+	
 	public Long getId() {
 		return id;
 	}
@@ -82,6 +85,24 @@ public class EquipoModel extends RepresentationModel<EquipoModel> {
 		this.codigoPropietario = codigoPropietario;
 	}
 
+
+
+	public TipoModelo getTipoModelo() {
+		return tipoModelo;
+	}
+
+	public void setTipoModelo(TipoModelo tipoModelo) {
+		this.tipoModelo = tipoModelo;
+	}
+
+	public String getTipoEquipoInformatico() {
+		return tipoEquipoInformatico;
+	}
+
+	public void setTipoEquipoInformatico(String tipoEquipoInformatico) {
+		this.tipoEquipoInformatico = tipoEquipoInformatico;
+	}
+	
 	@Override
 	public String toString() {
 		return "EquipoModel [numeroSerie=" + numeroSerie + ", fechaAdquisicion=" + fechaAdquisicion

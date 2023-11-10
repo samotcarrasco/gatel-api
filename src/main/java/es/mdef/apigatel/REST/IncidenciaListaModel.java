@@ -7,6 +7,7 @@ import org.springframework.hateoas.server.core.Relation;
 
 import es.mde.acing.gatel.IncidenciaImpl.EstadoIncidencia;
 import es.mde.acing.gatel.IncidenciaImpl.TipoIncidencia;
+import es.mde.acing.gatel.ModeloImpl.TipoModelo;
 
 @Relation(collectionRelation = "incidencias")
 public class IncidenciaListaModel extends RepresentationModel<IncidenciaListaModel> {
@@ -23,6 +24,10 @@ public class IncidenciaListaModel extends RepresentationModel<IncidenciaListaMod
 	private String descripcion;
 
 	private TipoIncidencia tipoIncidencia;
+	
+    private TipoModelo tipoModelo;
+    private String tipoEquipoInformatico;
+	
 
 	public Long getId() {
 		return id;
@@ -116,6 +121,22 @@ public class IncidenciaListaModel extends RepresentationModel<IncidenciaListaMod
 
 	public void setDescripcion(String descripcion) {
 		this.descripcion = descripcion;
+	}
+
+	public TipoModelo getTipoModelo() {
+		return tipoModelo;
+	}
+
+	public void setTipoModelo(TipoModelo tipoModelo) {
+		this.tipoModelo = tipoModelo;
+	}
+
+	public String getTipoEquipoInformatico() {
+		return tipoEquipoInformatico;
+	}
+
+	public void setTipoEquipoInformatico(String tipoEquipoInformatico) {
+		this.tipoEquipoInformatico = tipoEquipoInformatico;
 	}
 
 }

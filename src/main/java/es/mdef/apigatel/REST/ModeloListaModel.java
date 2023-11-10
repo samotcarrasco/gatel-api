@@ -16,6 +16,7 @@ public class ModeloListaModel extends RepresentationModel<ModeloListaModel> {
 	private String imgReducida;
 	private Integer stock;
 	private TipoModelo tipoModelo;
+	private String tipoEquipoInformatico;
 
 	public Long getId() {
 		return id;
@@ -78,6 +79,14 @@ public class ModeloListaModel extends RepresentationModel<ModeloListaModel> {
 		return "ModeloListaModel [id=" + id + ", marca=" + marca + ", nombreModelo=" + nombreModelo // + ", equipos=" +
 																									// equipos
 				+ ", imgReducida=" + imgReducida + ", tipoModelo=" + tipoModelo + "]";
+	}
+
+	public String getTipoEquipoInformatico() {
+		return tipoEquipoInformatico;
+	}
+
+	public void setTipoEquipoInformatico(String tipoEquipoInformatico) {
+		this.tipoEquipoInformatico = tipoEquipoInformatico;
 	}
 
 }
