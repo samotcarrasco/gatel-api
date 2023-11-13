@@ -1,19 +1,23 @@
-<?xml version="1.0" encoding="UTF-8"?> 
-<entity-mappings xmlns="http://java.sun.com/xml/ns/persistence/orm" 
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-	xsi:schemaLocation="http://java.sun.com/xml/ns/persistence/orm http://java.sun.com/xml/ns/persistence/orm_1_0.xsd" 
-	version="1.0"> 
-	
-     <mapped-superclass class="es.mde.acing.gatel.UnidadImpl" access="FIELD">
- 		<attributes>
-		<basic name="nombre" />
-		<basic name="codigoUnidad"/>
-		<basic name="correoOficial"/>
-		<basic name="telefono"/>		     
-    	
-    	<one-to-many name="equiposDeUnidad" mapped-by="unidad" target-entity="es.mdef.apigatel.entidades.EquipoConId"/>
-        <one-to-many name="miembrosGC" mapped-by="unidad" target-entity="es.mdef.apigatel.entidades.PersonaConId"/>
-       
-        </attributes>
-    </mapped-superclass>
+<?xml version="1.0" encoding="UTF-8"?>
+<entity-mappings
+	xmlns="http://java.sun.com/xml/ns/persistence/orm"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/persistence/orm http://java.sun.com/xml/ns/persistence/orm_1_0.xsd"
+	version="1.0">
+
+	<mapped-superclass
+		class="es.mde.acing.gatel.UnidadImpl" access="FIELD">
+		<attributes>
+			<basic name="nombre" />
+			<basic name="codigoUnidad" />
+			<basic name="correoOficial" />
+			<basic name="telefono" />
+
+			<one-to-many name="equiposDeUnidad" mapped-by="unidad"
+				target-entity="es.mdef.apigatel.entidades.EquipoConId" />
+			<one-to-many name="miembrosGC" mapped-by="unidad"
+				target-entity="es.mdef.apigatel.entidades.PersonaConId" />
+
+		</attributes>
+	</mapped-superclass>
 </entity-mappings>
