@@ -50,4 +50,10 @@ public class ExtravioAPI extends IncidenciaConId implements Extravio {
 		this.encontrado = encontrado;
 	}
 
+	@Override
+	public String toString() {
+		return "ExtravioAPI [ultimaUbicacion=" + ultimaUbicacion + ", bloqueado=" + bloqueado + ", borrado=" + borrado
+				+ ", encontrado=" + encontrado + "]";
+	}
+
 }

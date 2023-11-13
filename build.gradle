@@ -28,7 +28,7 @@ dependencies {
 	implementation 'javax.xml.bind:jaxb-api:2.3.1'
 	
 	//librería externa alojada en github
-	implementation 'com.github.samotcarrasco:gatel-lib:cfb3f99'
+	implementation 'com.github.samotcarrasco:gatel-lib:V2.0'
 }
    
 

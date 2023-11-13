@@ -129,10 +129,8 @@ public class IncidenciaAssembler implements RepresentationModelAssembler<Inciden
 		}
 
 		incidencia.setFechaAlta(LocalDate.now());
-		// incidencia.setFechaResolucion(model.getFechaResolucion());
 		incidencia.setEstado(EstadoIncidencia.NUEVA);
 		incidencia.setDescripcion(model.getDescripcion());
-		// incidencia.setAgenteResolutor(model.getAgenteResolutor());
 		incidencia.setEquipo(model.getEquipo());
 
 		return incidencia;

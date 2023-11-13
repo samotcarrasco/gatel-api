@@ -171,15 +171,6 @@ public class IncidenciaModel extends RepresentationModel<IncidenciaModel> {
 		this.equipoN = equipoN;
 	}
 
-	@Override
-	public String toString() {
-		return "IncidenciaModel [id=" + id + ", codigo=" + codigo + ", fechaAlta=" + fechaAlta + ", fechaResolucion="
-				+ fechaResolucion + ", estado=" + estado + ", descripcion=" + descripcion + ", tipoIncidencia="
-				+ tipoIncidencia + ", componente=" + componente + ", reparable=" + reparable + ", ultimaUbicacion="
-				+ ultimaUbicacion + ", bloqueado=" + bloqueado + ", borrado=" + borrado + ", encontrado=" + encontrado
-				+ ", aplicacion=" + aplicacion + ", aceptacion=" + aceptado + "]";
-	}
-
 	public String getDetalles() {
 		return detalles;
 	}
@@ -227,5 +218,18 @@ public class IncidenciaModel extends RepresentationModel<IncidenciaModel> {
 	public void setInformador(String informador) {
 		this.informador = informador;
 	}
+	
+	@Override
+	public String toString() {
+		return "IncidenciaModel [id=" + id + ", codigo=" + codigo + ", fechaAlta=" + fechaAlta + ", fechaResolucion="
+				+ fechaResolucion + ", estado=" + estado + ", descripcion=" + descripcion + ", equipoN=" + equipoN
+				+ ", detalles=" + detalles + ", fechaCierre=" + fechaCierre + ", fechaAsignacion=" + fechaAsignacion
+				+ ", tipoIncidencia=" + tipoIncidencia + ", resolutorN=" + resolutorN + ", resolutorEmail="
+				+ resolutorEmail + ", informador=" + informador + ", componente=" + componente + ", reparable="
+				+ reparable + ", ultimaUbicacion=" + ultimaUbicacion + ", bloqueado=" + bloqueado + ", borrado="
+				+ borrado + ", encontrado=" + encontrado + ", aplicacion=" + aplicacion + ", aceptado=" + aceptado
+				+ "]";
+	}
+	
 
 }

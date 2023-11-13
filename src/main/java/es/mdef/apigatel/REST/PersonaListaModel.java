@@ -62,11 +62,6 @@ public class PersonaListaModel extends RepresentationModel<PersonaListaModel> {
 		this.dni = dni;
 	}
 
-	@Override
-	public String toString() {
-		return "PersonaListaModel [nombre=" + nombre + ", apellidos=" + apellidos + ", email=" + email
-				+ ", tipoPersona=" + tipoPersona + "]";
-	}
 
 	public String getEmpleo() {
 		return empleo;
@@ -76,4 +71,9 @@ public class PersonaListaModel extends RepresentationModel<PersonaListaModel> {
 		this.empleo = empleo;
 	}
 
+	@Override
+	public String toString() {
+		return "PersonaListaModel [nombre=" + nombre + ", apellidos=" + apellidos + ", email=" + email
+				+ ", tipoPersona=" + tipoPersona + "]";
+	}
 }

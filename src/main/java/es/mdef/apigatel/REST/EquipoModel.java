@@ -106,7 +106,7 @@ public class EquipoModel extends RepresentationModel<EquipoModel> {
 	@Override
 	public String toString() {
 		return "EquipoModel [numeroSerie=" + numeroSerie + ", fechaAdquisicion=" + fechaAdquisicion
-				+ ", fechaAsignacion=" + fechaAsignacion; // + ", incidencias=" + incidencias + "]";
+				+ ", fechaAsignacion=" + fechaAsignacion + " ]"; 
 	}
 
 }

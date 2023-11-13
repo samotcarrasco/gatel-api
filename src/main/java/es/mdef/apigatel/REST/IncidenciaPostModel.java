@@ -45,10 +45,6 @@ public class IncidenciaPostModel extends RepresentationModel<IncidenciaPostModel
 		return aplicacion;
 	}
 
-//	public Boolean isAceptado() {
-//		return aceptado;
-//	}
-
 	public EquipoConId getEquipo() {
 		return equipo;
 	}

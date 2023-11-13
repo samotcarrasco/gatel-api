@@ -30,4 +30,9 @@ public class AveriaAPI extends IncidenciaConId implements Averia {
 		this.reparable = reparable;
 	}
 
+	@Override
+	public String toString() {
+		return "AveriaAPI [componente=" + componente + ", reparable=" + reparable + "]";
+	}
+
 }

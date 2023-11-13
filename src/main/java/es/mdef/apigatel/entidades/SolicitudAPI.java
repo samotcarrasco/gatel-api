@@ -20,4 +20,9 @@ public class SolicitudAPI extends IncidenciaConId implements Solicitud {
 		return TipoIncidencia.SOLICITUD;
 	}
 
+	@Override
+	public String toString() {
+		return "SolicitudAPI [aceptado=" + aceptado + "]";
+	}
+
 }

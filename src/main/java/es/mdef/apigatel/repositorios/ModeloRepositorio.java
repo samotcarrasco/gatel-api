@@ -1,7 +1,5 @@
 package es.mdef.apigatel.repositorios;
 
-import java.util.List;
-
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -50,8 +48,5 @@ public interface ModeloRepositorio extends JpaRepository<ModeloConId, Long> {
 	void actualizarWebCam(@Param("marca") String marca, @Param("nombreModelo") String nombreModelo,
 			@Param("detalles") String detalles, @Param("imagen") String imagen,
 			@Param("img_reducida") String img_reducida, @Param("resolucion") String resolucion, @Param("id") Long id);
-
-	@Query(value = "SELECT * FROM public.modelos " + "WHERE id < 5", nativeQuery = true)
-	List<ModeloConId> algunos();
 
 }

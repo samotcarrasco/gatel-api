@@ -23,13 +23,6 @@ public class ModeloConId extends ModeloImpl {
 		this.imgReducida = imgReducida;
 	}
 
-//	public List<MaterialConId> algunos() {
-//		//MaterialRepositorio repo = new MaterialRepositorio();
-//	    List<MaterialConId> materiales = MaterialRepositorio.algunos();
-//	    Collections.shuffle(materiales); 
-//		return materiales;
-//	}
-
 	public int getStock() {
 		int contador = 0;
 		if (this.getEquipos() != null) {

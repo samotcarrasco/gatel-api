@@ -13,7 +13,6 @@ public class ModeloModel extends RepresentationModel<ModeloModel> {
 	private String nombreModelo;
 	private String detalles;
 	private String imagen;
-	// private List<Equipo> equipos;
 	private String imgReducida;
 	private Boolean stereo;
 	private String conexion;
@@ -76,14 +75,6 @@ public class ModeloModel extends RepresentationModel<ModeloModel> {
 	public void setImagen(String imagen) {
 		this.imagen = imagen;
 	}
-
-//    public List<Equipo> getEquipos() {
-//        return equipos;
-//    }
-//    
-//    public void setEquipos(List<Equipo> equipos) {
-//		this.equipos = equipos;
-//	}
 
 	public Integer getPulgadas() {
 		return pulgadas;
@@ -196,10 +187,10 @@ public class ModeloModel extends RepresentationModel<ModeloModel> {
 	@Override
 	public String toString() {
 		return "ModeloModel [id=" + id + ", marca=" + marca + ", nombreModelo=" + nombreModelo + ", detalles="
-				+ detalles + ", imagen=" + imagen // + ", equipos=" + equipos
-				+ ", imgReducida=" + imgReducida + ", stereo=" + stereo + ", conexion=" + conexion + ", resolucion="
-				+ resolucion + ", pulgadas=" + pulgadas + ", discoDuro=" + discoDuro + ", memoria=" + memoria
-				+ ", sistemaOperativo=" + sistemaOperativo + ", tipoModelo=" + tipoModelo + "]";
+				+ detalles + ", imagen=" + imagen + ", imgReducida=" + imgReducida + ", stereo=" + stereo
+				+ ", conexion=" + conexion + ", resolucion=" + resolucion + ", pulgadas=" + pulgadas + ", discoDuro="
+				+ discoDuro + ", memoria=" + memoria + ", sistemaOperativo=" + sistemaOperativo + ", tipoModelo="
+				+ tipoModelo + "]";
 	}
 
 }

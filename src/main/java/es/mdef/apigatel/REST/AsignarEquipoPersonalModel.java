@@ -27,4 +27,11 @@ public class AsignarEquipoPersonalModel extends RepresentationModel<AsignarEquip
 		this.equipo = equipo;
 	}
 
+	@Override
+	public String toString() {
+		return "AsignarEquipoPersonalModel [persona=" + persona + ", equipo=" + equipo + "]";
+	}
+	
+	
+
 }

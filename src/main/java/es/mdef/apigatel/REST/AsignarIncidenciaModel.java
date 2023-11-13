@@ -16,4 +16,11 @@ public class AsignarIncidenciaModel extends RepresentationModel<AsignarIncidenci
 		this.agenteResolutor = agenteResolutor;
 	}
 
+	@Override
+	public String toString() {
+		return "AsignarIncidenciaModel [agenteResolutor=" + agenteResolutor + "]";
+	}
+	
+	
+
 }
