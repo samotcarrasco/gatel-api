@@ -189,8 +189,8 @@ public class IncidenciaController {
 
 				String detallesAnteriores = (inc.getDetalles() != null) ? inc.getDetalles() : "";
 
-				inc.setDetalles(detallesAnteriores + " \n ---- " + inc.getAgenteResolutor().getNombre() + " "
-						+ inc.getAgenteResolutor().getApellidos() + LocalDate.now() + "---- \n" + model.getDetalles());
+				inc.setDetalles(detallesAnteriores + "---- " + inc.getAgenteResolutor().getNombre() + " "
+						+ inc.getAgenteResolutor().getApellidos() + " " + LocalDate.now() + " ----\n" + model.getDetalles() + "\n\n");
 
 				if (model.getTipoIncidencia() == TipoIncidencia.AVERIA) {
 					((AveriaAPI) inc).setReparable(model.getReparable());
