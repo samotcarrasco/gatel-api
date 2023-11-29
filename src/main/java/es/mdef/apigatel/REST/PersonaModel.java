@@ -16,7 +16,6 @@ public class PersonaModel extends RepresentationModel<PersonaModel> {
 	private String email;
 	private Perfil perfil;
 	private String nombreUsuario;
-	private String password;
 	private TipoPersona tipoPersona;
 	private String empleo;
 	private String tip;
@@ -79,13 +78,6 @@ public class PersonaModel extends RepresentationModel<PersonaModel> {
 		this.nombreUsuario = nombreUsuario;
 	}
 
-	public String getPassword() {
-		return password;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
-	}
 
 	public TipoPersona getTipoPersona() {
 		return tipoPersona;
@@ -130,8 +122,7 @@ public class PersonaModel extends RepresentationModel<PersonaModel> {
 	@Override
 	public String toString() {
 		return "PersonaModel [id=" + id + ", nombre=" + nombre + ", apellidos=" + apellidos + ", telefono=" + telefono
-				+ ", email=" + email + ", perfil=" + perfil + ", nombreUsuario=" + nombreUsuario + ", password="
-				+ password + ", tipoPersona=" + tipoPersona + "]";
+				+ ", email=" + email + ", perfil=" + perfil + ", nombreUsuario=" + nombreUsuario + ", tipoPersona=" + tipoPersona + "]";
 	}
 
 }
